@@ -12,6 +12,11 @@
 
 int count = 0;
 
+//push test
+
+void moveIsPossible()
+{}
+
 void drawSprite(int numb, int N, int x, int y)
 {
     // Gift function: displays sprite number numb on screen at position (x,y), as sprite object N
