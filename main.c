@@ -51,7 +51,7 @@ void Handler(void)
 // -----------------------------------------------------------------------------
 int main(void)
 {
-	int i;
+    int i;
 	
     // Set Mode 2
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
