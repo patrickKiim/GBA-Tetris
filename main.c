@@ -26,28 +26,81 @@ void initBoard() {
     }
 }
 
-int (*currentPiece)[4];
-int (*currentBlkTemplate)[4][4];
+//define falling block
+int orientationIndex = 0;
+int tetriminoIndex = 0;
+int (*currentBlk)[4][4];
 
-void initCurrentPiece(int index){
-    if(index == 0){
-        currentBlkTemplate = &I_Blk;
+//define position (top left) of falling block
+int currX = 3;
+int currY = 0;
 
+//define falling block depending on its index
+//index given in tetrimino.h
+void initCurrentPiece(){
+    orientationIndex = 0;
+    currX = 3;
+    currY = 3;
+    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+
+    /*if(index == I_INDEX){
+        currentBlk = tetriminos;
     }
-    currentPiece = currentBlkTemplate[0];
-
+    else if(index == T_INDEX){
+        currentBlk = T_Blk[0];
+    }
+    else if(index == Z_INDEX){
+        currentBlk = Z_Blk[0];
+    }
+    else if(index == S_INDEX){
+        currentBlk = S_Blk[0];
+    }
+    else if(index == L_INDEX){
+        currentBlk = L_Blk[0];
+    }
+    else if(index == J_INDEX){
+        currentBlk = J_Blk[0];
+    }
+    else if(index == O_INDEX){
+        currentBlk = O_Blk[0];
+    }
+    */
 };
 
 void updatePiecePos(){
-    //erase current piece
-    int apple = 0;
+    // Erase the current piece from the board
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (currentBlk[i][j] != 0) {
+                board[currY + i][currX + j] = 0;
+            }
+        }
+    }
+
+    // Move the piece down one row
+    currY++;
+
+    // Draw the updated piece on the board
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (currentBlk[i][j] != 0) {
+                board[currY + i][currX + j] = currentBlk[i][j];
+            }
+        }
+    }
 }
 
+void rotateCW(){
+    //TODO: check if rotation is possible
+    orientationIndex = (orientationIndex + 1) % 4; //0-> 1 -> 2 -> 3 -> 0
+    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+}
 
-
-
-
-//push test
+void rotateCCW(){
+    //TODO: check if rotation is possible
+    orientationIndex = 4 - (orientationIndex % 4) - 1; //0 -> 3 -> 2 -> 1
+    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+}
 
 void moveIsPossible()
 {}
@@ -92,7 +145,7 @@ void Handler(void)
 int main(void)
 {
     int i;
-	
+
     /*
     // Set Mode 2
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
