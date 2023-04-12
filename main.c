@@ -40,6 +40,7 @@ void initCurrentPiece(int index){
 
 void updatePiecePos(){
     //erase current piece
+    int apple = 0;
 }
 
 
