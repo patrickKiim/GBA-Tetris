@@ -4,6 +4,7 @@
 #include "numbers.h"
 #include "gba.h"
 #include "tetrimino.h"
+#include "stdlib.h"
 
 #define TIMER_ENABLE_N 0xC7 //1100 0111 (enable bit 7,6,2 for H), bit 0,1 for f.1024
 #define TIMER_MAX  66535
@@ -11,11 +12,40 @@
 #define DIGIT_X 120
 #define DIGIT_Y 100
 #define BOARD_WIDTH 10
-#define BOARD_HEIGHT 20
+#define BOARD_HEIGHT 24
 
 int board[BOARD_HEIGHT][BOARD_WIDTH];
+int score = 0;
 
-int count = 0;
+int timerCount = 0;
+
+//7 PIECE BAG ALGORITHM (for generating tetris blocks)//
+int bag[7] = {0, 1, 2, 3, 4, 5, 6}; // init bag with all 7 pieces
+int bagIndex = 7; //index at 7 to indicate empty bag
+
+void shuffleBag() {
+    int j = 0;
+    int temp = 0;
+    for (int i = 6; i > 0; i--) {
+        j = rand() % (i + 1);
+        temp = bag[i];
+        bag[i] = bag[j];
+        bag[j] = temp;
+    }
+    bagIndex = 0; // reset the index to the beginning of the bag
+}
+
+int getNextPiece() {
+    if (bagIndex >= 7) {
+        //shuffle bag if bag is empty
+        shuffle_bag();
+    }
+    int piece = bag[bagIndex];
+    index++;
+    return piece;
+}
+//END OF 7 PIECE BAG ALGORITHM //
+
 
 void initBoard() {
 
@@ -31,6 +61,13 @@ int orientationIndex = 0;
 int tetriminoIndex = 0;
 int (*currentBlk)[4][4];
 
+//define hold block;
+int (*holdBlk)[4][4];
+
+void initHoldBlk(){
+    holdBlk = nullTetrimino;
+}
+
 //define position (top left) of falling block
 int currX = 3;
 int currY = 0;
@@ -38,36 +75,14 @@ int currY = 0;
 //define falling block depending on its index
 //index given in tetrimino.h
 void initCurrentPiece(){
-    orientationIndex = 0;
+    orientationIndex = getNextPiece();
     currX = 3;
-    currY = 3;
+    currY = 0;
     currentBlk = tetriminos[tetriminoIndex][orientationIndex];
-
-    /*if(index == I_INDEX){
-        currentBlk = tetriminos;
-    }
-    else if(index == T_INDEX){
-        currentBlk = T_Blk[0];
-    }
-    else if(index == Z_INDEX){
-        currentBlk = Z_Blk[0];
-    }
-    else if(index == S_INDEX){
-        currentBlk = S_Blk[0];
-    }
-    else if(index == L_INDEX){
-        currentBlk = L_Blk[0];
-    }
-    else if(index == J_INDEX){
-        currentBlk = J_Blk[0];
-    }
-    else if(index == O_INDEX){
-        currentBlk = O_Blk[0];
-    }
-    */
+    drawCurrentPiece();
 };
 
-void updatePiecePos(){
+void eraseCurrentPiece(){
     // Erase the current piece from the board
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -76,11 +91,10 @@ void updatePiecePos(){
             }
         }
     }
+}
 
-    // Move the piece down one row
-    currY++;
-
-    // Draw the updated piece on the board
+void drawCurrentPiece(){
+    // Draw current piece on the board
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             if (currentBlk[i][j] != 0) {
@@ -90,20 +104,187 @@ void updatePiecePos(){
     }
 }
 
+//CHECK IF BLOCK CAN BE MOVED OR ROTATED//
+int canMove(int newX, int newY, int newRotation) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (tetriminos[tetriminoIndex][newRotation][j][i] != 0) {
+                int x = newX + i;
+                int y = newY + j;
+                if (x < 0 || x >= BOARD_WIDTH || y >= BOARD_HEIGHT) {
+                    return 0; // Movement out of bounds
+                }
+                if (y >= 0 && board[y][x] != 0) {
+                    return 0; // Movement onto an occupied space
+                }
+            }
+        }
+    }
+    return 1; // Valid move
+}
+
+//MOVE FUNCTIONS//
+
+void moveL(){
+    int newX = currX - 1;
+    //check if move is possible
+    if(canMove(newX, currY, orientationIndex) == 1){
+        eraseCurrentPiece();
+        currX = newX;
+        drawCurrentPiece();
+    }
+        
+}
+
+void moveR(){
+    int newX = currX + 1;
+    //check if move is possible
+    if(canMove(newX, currY, orientationIndex) == 1){
+        eraseCurrentPiece();
+        currX = newX;
+        drawCurrentPiece();
+    }
+}
+
+void moveD(){
+    int newY = currY + 1;
+    //check if move is possible
+    if(canMove(currX, newY, orientationIndex) == 1){
+        eraseCurrentPiece();
+        currY = newY;
+        drawCurrentPiece();
+    }
+}
+
 void rotateCW(){
-    //TODO: check if rotation is possible
-    orientationIndex = (orientationIndex + 1) % 4; //0-> 1 -> 2 -> 3 -> 0
-    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+    int newR = (orientationIndex + 1) % 4; //0-> 1 -> 2 -> 3 -> 0
+    //check if rotation is possible
+    if (canMove(currX, currY, newR) == 1){
+        eraseCurrentPiece();
+        orientationIndex = newR;
+        currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+        drawCurrentPiece();
+    }
 }
 
 void rotateCCW(){
-    //TODO: check if rotation is possible
-    orientationIndex = 4 - (orientationIndex % 4) - 1; //0 -> 3 -> 2 -> 1
-    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+    int newR = 4 - (orientationIndex % 4) - 1; //0 -> 3 -> 2 -> 1
+    //check if rotation is possible
+    if (canMove(currX, currY, newR) == 1){
+        eraseCurrentPiece();
+        orientationIndex = newR;
+        currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+        drawCurrentPiece();
+    }
 }
 
-void moveIsPossible()
-{}
+//END OF MOVE FUNCTIONS//
+
+void deleteFullRows(){
+    int fullRows = 0; //number of full rows
+    int newBoard[BOARD_HEIGHT][BOARD_WIDTH] = {0}; //new empty board
+    int k = BOARD_HEIGHT - 1; //check starting from bottom
+
+    for(int j = BOARD_HEIGHT - 1; j >= 0; j--){
+        int isFull = 1; //initially assume row is full
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            if (board[j][i] == 0) { // found a non-filled cell
+                    isFull = 0;
+                }
+        }
+        if(isFull == 1)
+            fullRows++;
+        else{
+            //copy non-full row to new board
+            for (int i = 0; i < BOARD_WIDTH; i++) {
+                newBoard[k][i] = board[j][i];
+            }
+            k--; //decrement row for new board
+        }
+    }
+
+    //replace original board with new board
+    for(int j = 0; j < BOARD_HEIGHT; j++){
+        for(int i = 0; i < BOARD_WIDTH; i++){
+            board[j][i] == newBoard[j][i];
+        }
+    }
+
+    //put zeroes on unfilled rows
+    for(int j = 0; j < fullRows; j++){
+        for(int i = 0; i < BOARD_WIDTH; i++){
+            board[j][i] = 0;
+        }
+    }
+
+    //add score (based on tetris scoring system)
+    if(fullRows == 1)
+        score += 40;
+    else if(fullRows == 2)
+        score += 100;
+    else if(fullRows == 3)
+        score += 300;
+    else if(fullRows >= 4)
+        score += 1200;
+}
+
+//TODO: swap block with hold block
+void swapBlk(){
+    //if nothing on hold
+    if(holdBlk == nullTetrimino){
+        //put blk on hold and bring out new blk
+        eraseCurrentPiece();
+        holdBlk = currentBlk;
+        initCurrentPiece();
+    }
+    else{
+        //swap current blk and hold blk
+        //respawn blk at the top
+        eraseCurrentPiece();
+        int (*temp)[4][4] = holdBlk;
+        currX = 3;
+        currY = 0;
+        holdBlk = currentBlk;
+        currentBlk = temp;
+        drawCurrentPiece();
+    }
+}
+
+
+
+
+
+//call below function after block has been placed
+//returns 1 if top row is full (game over)
+int isGameOver(){
+    int isFull = 1; //initially assume top row is full
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            //check row index 3 (top 4 rows are where blocks spawn)
+            if (board[3][i] == 0) { // found a non-filled cell
+                    isFull = 0;
+                }
+        }
+    return isFull;
+}
+
+
+
+//TODO: Game loop
+//randomize queue of tetris block
+//init block
+//await user input
+//allow single block swap
+//periodically drop block by 1
+//check periodic drop cannot occur
+    // if(canMove(currX, currY + 1, orientationIndex) == 0)
+//check for game over
+    //isGameOver()
+//delete full rows, update score
+    //deleteFullRows()
+//add block in queue
+//init next block in queue
+
+
 
 void drawSprite(int numb, int N, int x, int y)
 {
@@ -121,8 +302,8 @@ void Handler(void)
     if ((REG_IF & INT_TIMER0) == INT_TIMER0) // TODO: replace XXX with the specific interrupt you are handling
     {
         // TODO: Handle timer interrupt here
-			count++;
-			int temp = count;
+			timerCount++;
+			int temp = timerCount;
 			int digit = 0;
 			while(temp > 0){
 				drawSprite(temp%10, digit, DIGIT_X -10*digit, DIGIT_Y);
@@ -145,6 +326,10 @@ void Handler(void)
 int main(void)
 {
     int i;
+
+    //intialize randomizer
+    time_t t;
+    srand((unsigned) time(&t));
 
     /*
     // Set Mode 2

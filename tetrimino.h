@@ -6,6 +6,13 @@
 #define J_INDEX 5
 #define O_INDEX 6
 
+//null block for initializing holding block
+int nullTetrimino[4][4] = {
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0}
+};
 
 //below are array blk templates
 // 7 types
