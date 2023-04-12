@@ -3,14 +3,48 @@
 // -----------------------------------------------------------------------------
 #include "numbers.h"
 #include "gba.h"
+#include "tetrimino.h"
 
 #define TIMER_ENABLE_N 0xC7 //1100 0111 (enable bit 7,6,2 for H), bit 0,1 for f.1024
 #define TIMER_MAX  66535
 #define TIMER_FREQ 16387
 #define DIGIT_X 120
 #define DIGIT_Y 100
+#define BOARD_WIDTH 10
+#define BOARD_HEIGHT 20
+
+int board[BOARD_HEIGHT][BOARD_WIDTH];
 
 int count = 0;
+
+void initBoard() {
+
+    //initialize the board (2d array) with zeroes
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int j = 0; j < BOARD_WIDTH; j++)
+            board[i][j] = 0; 
+    }
+}
+
+int (*currentPiece)[4];
+int (*currentBlkTemplate)[4][4];
+
+void initCurrentPiece(int index){
+    if(index == 0){
+        currentBlkTemplate = &I_Blk;
+
+    }
+    currentPiece = currentBlkTemplate[0];
+
+};
+
+void updatePiecePos(){
+    //erase current piece
+}
+
+
+
+
 
 //push test
 
@@ -58,6 +92,7 @@ int main(void)
 {
     int i;
 	
+    /*
     // Set Mode 2
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
 
@@ -85,6 +120,7 @@ int main(void)
 	
     while(1);
 
+    */
 	return 0;
 }
 
