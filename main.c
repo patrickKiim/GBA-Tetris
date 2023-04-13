@@ -41,7 +41,7 @@ int getNextPiece() {
         shuffle_bag();
     }
     int piece = bag[bagIndex];
-    index++;
+    bagIndex++;
     return piece;
 }
 //END OF 7 PIECE BAG ALGORITHM //
