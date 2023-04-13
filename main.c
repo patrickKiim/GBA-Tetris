@@ -4,7 +4,8 @@
 #include "numbers.h"
 #include "gba.h"
 #include "tetrimino.h"
-#include "stdlib.h"
+#include <stdlib.h>
+#include <time.h>
 
 #define TIMER_ENABLE_N 0xC7 //1100 0111 (enable bit 7,6,2 for H), bit 0,1 for f.1024
 #define TIMER_MAX  66535
@@ -19,10 +20,13 @@ int score = 0;
 
 int timerCount = 0;
 
+//TODO: i lied random works in linix apprently
+//TODO: how to print sprites have row has been deleted
+
 //7 PIECE BAG ALGORITHM (for generating tetris blocks)//
 int bag[7] = {0, 1, 2, 3, 4, 5, 6}; // init bag with all 7 pieces
 int bagIndex = 7; //index at 7 to indicate empty bag
-
+ 
 void shuffleBag() {
     int j = 0;
     int temp = 0;
@@ -257,14 +261,14 @@ void swapBlk(){
 //call below function after block has been placed
 //returns 1 if top row is full (game over)
 int isGameOver(){
-    int isFull = 1; //initially assume top row is full
+    int gameOver = 0; //initially assume game is not done
         for (int i = 0; i < BOARD_WIDTH; i++) {
             //check row index 3 (top 4 rows are where blocks spawn)
-            if (board[3][i] == 0) { // found a non-filled cell
-                    isFull = 0;
+            if (board[3][i] != 0) { // found a non-filled cell
+                    gameOver = 1;
                 }
         }
-    return isFull;
+    return gameOver;
 }
 
 
