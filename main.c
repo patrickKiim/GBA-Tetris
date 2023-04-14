@@ -20,17 +20,18 @@ int score = 0;
 
 int timerCount = 0;
 
-//TODO: i lied random works in linix apprently
+//TODO: i lied random works in linux apprently
 //TODO: how to print sprites have row has been deleted
 
 //7 PIECE BAG ALGORITHM (for generating tetris blocks)//
 int bag[7] = {0, 1, 2, 3, 4, 5, 6}; // init bag with all 7 pieces
 int bagIndex = 7; //index at 7 to indicate empty bag
- 
+
 void shuffleBag() {
     int j = 0;
     int temp = 0;
-    for (int i = 6; i > 0; i--) {
+    int i =  0;
+    for (i = 6; i > 0; i--) {
         j = rand() % (i + 1);
         temp = bag[i];
         bag[i] = bag[j];
@@ -45,7 +46,7 @@ int getNextPiece() {
         shuffle_bag();
     }
     int piece = bag[bagIndex];
-    bagIndex++;
+    index++;
     return piece;
 }
 //END OF 7 PIECE BAG ALGORITHM //
@@ -54,8 +55,10 @@ int getNextPiece() {
 void initBoard() {
 
     //initialize the board (2d array) with zeroes
-    for (int i = 0; i < BOARD_HEIGHT; i++) {
-        for (int j = 0; j < BOARD_WIDTH; j++)
+    int i = 0;
+    int j = 0;
+    for (i = 0; i < BOARD_HEIGHT; i++) {
+        for (j = 0; j < BOARD_WIDTH; j++)
             board[i][j] = 0; 
     }
 }
@@ -88,8 +91,10 @@ void initCurrentPiece(){
 
 void eraseCurrentPiece(){
     // Erase the current piece from the board
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
+    int i = 0;
+    int j = 0;
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
             if (currentBlk[i][j] != 0) {
                 board[currY + i][currX + j] = 0;
             }
@@ -99,8 +104,10 @@ void eraseCurrentPiece(){
 
 void drawCurrentPiece(){
     // Draw current piece on the board
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
+    int i = 0;
+    int j = 0;
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
             if (currentBlk[i][j] != 0) {
                 board[currY + i][currX + j] = currentBlk[i][j];
             }
@@ -110,8 +117,10 @@ void drawCurrentPiece(){
 
 //CHECK IF BLOCK CAN BE MOVED OR ROTATED//
 int canMove(int newX, int newY, int newRotation) {
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
+    int i = 0;
+    int j = 0;
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
             if (tetriminos[tetriminoIndex][newRotation][j][i] != 0) {
                 int x = newX + i;
                 int y = newY + j;
@@ -189,9 +198,11 @@ void deleteFullRows(){
     int newBoard[BOARD_HEIGHT][BOARD_WIDTH] = {0}; //new empty board
     int k = BOARD_HEIGHT - 1; //check starting from bottom
 
-    for(int j = BOARD_HEIGHT - 1; j >= 0; j--){
+    int i = 0;
+    int j = 0;
+    for(j = BOARD_HEIGHT - 1; j >= 0; j--){
         int isFull = 1; //initially assume row is full
-        for (int i = 0; i < BOARD_WIDTH; i++) {
+        for (i = 0; i < BOARD_WIDTH; i++) {
             if (board[j][i] == 0) { // found a non-filled cell
                     isFull = 0;
                 }
@@ -200,7 +211,7 @@ void deleteFullRows(){
             fullRows++;
         else{
             //copy non-full row to new board
-            for (int i = 0; i < BOARD_WIDTH; i++) {
+            for (i = 0; i < BOARD_WIDTH; i++) {
                 newBoard[k][i] = board[j][i];
             }
             k--; //decrement row for new board
@@ -208,15 +219,15 @@ void deleteFullRows(){
     }
 
     //replace original board with new board
-    for(int j = 0; j < BOARD_HEIGHT; j++){
-        for(int i = 0; i < BOARD_WIDTH; i++){
+    for(j = 0; j < BOARD_HEIGHT; j++){
+        for(i = 0; i < BOARD_WIDTH; i++){
             board[j][i] == newBoard[j][i];
         }
     }
 
     //put zeroes on unfilled rows
-    for(int j = 0; j < fullRows; j++){
-        for(int i = 0; i < BOARD_WIDTH; i++){
+    for(j = 0; j < fullRows; j++){
+        for(i = 0; i < BOARD_WIDTH; i++){
             board[j][i] = 0;
         }
     }
@@ -262,7 +273,8 @@ void swapBlk(){
 //returns 1 if top row is full (game over)
 int isGameOver(){
     int gameOver = 0; //initially assume game is not done
-        for (int i = 0; i < BOARD_WIDTH; i++) {
+    int i = 0;
+        for (i = 0; i < BOARD_WIDTH; i++) {
             //check row index 3 (top 4 rows are where blocks spawn)
             if (board[3][i] != 0) { // found a non-filled cell
                     gameOver = 1;
