@@ -5,6 +5,7 @@
 #
 ##########################################################################################
 HAMDIR=C:\GBADev
+#HAMDIR = /mnt/c/GBADev
 include $(HAMDIR)/system/master.mak
 
 #

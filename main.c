@@ -44,7 +44,7 @@ void shuffleBag() {
 int getNextPiece() {
     if (bagIndex >= 7) {
         //shuffle bag if bag is empty
-        shuffle_bag();
+        shuffleBag();
     }
     int piece = bag[bagIndex];
     bagIndex++;
@@ -325,7 +325,7 @@ void gameLoop(){
     }
 }
 
-
+/*
 void drawSprite(int numb, int N, int x, int y)
 {
     // Gift function: displays sprite number numb on screen at position (x,y), as sprite object N
@@ -333,6 +333,7 @@ void drawSprite(int numb, int N, int x, int y)
     *(unsigned short *)(0x7000002 + 8*N) = x;
     *(unsigned short *)(0x7000004 + 8*N) = numb*2;
 }
+*/
 
 
 void Handler(void)

@@ -45,8 +45,10 @@ void drawBlk(int x, int y, u16 color) {
 
 // Draw the entire playing field using the blkColors array
 void drawPlayingField(int playingField[24][10]) {
-    for (int row = 0; row < 10; row++) {
-        for (int col = 0; col < 20; col++) {
+    int row = 0;
+    int col = 0;
+    for (row = 0; row < 10; row++) {
+        for (col = 0; col < 20; col++) {
             int x = col * 8;
             int y = row * 8;
             int block_type = playingField[col][row];
