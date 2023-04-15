@@ -373,7 +373,7 @@ int main(void)
 {
     int i;
 
-    REG_DISPCNT = MODE_2 | OBJ_MAP_1D;
+    REG_DISPCNT = MODE2 | OBJ_MAP_1D;
 
     //intialize randomizer
     time_t t;
