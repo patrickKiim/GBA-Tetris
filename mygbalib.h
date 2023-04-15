@@ -1,6 +1,57 @@
 #include "sprites.h"
 #define INPUT                      (KEY_MASK & (~REG_KEYS))
 
+//function prototype declarations
+void moveL();
+void moveR();
+void moveD();
+void hardDrop();
+void rotateCW();
+void rotateCCW();
+void swapBlk();
+
+//button to function mapping
+void buttonS(){
+    //do something
+}
+
+void buttonSel(){
+    //do something
+}
+
+
+void buttonA(){
+    rotateCW();
+}
+
+void buttonB(){
+    rotateCCW();
+}
+
+void buttonR(){
+    moveR();
+}
+
+void buttonL(){
+    moveL();
+}
+
+void buttonD(){
+    moveD();
+}
+
+void buttonU(){
+    hardDrop();
+}
+
+void buttonLT(){
+    swapBlk();
+}
+
+void buttonRT(){
+    swapBlk();
+}
+
 void checkbutton(void)
 {
 	// Gift function to show you how a function that can be called upon button interrupt to detect which button was pressed and run a specific function for each button could look like. You would have to define each buttonA/buttonB/... function yourself.
@@ -38,6 +89,16 @@ void checkbutton(void)
     {
         buttonD();
     }
+
+    //L and R triggers
+    if ((buttons & KEY_L) == KEY_L)
+    {
+        buttonLT();
+    }
+    if ((buttons & KEY_R) == KEY_R)
+    {
+        buttonRT();
+    }
 }
 
 
@@ -73,6 +134,7 @@ void drawSprite(int numb, int N, int x, int y)
     *(unsigned short *)(0x7000004 + 8*N) = numb*8;
 }
 
+/*
 void drawLaser(void)
 {
 	// Gift function showing you how to draw an example sprite defined in sprite.h on screen, using drawSprite()
@@ -95,3 +157,5 @@ void drawLaser(void)
             break;
     }
 }
+
+*/

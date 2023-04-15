@@ -4,6 +4,8 @@
 #include "numbers.h"
 #include "gba.h"
 #include "tetrimino.h"
+#include "background.h"
+#include "mygbalib.h"
 #include <stdlib.h>
 #include <time.h>
 
@@ -20,7 +22,6 @@ int score = 0;
 
 int timerCount = 0;
 
-//TODO: i lied random works in linux apprently
 //TODO: how to print sprites have row has been deleted
 
 //7 PIECE BAG ALGORITHM (for generating tetris blocks)//
@@ -79,16 +80,6 @@ void initHoldBlk(){
 int currX = 3;
 int currY = 0;
 
-//define falling block depending on its index
-//index given in tetrimino.h
-void initCurrentPiece(){
-    orientationIndex = getNextPiece();
-    currX = 3;
-    currY = 0;
-    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
-    drawCurrentPiece();
-};
-
 void eraseCurrentPiece(){
     // Erase the current piece from the board
     int i = 0;
@@ -114,6 +105,16 @@ void drawCurrentPiece(){
         }
     }
 }
+
+//define falling block depending on its index
+//index given in tetrimino.h
+void initNewPiece(){
+    orientationIndex = getNextPiece();
+    currX = 3;
+    currY = 0;
+    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+    drawCurrentPiece();
+};
 
 //CHECK IF BLOCK CAN BE MOVED OR ROTATED//
 int canMove(int newX, int newY, int newRotation) {
@@ -167,6 +168,11 @@ void moveD(){
         currY = newY;
         drawCurrentPiece();
     }
+}
+
+void hardDrop(){
+    while(canMove(currX, currY+1, orientationIndex))
+        moveD;
 }
 
 void rotateCW(){
@@ -250,7 +256,7 @@ void swapBlk(){
         //put blk on hold and bring out new blk
         eraseCurrentPiece();
         holdBlk = currentBlk;
-        initCurrentPiece();
+        initNewPiece();
     }
     else{
         //swap current blk and hold blk
@@ -300,6 +306,24 @@ int isGameOver(){
 //add block in queue
 //init next block in queue
 
+void gameLoop(){
+    initBoard();
+    initNewPiece();
+    while(1){
+
+        drawPlayingField(board);
+
+        checkbutton();
+    
+        //if block cannot move down (ie. settled)
+        if(canMove(currX, currY + 1, orientationIndex) == 0){
+            if(isGameOver())
+                break;
+            deleteFullRows();
+            initNewPiece();
+        }
+    }
+}
 
 
 void drawSprite(int numb, int N, int x, int y)
@@ -317,7 +341,9 @@ void Handler(void)
 
     if ((REG_IF & INT_TIMER0) == INT_TIMER0) // TODO: replace XXX with the specific interrupt you are handling
     {
-        // TODO: Handle timer interrupt here
+        moveD();
+
+            /* from CA2
 			timerCount++;
 			int temp = timerCount;
 			int digit = 0;
@@ -326,6 +352,7 @@ void Handler(void)
 				temp /= 10;
 				digit++;
 			}
+            */
 			//drawSprite(count/10, 1, 110, 100);
 			//drawSprite(count%10, 0, 120, 100);
     }
@@ -347,35 +374,41 @@ int main(void)
     time_t t;
     srand((unsigned) time(&t));
 
-    /*
+    
     // Set Mode 2
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
+    *(unsigned short*)0x4000004 = 0x0403;
 
     // Fill SpritePal
     *(unsigned short *) 0x5000200 = 0;
     *(unsigned short *) 0x5000202 = RGB(31,31,31);
 
     // Fill SpriteData
+
+    /* code is for timers
     for (i = 0; i < 10*8*8/2; i++)
         spriteData[i] = (numbers[i*2+1] << 8) + numbers[i*2];
     for (i = 0; i < 128; i++)
         drawSprite(0, i, 240, 160);
+
+    */
 
     // Set Handler Function for interrupts and enable selected interrupts
     REG_INT = (int)&Handler;
     REG_IE =  INT_TIMER0; //TODO: complete this line to choose which timer interrupts to enable
     REG_IME = 0x1;		// Enable interrupt handling
 
+
     // Set Timer Mode (fill that section and replace TMX with selected timer number)
     REG_TM0D =	TIMER_MAX - TIMER_FREQ;		// TODO: complete this line to set timer initial value
 	 //REG_TM0D = TIMER_MAX - 1000;				//TURN ON FOR SPEEEEEED
     REG_TM0CNT = (TIMER_ENABLE | TIMER_INTERRUPTS | TIMER_FREQUENCY_1024);		// TODO: complete this line to set timer frequency and enable timer
 				
-	 drawSprite(0, 0, DIGIT_X, DIGIT_Y);
+	//drawSprite(0, 0, DIGIT_X, DIGIT_Y);
 	
     while(1);
 
-    */
+    
 	return 0;
 }
 
