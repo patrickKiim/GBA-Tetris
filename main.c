@@ -406,9 +406,10 @@ int main(void)
 				
 	//drawSprite(0, 0, DIGIT_X, DIGIT_Y);
 	
+    gameLoop();
+
     while(1);
 
-    
 	return 0;
 }
 
