@@ -339,7 +339,7 @@ void Handler(void)
 {    
 	REG_IME = 0x00; // Stop all other interrupt handling, while we handle this current one  
 
-    if(REG_IF & INT_VBLANK) == INT_VBLANK){
+    if((REG_IF & INT_VBLANK) == INT_VBLANK){
         drawPlayingField(board);
     }
 
@@ -365,8 +365,6 @@ void Handler(void)
     
     REG_IME = 0x01;  // Re-enable interrupt handling
 }
-
-void vblankHandler()
 
 // -----------------------------------------------------------------------------
 // Project Entry Point
@@ -401,7 +399,13 @@ int main(void)
     // Set Handler Function for interrupts and enable selected interrupts
     REG_INT = (int)&Handler;
     REG_IE =  INT_TIMER0; //TODO: complete this line to choose which timer interrupts to enable
+    
+    // Set up the Interrupt Request (IRQ) register to enable the VBlank interrupt and trigger it at the appropriate time
+    REG_DISPSTAT |= (1 << 3);   // Enable VBlank interrupt in the Display Status (DISPSTAT) register
+    REG_IE |= (1 << 0);         // Enable VBlank interrupt in the Interrupt Enable (IE) register
+
     REG_IME = 0x1;		// Enable interrupt handling
+
 
 
     // Set Timer Mode (fill that section and replace TMX with selected timer number)
@@ -410,11 +414,6 @@ int main(void)
     REG_TM0CNT = (TIMER_ENABLE | TIMER_INTERRUPTS | TIMER_FREQUENCY_1024);		// TODO: complete this line to set timer frequency and enable timer
 				
 	//drawSprite(0, 0, DIGIT_X, DIGIT_Y);
-
-    // Set up the Interrupt Request (IRQ) register to enable the VBlank interrupt and trigger it at the appropriate time
-    REG_DISPSTAT |= (1 << 3);   // Enable VBlank interrupt in the Display Status (DISPSTAT) register
-    REG_IE |= (1 << 0);         // Enable VBlank interrupt in the Interrupt Enable (IE) register
-    REG_IME = 1;                // Re-enable interrupts
 	
     gameLoop();
 
