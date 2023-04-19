@@ -13,22 +13,22 @@ first= 80;
 second= 96;
 
 //draw “TETRIS” “PRESS A TO START”
-drawSprite(T, 0, 72, first); 
-drawSprite(E, 1, 88, first);
-drawSprite(T, 2, 104, first);
-drawSprite(R, 3, 120, first);
-drawSprite(I, 4, 136, first);
-drawSprite(S, 5, 152, first);
-drawSprite(P, 6, 32, second);
-drawSprite(R, 7, 48, second);
-drawSprite(E, 8, 64, second);
-drawSprite(S, 9, 80, second);
-drawSprite(S, 10, 112, second);
-drawSprite(S, 11, 128, second);
-drawSprite(T, 12, 144, second);
-drawSprite(A, 13, 160, second);
-drawSprite(R, 14, 176, second),
-drawSprite(T, 15, 192, second);
+drawSprite(10, 0, 72, first); //T
+drawSprite(11, 1, 88, first);
+drawSprite(12, 2, 104, first);
+drawSprite(13, 3, 120, first);
+drawSprite(14, 4, 136, first);
+drawSprite(15, 5, 152, first);
+drawSprite(16, 6, 32, second);
+drawSprite(17, 7, 48, second);
+drawSprite(18, 8, 64, second);
+drawSprite(19, 9, 80, second);
+drawSprite(19, 10, 112, second);
+drawSprite(19, 11, 128, second);
+drawSprite(20, 12, 144, second);
+drawSprite(21, 13, 160, second);
+drawSprite(22, 14, 176, second),
+drawSprite(20, 15, 192, second);
 //draw “TETRIS” “PRESS A TO START”
 //How do I know if this button is pressed? --> check button function --> change g ==1?
 } 
@@ -37,31 +37,24 @@ drawSprite(T, 15, 192, second);
 
 Void level_1(){
 
-//gameboard
+//draw lines on the right and left using for loop
+i=0; //y position
+j=0; // Sprite number left
+k=10; // Sprite number right
+for(i, i<160, i+=16){
+drawSprite(22,j, 0, i);
+drawSprite(22,k, 96, i);
+j++;
+k++;
+}
 
-//left box
-drawSprite(linedown, 28, 144, 32)
-drawSprite(linedown, 29, 144, 48)
-drawSprite(linedown, 30, 176, 32)
-drawSprite(linedown, 31, 176, 48)
-drawSprite(lineside, 32, 144, 32)
-drawSprite(lineside, 33, 160, 32)
-drawSprite(lineside, 34, 144, 64)
-drawSprite(lineside, 35, 160, 64)
+//Level1
 
-//right box
-drawSprite(linedown, 0, 192, 32)
-drawSprite(linedown, 0, 192, 48)
-drawSprite(linedown, 0, 224, 32)
-drawSprite(linedown, 0, 224, 48)
-drawSprite(lineside, 32, 144, 32)
-drawSprite(lineside, 33, 160, 32)
-drawSprite(lineside, 34, 144, 64)
-drawSprite(lineside, 35, 160, 64)
+drawSprite(1,20, 208, 16);
 
-//Level Box
 
-//Score Box
+//Next sprite
+//Current sprite
 
 while(score < ... && status != game_over){
 // BAckend Game logic!
@@ -75,12 +68,28 @@ game_state = level2;
 }
 
 Void level_2(){
-//Draw Board using assembler --> imagine using sprites that are blocks for the game board
-// Display LEVEL 2
+
+//draw lines on the right and left using for loop
+i=0; //y position
+j=0; // Sprite number left
+k=10; // Sprite number right
+for(i, i<160, i+=16){
+drawSprite(22,j, 0, i);
+drawSprite(22,k, 96, i);
+j++;
+k++;
+
+
+}
+//level 2
+
+drawSprite(2,20, 208, 16);
+
+
 
 while(status!= game_over){
 // BAckend Game logic!
-//Display score
+
 }
 
 }
