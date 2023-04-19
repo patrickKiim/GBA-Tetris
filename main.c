@@ -25,17 +25,17 @@ void Handler(void)
 
     if ((REG_IF & INT_TIMER0) == INT_TIMER0) // TODO: replace XXX with the specific interrupt you are handling
     {
-        // TODO: Handle timer interrupt here
-			count++;
-			int temp = count;
-			int digit = 0;
-			while(temp > 0){
-				drawSprite(temp%10, digit, DIGIT_X -10*digit, DIGIT_Y);
-				temp /= 10;
-				digit++;
-			}
-			//drawSprite(count/10, 1, 110, 100);
-			//drawSprite(count%10, 0, 120, 100);
+        if(point_gained){
+	score++;
+	}
+
+	int temp = score;
+	int digit = 0;
+	while(temp > 0){
+		drawSprite(temp%10, digit, 208 -10*digit, 112);
+		temp /= 10;
+		digit++;
+	}
     }
 	if ((REG_IF & INT_BUTTON) == INT_BUTTON) //see how to programme that I mean the exact buttom
 	{ checkbutton();
