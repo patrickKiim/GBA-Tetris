@@ -3,7 +3,7 @@
 
 void buttonS(){
 if(g== main_screen){
-g = level1;
+g = 1;
 }
 }
 
