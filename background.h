@@ -18,16 +18,17 @@ void initVram(){
 // Create an array of block colors
 u16 blkColors[] = {
     RGB(0, 0, 0),  // Empty space (black)
-    RGB(0, 255, 255),   //cyan (I block)
-    RGB(128, 0, 128),   //purple (T blk)
-    RGB(255, 0, 0),     //red (z blk)
-    RGB(0, 255, 0),     //green (s blk)
-    RGB(255, 127, 0),   //orange (L blk)
-    RGB(0, 0, 255),     //blue (J blk)
-    RGB(255, 255, 0),   //yellow (o blk)
+    RGB(0,31,31), // light blue (I block)
+    RGB(31,0,31), // pure purple (T Blk)
+    RGB(31,0,0), // pure red (z blk)
+    RGB(16,31,16), // light green (s blk)
+    RGB(31,20,0), //Orange (L blk)
+    RGB(0,0,31), // pure blue (J blk)
+    RGB(31,31,0), // pure yellow (O blk)
 };
 
 // Draw a single block at (x, y) with the given color
+
 void drawBlk(int x, int y, u16 color) {
     u16* screen = (u16*)VRAM;
     int screen_offset = y * SCREEN_WIDTH + x;
@@ -47,11 +48,11 @@ void drawBlk(int x, int y, u16 color) {
 void drawPlayingField(int playingField[24][10]) {
     int row = 0;
     int col = 0;
-    for (row = 0; row < 10; row++) {
-        for (col = 0; col < 20; col++) {
+    for (row = 4; row < 24; row++) {
+        for (col = 0; col < 10; col++) {
             int x = col * 8;
-            int y = row * 8;
-            int block_type = playingField[col][row];
+            int y = (row-4) * 8;
+            int block_type = playingField[row][col];
             u16 block_color = blkColors[block_type];
             drawBlk(x, y, block_color);
         }

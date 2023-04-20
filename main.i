@@ -155,7 +155,7 @@ int nullTetrimino[4][4] = {
 
 
 
-int tetriminos[7][4][4][4] = {
+const int tetriminos[7][4][4][4] = {
 
 {
     {
@@ -774,14 +774,15 @@ void initVram(){
 
 u16 blkColors[] = {
     ((0) + (0<<5) + (0<<10)),
-    ((0) + (255<<5) + (255<<10)),
-    ((128) + (0<<5) + (128<<10)),
-    ((255) + (0<<5) + (0<<10)),
-    ((0) + (255<<5) + (0<<10)),
-    ((255) + (127<<5) + (0<<10)),
-    ((0) + (0<<5) + (255<<10)),
-    ((255) + (255<<5) + (0<<10)),
+    ((0) + (31<<5) + (31<<10)),
+    ((31) + (0<<5) + (31<<10)),
+    ((31) + (0<<5) + (0<<10)),
+    ((16) + (31<<5) + (16<<10)),
+    ((31) + (20<<5) + (0<<10)),
+    ((0) + (0<<5) + (31<<10)),
+    ((31) + (31<<5) + (0<<10)),
 };
+
 
 
 void drawBlk(int x, int y, u16 color) {
@@ -803,11 +804,11 @@ void drawBlk(int x, int y, u16 color) {
 void drawPlayingField(int playingField[24][10]) {
     int row = 0;
     int col = 0;
-    for (row = 0; row < 10; row++) {
-        for (col = 0; col < 20; col++) {
+    for (row = 4; row < 24; row++) {
+        for (col = 0; col < 10; col++) {
             int x = col * 8;
-            int y = row * 8;
-            int block_type = playingField[col][row];
+            int y = (row-4) * 8;
+            int block_type = playingField[row][col];
             u16 block_color = blkColors[block_type];
             drawBlk(x, y, block_color);
         }
@@ -2198,16 +2199,18 @@ int bag[7] = {0, 1, 2, 3, 4, 5, 6};
 int bagIndex = 7;
 
 void shuffleBag() {
+
     int j = 0;
     int temp = 0;
     int i = 0;
     for (i = 6; i > 0; i--) {
-        j = 1;
 
+        j = rand() % (i + 1);
         temp = bag[i];
         bag[i] = bag[j];
         bag[j] = temp;
     }
+
     bagIndex = 0;
 }
 
@@ -2232,18 +2235,19 @@ void initBoard() {
         for (j = 0; j < 10; j++)
             board[i][j] = 0;
     }
+    drawPlayingField(board);
 }
 
 
 int orientationIndex = 0;
 int tetriminoIndex = 0;
-int (*currentBlk)[4][4];
+int (*currentBlk)[4];
 
 
-int (*holdBlk)[4][4];
+int (*holdBlk)[4];
 
 void initHoldBlk(){
-    holdBlk = &nullTetrimino;
+    holdBlk = nullTetrimino;
 }
 
 
@@ -2256,11 +2260,12 @@ void eraseCurrentPiece(){
     int j = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            if ((*currentBlk)[i][j] != 0) {
+            if ((currentBlk)[i][j] != 0) {
                 board[currY + i][currX + j] = 0;
             }
         }
     }
+
 }
 
 void drawCurrentPiece(){
@@ -2269,25 +2274,28 @@ void drawCurrentPiece(){
     int j = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            if ((*currentBlk)[i][j] != 0) {
-                board[currY + i][currX + j] = (*currentBlk)[i][j];
+            if ((currentBlk)[i][j] != 0) {
+                board[currY + i][currX + j] = (currentBlk)[i][j];
             }
         }
     }
+
 }
 
 
 
 void initNewPiece(){
-    orientationIndex = getNextPiece();
+    tetriminoIndex = getNextPiece();
+    orientationIndex = 0;
     currX = 3;
     currY = 0;
-    currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
+    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
     drawCurrentPiece();
 };
 
 
 int canMove(int newX, int newY, int newRotation) {
+    eraseCurrentPiece();
     int i = 0;
     int j = 0;
     for (i = 0; i < 4; i++) {
@@ -2296,14 +2304,17 @@ int canMove(int newX, int newY, int newRotation) {
                 int x = newX + i;
                 int y = newY + j;
                 if (x < 0 || x >= 10 || y >= 24) {
+                    drawCurrentPiece();
                     return 0;
                 }
                 if (y >= 0 && board[y][x] != 0) {
+                    drawCurrentPiece();
                     return 0;
                 }
             }
         }
     }
+    drawCurrentPiece();
     return 1;
 }
 
@@ -2317,6 +2328,7 @@ void moveL(){
         currX = newX;
         drawCurrentPiece();
     }
+
 
 }
 
@@ -2352,7 +2364,7 @@ void rotateCW(){
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
-        currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
+        currentBlk = (tetriminos)[tetriminoIndex][orientationIndex];
         drawCurrentPiece();
     }
 }
@@ -2363,7 +2375,7 @@ void rotateCCW(){
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
-        currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
+        currentBlk = (tetriminos)[tetriminoIndex][orientationIndex];
         drawCurrentPiece();
     }
 }
@@ -2408,15 +2420,7 @@ void deleteFullRows(){
             board[j][i] = newBoard[j][i];
         }
     }
-
-
-    for(j = 0; j < fullRows; j++){
-        for(i = 0; i < 10; i++){
-            board[j][i] = 0;
-        }
-    }
-
-
+# 264 "main.c"
     if(fullRows == 1)
         score += 40;
     else if(fullRows == 2)
@@ -2440,7 +2444,7 @@ void swapBlk(){
 
 
         eraseCurrentPiece();
-        int (*temp)[4][4] = holdBlk;
+        int (*temp)[4] = holdBlk;
         currX = 3;
         currY = 0;
         holdBlk = currentBlk;
@@ -2466,26 +2470,28 @@ int isGameOver(){
         }
     return gameOver;
 }
-# 318 "main.c"
+# 331 "main.c"
 void gameLoop(){
     initBoard();
     initNewPiece();
+    initHoldBlk();
     while(1){
 
-        drawPlayingField(board);
 
         checkbutton();
 
+        drawPlayingField(board);
+
 
         if(canMove(currX, currY + 1, orientationIndex) == 0){
-            if(isGameOver())
-                break;
+
+
             deleteFullRows();
             initNewPiece();
         }
     }
 }
-# 348 "main.c"
+# 363 "main.c"
 void Handler(void)
 {
         *(u16*)0x4000208 = 0x00;
@@ -2499,7 +2505,7 @@ void Handler(void)
     if ((*(volatile u16*)0x4000202 & 0x8) == 0x8)
     {
         moveD();
-# 376 "main.c"
+# 391 "main.c"
     }
 
     *(volatile u16*)0x4000202 = *(volatile u16*)0x4000202;
@@ -2518,8 +2524,8 @@ int main(void)
     *(u32*)0x4000000 = 0x2 | 0x40;
 
 
-
-
+    time_t t;
+    srand((unsigned) time(&t));
 
 
 
@@ -2532,7 +2538,7 @@ int main(void)
 
    fillPalette();
    fillSprites();
-# 422 "main.c"
+# 437 "main.c"
     (*(unsigned int*)0x3007FFC) = (int)&Handler;
     *(u16*)0x4000200 = 0x8;
 

@@ -29,16 +29,18 @@ int bag[7] = {0, 1, 2, 3, 4, 5, 6}; // init bag with all 7 pieces
 int bagIndex = 7; //index at 7 to indicate empty bag
 
 void shuffleBag() {
+    
     int j = 0;
     int temp = 0;
     int i =  0;
     for (i = 6; i > 0; i--) {
-        j = 1;
-        //j = rand() % (i + 1);
+        //j = 1;
+        j = rand() % (i + 1);
         temp = bag[i];
         bag[i] = bag[j];
         bag[j] = temp;
     }
+    
     bagIndex = 0; // reset the index to the beginning of the bag
 }
 
@@ -63,18 +65,19 @@ void initBoard() {
         for (j = 0; j < BOARD_WIDTH; j++)
             board[i][j] = 0; 
     }
+    drawPlayingField(board);
 }
 
 //define falling block
 int orientationIndex = 0;
 int tetriminoIndex = 0;
-int (*currentBlk)[4][4];
+int (*currentBlk)[4];
 
 //define hold block;
-int (*holdBlk)[4][4];
+int (*holdBlk)[4];
 
 void initHoldBlk(){
-    holdBlk = &nullTetrimino;
+    holdBlk = nullTetrimino;
 }
 
 //define position (top left) of falling block
@@ -87,11 +90,12 @@ void eraseCurrentPiece(){
     int j = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            if ((*currentBlk)[i][j] != 0) {
+            if ((currentBlk)[i][j] != 0) {
                 board[currY + i][currX + j] = 0;
             }
         }
     }
+    //drawPlayingField(board);
 }
 
 void drawCurrentPiece(){
@@ -100,25 +104,28 @@ void drawCurrentPiece(){
     int j = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            if ((*currentBlk)[i][j] != 0) {
-                board[currY + i][currX + j] = (*currentBlk)[i][j];
+            if ((currentBlk)[i][j] != 0) {
+                board[currY + i][currX + j] = (currentBlk)[i][j];
             }
         }
     }
+    //drawPlayingField(board);
 }
 
 //define falling block depending on its index
 //index given in tetrimino.h
 void initNewPiece(){
-    orientationIndex = getNextPiece();
+    tetriminoIndex = getNextPiece();
+    orientationIndex = 0;
     currX = 3;
     currY = 0;
-    currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
+    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
     drawCurrentPiece();
 };
 
 //CHECK IF BLOCK CAN BE MOVED OR ROTATED//
 int canMove(int newX, int newY, int newRotation) {
+    eraseCurrentPiece();
     int i = 0;
     int j = 0;
     for (i = 0; i < 4; i++) {
@@ -127,14 +134,17 @@ int canMove(int newX, int newY, int newRotation) {
                 int x = newX + i;
                 int y = newY + j;
                 if (x < 0 || x >= BOARD_WIDTH || y >= BOARD_HEIGHT) {
+                    drawCurrentPiece();
                     return 0; // Movement out of bounds
                 }
                 if (y >= 0 && board[y][x] != 0) {
+                    drawCurrentPiece();
                     return 0; // Movement onto an occupied space
                 }
             }
         }
     }
+    drawCurrentPiece();
     return 1; // Valid move
 }
 
@@ -148,6 +158,7 @@ void moveL(){
         currX = newX;
         drawCurrentPiece();
     }
+    
         
 }
 
@@ -183,7 +194,7 @@ void rotateCW(){
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
-        currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
+        currentBlk = (tetriminos)[tetriminoIndex][orientationIndex];
         drawCurrentPiece();
     }
 }
@@ -194,7 +205,7 @@ void rotateCCW(){
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
-        currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
+        currentBlk = (tetriminos)[tetriminoIndex][orientationIndex];
         drawCurrentPiece();
     }
 }
@@ -240,12 +251,14 @@ void deleteFullRows(){
         }
     }
 
+    /*
     //put zeroes on unfilled rows
     for(j = 0; j < fullRows; j++){
         for(i = 0; i < BOARD_WIDTH; i++){
             board[j][i] = 0;
         }
     }
+    */
 
     //add score (based on tetris scoring system)
     if(fullRows == 1)
@@ -271,7 +284,7 @@ void swapBlk(){
         //swap current blk and hold blk
         //respawn blk at the top
         eraseCurrentPiece();
-        int (*temp)[4][4] = holdBlk;
+        int (*temp)[4] = holdBlk;
         currX = 3;
         currY = 0;
         holdBlk = currentBlk;
@@ -318,16 +331,18 @@ int isGameOver(){
 void gameLoop(){
     initBoard();
     initNewPiece();
+    initHoldBlk();
     while(1){
-
-        drawPlayingField(board);
+       
 
         checkbutton();
+
+        drawPlayingField(board);
     
         //if block cannot move down (ie. settled)
         if(canMove(currX, currY + 1, orientationIndex) == 0){
-            if(isGameOver())
-                break;
+            //if(isGameOver())
+              //  break;
             deleteFullRows();
             initNewPiece();
         }
@@ -391,8 +406,8 @@ int main(void)
     REG_DISPCNT = MODE2 | OBJ_MAP_1D;
 
     //intialize randomizer
-    //time_t t;
-    //srand((unsigned) time(&t));
+    time_t t;
+    srand((unsigned) time(&t));
 
     
     // Set Mode 2

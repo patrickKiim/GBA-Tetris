@@ -19,7 +19,7 @@ int nullTetrimino[4][4] = {
 // 4 orientation
 // 4 y squares
 // 4 x squares
-int tetriminos[7][4][4][4] = {
+const int tetriminos[7][4][4][4] = {
     //I teterimino
 {
     {
