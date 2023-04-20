@@ -1,6 +1,12 @@
 #include "sprites.h"
 #define INPUT                      (KEY_MASK & (~REG_KEYS))
 
+void buttonS(){
+if(g== main_screen){
+g = level1;
+}
+}
+
 void checkbutton(void)
 {
 	// Gift function to show you how a function that can be called upon button interrupt to detect which button was pressed and run a specific function for each button could look like. You would have to define each buttonA/buttonB/... function yourself.
@@ -65,33 +71,3 @@ void fillSprites(void)
 }
 
 
-void drawSprite(int numb, int N, int x, int y)
-{
-	// Same as CA2, make specific sprite (based on its name/numb) appear on screen, as slide number N (each sprite needs a different, arbitrary, N >= 0)
-    *(unsigned short *)(0x7000000 + 8*N) = y | 0x2000;
-    *(unsigned short *)(0x7000002 + 8*N) = x | 0x4000;
-    *(unsigned short *)(0x7000004 + 8*N) = numb*8;
-}
-
-void drawLaser(void)
-{
-	// Gift function showing you how to draw an example sprite defined in sprite.h on screen, using drawSprite()
-	// Note that this code uses largeer sprites with a palette, so the main code needs to be initialized in graphical mode 2, using:
-    //		*(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
-	// at the beginning of main() in main.c
-
-    switch(lPlat) {
-        case 16:
-        {
-            drawSprite(LASER, NPLATS*3 + 5 + NROCK + NMET, LaserX, LaserY);
-            break;
-        }
-        case 9:
-        {
-            drawSprite(LASER, NPLATS*2 + 5 + NROCK + NMET, LaserX, LaserY);
-            break;
-        }
-        default:
-            break;
-    }
-}

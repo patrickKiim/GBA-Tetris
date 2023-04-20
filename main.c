@@ -3,124 +3,99 @@
 // -----------------------------------------------------------------------------
 #include "numbers.h"
 #include "gba.h"
-#include "tetrimino.h"
+//#include "tetomino_v2.h"
+#include "genna_h.h"
 
-#define TIMER_ENABLE_N 0xC7 //1100 0111 (enable bit 7,6,2 for H), bit 0,1 for f.1024
-#define TIMER_MAX  66535
-#define TIMER_FREQ 16387
-#define DIGIT_X 120
-#define DIGIT_Y 100
-#define BOARD_WIDTH 10
-#define BOARD_HEIGHT 20
-
-int board[BOARD_HEIGHT][BOARD_WIDTH];
+#include "gamestate.h"
 
 int count = 0;
+int points_gained;
 
-void initBoard() {
-
-    //initialize the board (2d array) with zeroes
-    for (int i = 0; i < BOARD_HEIGHT; i++) {
-        for (int j = 0; j < BOARD_WIDTH; j++)
-            board[i][j] = 0; 
-    }
+void checkbutton(void) {
+    // Implement button check logic here
 }
 
-int (*currentPiece)[4];
-int (*currentBlkTemplate)[4][4];
-
-void initCurrentPiece(int index){
-    if(index == 0){
-        currentBlkTemplate = &I_Blk;
-
-    }
-    currentPiece = currentBlkTemplate[0];
-
-};
-
-void updatePiecePos(){
-    //erase current piece
+void assembly(void) {
+    // Implement assembly logic here
 }
 
 
+void Handler(void) {
+    REG_IME = 0x00; // Stop all other interrupt handling, while we handle this current one
 
+    if (((REG_IF & INT_TIMER0) == INT_TIMER0) || ((REG_IF & INT_TIMER1) == INT_TIMER1)) {
+        // Handle timer interrupt here
+        if (points_gained) {
+            score++;
+        }
 
-
-//push test
-
-void moveIsPossible()
-{}
-
-void drawSprite(int numb, int N, int x, int y)
-{
-    // Gift function: displays sprite number numb on screen at position (x,y), as sprite object N
-    *(unsigned short *)(0x7000000 + 8*N) = y | 0x2000;
-    *(unsigned short *)(0x7000002 + 8*N) = x;
-    *(unsigned short *)(0x7000004 + 8*N) = numb*2;
-}
-
-
-void Handler(void)
-{    
-	REG_IME = 0x00; // Stop all other interrupt handling, while we handle this current one  
-
-    if ((REG_IF & INT_TIMER0) == INT_TIMER0) // TODO: replace XXX with the specific interrupt you are handling
-    {
-        // TODO: Handle timer interrupt here
-			count++;
-			int temp = count;
-			int digit = 0;
-			while(temp > 0){
-				drawSprite(temp%10, digit, DIGIT_X -10*digit, DIGIT_Y);
-				temp /= 10;
-				digit++;
-			}
-			//drawSprite(count/10, 1, 110, 100);
-			//drawSprite(count%10, 0, 120, 100);
+        int temp = score;
+        int digit = 0;
+        while (temp > 0) {
+            drawSprite(temp % 10, digit, 208 - 10 * digit, 112);
+            temp /= 10;
+            digit++;
+        }
+        // test draw tetro
+        drawTetromino(I_TETROMINO, 0, 50, 50);
     }
-    
+
+    if ((REG_IF & INT_BUTTON) == INT_BUTTON) {
+        checkbutton(); // call function to handle button interrupt
+    }
+
     REG_IF = REG_IF; // Update interrupt table, to confirm we have handled this interrupt
-    
     REG_IME = 0x01;  // Re-enable interrupt handling
 }
 
-
-// -----------------------------------------------------------------------------
-// Project Entry Point
-// -----------------------------------------------------------------------------
-int main(void)
-{
+int main(void) {
     int i;
-	
-    /*
+    int g = 0;
+    points_gained = 0; //add function that tells whether a point has been gained
     // Set Mode 2
-    *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
+    *(unsigned short *)0x4000000 = 0x40 | 0x2 | 0x1000;
 
     // Fill SpritePal
-    *(unsigned short *) 0x5000200 = 0;
-    *(unsigned short *) 0x5000202 = RGB(31,31,31);
+    *(unsigned short *)0x5000200 = 0;
+    *(unsigned short *)0x5000202 = RGB(31, 31, 31);
 
     // Fill SpriteData
-    for (i = 0; i < 10*8*8/2; i++)
-        spriteData[i] = (numbers[i*2+1] << 8) + numbers[i*2];
-    for (i = 0; i < 128; i++)
+    for (i = 0; i < 10 * 8 * 8 / 2; i++) {
+        spriteData[i] = (numbers[i * 2 + 1] << 8) + numbers[i * 2];
+    }
+    for (i = 0; i < 128; i++) {
         drawSprite(0, i, 240, 160);
+    }
 
     // Set Handler Function for interrupts and enable selected interrupts
     REG_INT = (int)&Handler;
-    REG_IE =  INT_TIMER0; //TODO: complete this line to choose which timer interrupts to enable
-    REG_IME = 0x1;		// Enable interrupt handling
+    REG_IE = INT_TIMER0 | INT_TIMER1; // Enable both timer interrupts
+    REG_IME = 0x1;                    // Enable interrupt handling
 
-    // Set Timer Mode (fill that section and replace TMX with selected timer number)
-    REG_TM0D =	TIMER_MAX - TIMER_FREQ;		// TODO: complete this line to set timer initial value
-	 //REG_TM0D = TIMER_MAX - 1000;				//TURN ON FOR SPEEEEEED
-    REG_TM0CNT = (TIMER_ENABLE | TIMER_INTERRUPTS | TIMER_FREQUENCY_1024);		// TODO: complete this line to set timer frequency and enable timer
-				
-	 drawSprite(0, 0, DIGIT_X, DIGIT_Y);
-	
-    while(1);
+    assembly();
 
-    */
-	return 0;
+    // Timer Level 2 (every 0.67 seconds)
+    REG_TM1D = 54551;
+    REG_TM1CNT = TIMER_ENABLE | TIMER_INTERRUPTS | TIMER_FREQUENCY_1024;
+
+    while (1) {
+        switch (g) {
+            case 0:
+                main_screen();
+                g = 1;
+                break;
+
+            case 1:
+                level_1();
+                g = game_over ? 0 : 2;
+                break;
+
+            case 2:
+                level_2();
+                g = game_over ? 0 : 2;
+                break;
+        }
+    }
+
+    return 0;
 }
-
