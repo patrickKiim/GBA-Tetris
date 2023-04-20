@@ -1189,6 +1189,39 @@ drawBlk:
 	bx	lr
 	.size	drawBlk, .-drawBlk
 	.align	2
+	.global	formatInitalBG
+	.type	formatInitalBG, %function
+formatInitalBG:
+	@ Function supports interworking.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 1, uses_anonymous_args = 0
+	mov	ip, sp
+	stmfd	sp!, {r4, r5, r6, r7, fp, ip, lr, pc}
+	ldr	r6, .L32
+	sub	fp, ip, #-4294967292
+	mov	r7, #0	@  row
+.L27:
+	mov	r4, #0	@  col
+	mov	r5, r7, asl #3	@  row
+.L26:
+	mov	r0, r4, asl #3	@  col
+	ldrh	r2, [r6, #0]	@  blkColors
+	mov	r1, r5
+	add	r4, r4, #1	@  col,  col
+	bl	drawBlk
+	cmp	r4, #39	@  col
+	ble	.L26
+	add	r7, r7, #1	@  row,  row
+	cmp	r7, #19	@  row
+	ble	.L27
+	ldmea	fp, {r4, r5, r6, r7, fp, sp, lr}
+	bx	lr
+.L33:
+	.align	2
+.L32:
+	.word	blkColors
+	.size	formatInitalBG, .-formatInitalBG
+	.align	2
 	.global	drawPlayingField
 	.type	drawPlayingField, %function
 drawPlayingField:
@@ -1197,15 +1230,15 @@ drawPlayingField:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, r6, r7, r8, sl, fp, ip, lr, pc}
-	ldr	r8, .L32
+	ldr	r8, .L49
 	sub	fp, ip, #-4294967292
 	mov	r7, r0	@  playingField
 	mov	sl, #4	@  row
 	mov	r6, #20
-.L27:
+.L44:
 	mov	r4, #0	@  col
 	mov	r5, sl, asl #3	@  row
-.L26:
+.L43:
 	add	r2, r4, r6, asl #1	@  col
 	ldr	r3, [r7, r2, asl #2]	@  block_type, * playingField
 	mov	r3, r3, asl #1	@  block_type
@@ -1215,16 +1248,16 @@ drawPlayingField:
 	add	r4, r4, #1	@  col,  col
 	bl	drawBlk
 	cmp	r4, #9	@  col
-	ble	.L26
+	ble	.L43
 	add	sl, sl, #1	@  row,  row
 	cmp	sl, #23	@  row
 	add	r6, r6, #5
-	ble	.L27
+	ble	.L44
 	ldmea	fp, {r4, r5, r6, r7, r8, sl, fp, sp, lr}
 	bx	lr
-.L33:
+.L50:
 	.align	2
-.L32:
+.L49:
 	.word	blkColors
 	.size	drawPlayingField, .-drawPlayingField
 	.global	palette
@@ -7710,15 +7743,15 @@ buttonA:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L38
+	ldr	r3, .L55
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L39:
+.L56:
 	.align	2
-.L38:
+.L55:
 	.word	rotateCW
 	.size	buttonA, .-buttonA
 	.align	2
@@ -7730,15 +7763,15 @@ buttonB:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L41
+	ldr	r3, .L58
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L42:
+.L59:
 	.align	2
-.L41:
+.L58:
 	.word	rotateCCW
 	.size	buttonB, .-buttonB
 	.align	2
@@ -7750,15 +7783,15 @@ buttonR:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L44
+	ldr	r3, .L61
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L45:
+.L62:
 	.align	2
-.L44:
+.L61:
 	.word	moveR
 	.size	buttonR, .-buttonR
 	.align	2
@@ -7770,15 +7803,15 @@ buttonL:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L47
+	ldr	r3, .L64
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L48:
+.L65:
 	.align	2
-.L47:
+.L64:
 	.word	moveL
 	.size	buttonL, .-buttonL
 	.align	2
@@ -7790,15 +7823,15 @@ buttonD:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L50
+	ldr	r3, .L67
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L51:
+.L68:
 	.align	2
-.L50:
+.L67:
 	.word	moveD
 	.size	buttonD, .-buttonD
 	.align	2
@@ -7810,15 +7843,15 @@ buttonU:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L53
+	ldr	r3, .L70
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L54:
+.L71:
 	.align	2
-.L53:
+.L70:
 	.word	hardDrop
 	.size	buttonU, .-buttonU
 	.align	2
@@ -7830,15 +7863,15 @@ buttonLT:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L56
+	ldr	r3, .L73
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L57:
+.L74:
 	.align	2
-.L56:
+.L73:
 	.word	swapBlk
 	.size	buttonLT, .-buttonLT
 	.align	2
@@ -7850,15 +7883,15 @@ buttonRT:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L59
+	ldr	r3, .L76
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L60:
+.L77:
 	.align	2
-.L59:
+.L76:
 	.word	swapBlk
 	.size	buttonRT, .-buttonRT
 	.align	2
@@ -7869,69 +7902,119 @@ checkbutton:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
-	stmfd	sp!, {r4, fp, ip, lr, pc}
+	stmfd	sp!, {r4, r5, fp, ip, lr, pc}
+	mov	r5, #67108864
+	add	r5, r5, #304
+	ldrh	r3, [r5, #0]
+	mvn	r3, r3
+	mov	r3, r3, asl #22	@  buttons
+	mov	r3, r3, lsr #22	@  buttons,  buttons
+	tst	r3, #1	@  buttons
+	sub	fp, ip, #-4294967292
+	mov	r4, r3, asl #16	@  buttons
+	bne	.L114
+.L79:
+	tst	r4, #131072
+	bne	.L115
+.L84:
+	mov	r5, r4, lsr #16
+	tst	r5, #4
+	blne	buttonSel
+.L89:
+	tst	r5, #8
+	blne	buttonS
+.L90:
+	tst	r5, #16
+	bne	.L116
+.L91:
+	tst	r5, #32
+	bne	.L117
+.L92:
+	tst	r5, #64
+	bne	.L118
+.L93:
+	mov	r5, r4, lsr #16
+	tst	r5, #128
+	bne	.L119
+.L98:
+	tst	r5, #512
+	bne	.L120
+.L99:
+	tst	r4, #16777216
+	bne	.L121
+.L78:
+	ldmea	fp, {r4, r5, fp, sp, lr}
+	bx	lr
+.L121:
+	bl	buttonRT
 	mov	r2, #67108864
 	add	r2, r2, #304
+.L108:
 	ldrh	r3, [r2, #0]
 	mvn	r3, r3
-	mov	r4, r3, asl #22
-	mov	r4, r4, lsr #22
-	tst	r4, #1
-	sub	fp, ip, #-4294967292
-	bne	.L72
-.L62:
-	tst	r4, #2
-	bne	.L73
-.L63:
-	tst	r4, #4
-	blne	buttonSel
-.L64:
-	tst	r4, #8
-	blne	buttonS
-.L65:
-	tst	r4, #16
-	bne	.L74
-.L66:
-	tst	r4, #32
-	bne	.L75
-.L67:
-	tst	r4, #64
-	bne	.L76
-.L68:
-	tst	r4, #128
-	bne	.L77
-.L69:
-	tst	r4, #512
-	bne	.L78
-.L70:
-	tst	r4, #256
-	bne	.L79
-	ldmea	fp, {r4, fp, sp, lr}
-	bx	lr
-.L79:
-	ldmea	fp, {r4, fp, sp, lr}
-	b	buttonRT
-.L78:
+	tst	r3, #256
+	bne	.L108
+	b	.L78
+.L120:
 	bl	buttonLT
-	b	.L70
-.L77:
+	mov	r2, #67108864
+	add	r2, r2, #304
+.L103:
+	ldrh	r3, [r2, #0]
+	mvn	r3, r3
+	mov	r3, r3, asl #22	@  buttons
+	mov	r3, r3, lsr #22	@  buttons,  buttons
+	tst	r3, #512	@  buttons
+	mov	r4, r3, asl #16	@  buttons
+	bne	.L103
+	b	.L99
+.L119:
 	bl	buttonD
-	b	.L69
-.L76:
+	b	.L98
+.L118:
 	bl	buttonU
-	b	.L68
-.L75:
+	mov	r2, #67108864
+	add	r2, r2, #304
+.L97:
+	ldrh	r3, [r2, #0]
+	mvn	r3, r3
+	mov	r3, r3, asl #22	@  buttons
+	mov	r3, r3, lsr #22	@  buttons,  buttons
+	tst	r3, #64	@  buttons
+	mov	r4, r3, asl #16	@  buttons
+	bne	.L97
+	b	.L93
+.L117:
 	bl	buttonL
-	b	.L67
-.L74:
+	b	.L92
+.L116:
 	bl	buttonR
-	b	.L66
-.L73:
+	b	.L91
+.L115:
 	bl	buttonB
-	b	.L63
-.L72:
+	mov	r2, #67108864
+	add	r2, r2, #304
+.L88:
+	ldrh	r3, [r2, #0]
+	mvn	r3, r3
+	mov	r3, r3, asl #22	@  buttons
+	mov	r3, r3, lsr #22	@  buttons,  buttons
+	tst	r3, #2	@  buttons
+	mov	r4, r3, asl #16	@  buttons
+	bne	.L88
+	b	.L84
+.L114:
 	bl	buttonA
-	b	.L62
+	mov	r2, r5
+.L83:
+	ldrh	r3, [r2, #0]
+	mvn	r3, r3
+	mov	r3, r3, asl #22	@  buttons
+	mov	r3, r3, lsr #22	@  buttons,  buttons
+	tst	r3, #1	@  buttons
+	mov	r4, r3, asl #16	@  buttons
+	bne	.L83
+	b	.L79
 	.size	checkbutton, .-checkbutton
 	.align	2
 	.global	fillPalette
@@ -7942,22 +8025,22 @@ fillPalette:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
 	mov	r0, #83886080
-	ldr	ip, .L88
+	ldr	ip, .L130
 	@ lr needed for prologue
 	mov	r1, #0	@  i
 	add	r0, r0, #512
-.L85:
+.L127:
 	mov	r3, r1, asl #2	@  i
 	mov	r2, r1, asl #1	@  i
 	ldrh	r3, [r3, ip]	@  palette
 	add	r1, r1, #1	@  i,  i
 	cmp	r1, #19	@  i
 	strh	r3, [r2, r0]	@ movhi 
-	ble	.L85
+	ble	.L127
 	bx	lr
-.L89:
+.L131:
 	.align	2
-.L88:
+.L130:
 	.word	palette
 	.size	fillPalette, .-fillPalette
 	.align	2
@@ -7972,11 +8055,11 @@ fillSprites:
 	sub	fp, ip, #-4294967292
 	mov	r5, #32512
 	mov	lr, #100663296
-	ldr	ip, .L105
+	ldr	ip, .L147
 	mov	r4, #0	@  i
 	add	r5, r5, #255
 	add	lr, lr, #65536
-.L95:
+.L137:
 	mov	r1, r4, asl #2	@  i
 	add	r3, r1, ip
 	ldrh	r0, [r3, #2]	@  sprites
@@ -7986,9 +8069,9 @@ fillSprites:
 	add	r2, r2, r0, asl #8
 	cmp	r4, r5	@  i
 	strh	r2, [r3, lr]	@ movhi 
-	ble	.L95
+	ble	.L137
 	mov	r4, #0	@  i
-.L100:
+.L142:
 	mov	r1, r4	@  i
 	mov	r0, #0
 	mov	r2, #240
@@ -7996,12 +8079,12 @@ fillSprites:
 	add	r4, r4, #1	@  i,  i
 	bl	drawSprite
 	cmp	r4, #127	@  i
-	ble	.L100
+	ble	.L142
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	bx	lr
-.L106:
+.L148:
 	.align	2
-.L105:
+.L147:
 	.word	sprites
 	.size	fillSprites, .-fillSprites
 	.global	score
@@ -8049,12 +8132,12 @@ shuffleBag:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, r6, r7, fp, ip, lr, pc}
-	ldr	r7, .L115
-	ldr	r6, .L115+4
-	ldr	r5, .L115+8
+	ldr	r7, .L157
+	ldr	r6, .L157+4
+	ldr	r5, .L157+8
 	sub	fp, ip, #-4294967292
 	mov	r4, #6	@  i
-.L112:
+.L154:
 	mov	lr, pc
 	bx	r7
 	add	r1, r4, #1	@  i
@@ -8063,18 +8146,17 @@ shuffleBag:
 	ldr	r3, [r5, r0, asl #2]	@  bag
 	ldr	r2, [r5, r4, asl #2]	@  temp,  bag
 	str	r3, [r5, r4, asl #2]	@  bag
-	sub	r4, r4, #1	@  i,  i
-	cmp	r4, #0	@  i
+	subs	r4, r4, #1	@  i,  i
 	str	r2, [r5, r0, asl #2]	@  temp,  bag
-	bgt	.L112
-	ldr	r3, .L115+12
-	mov	r4, #0	@  i
-	str	r4, [r3, #0]	@  i,  bagIndex
+	bpl	.L154
+	ldr	r3, .L157+12
+	mov	r2, #0
+	str	r2, [r3, #0]	@  bagIndex
 	ldmea	fp, {r4, r5, r6, r7, fp, sp, lr}
 	bx	lr
-.L116:
+.L158:
 	.align	2
-.L115:
+.L157:
 	.word	rand
 	.word	__modsi3
 	.word	bag
@@ -8089,25 +8171,25 @@ getNextPiece:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, fp, ip, lr, pc}
-	ldr	r4, .L120
+	ldr	r4, .L162
 	ldr	r1, [r4, #0]	@  bagIndex
 	cmp	r1, #6
 	sub	fp, ip, #-4294967292
-	bgt	.L119
-.L118:
-	ldr	r2, .L120+4
+	bgt	.L161
+.L160:
+	ldr	r2, .L162+4
 	ldr	r0, [r2, r1, asl #2]	@  piece,  bag
 	add	r3, r1, #1
 	str	r3, [r4, #0]	@  bagIndex
 	ldmea	fp, {r4, fp, sp, lr}
 	bx	lr
-.L119:
+.L161:
 	bl	shuffleBag
 	ldr	r1, [r4, #0]	@  bagIndex
-	b	.L118
-.L121:
+	b	.L160
+.L163:
 	.align	2
-.L120:
+.L162:
 	.word	bagIndex
 	.word	bag
 	.size	getNextPiece, .-getNextPiece
@@ -8119,28 +8201,28 @@ initBoard:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	str	lr, [sp, #-4]!
-	ldr	ip, .L137
+	ldr	ip, .L179
 	mov	lr, #0	@  i
 	mov	r0, lr	@  i,  i
 	mov	r1, lr	@  i,  i
-.L132:
+.L174:
 	mov	r2, #0	@  j
-.L131:
+.L173:
 	add	r3, r1, r2	@  i,  j
 	add	r2, r2, #1	@  j,  j
 	cmp	r2, #9	@  j
 	str	r0, [ip, r3, asl #2]	@  i,  board
-	ble	.L131
+	ble	.L173
 	add	lr, lr, #1	@  i,  i
 	cmp	lr, #23	@  i
 	add	r1, r1, #10	@  i,  i
-	ble	.L132
-	ldr	r0, .L137
+	ble	.L174
+	ldr	r0, .L179
 	ldr	lr, [sp], #4
 	b	drawPlayingField
-.L138:
+.L180:
 	.align	2
-.L137:
+.L179:
 	.word	board
 	.size	initBoard, .-initBoard
 	.global	orientationIndex
@@ -8167,14 +8249,14 @@ initHoldBlk:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
-	ldr	r2, .L140
-	ldr	r3, .L140+4
+	ldr	r2, .L182
+	ldr	r3, .L182+4
 	@ lr needed for prologue
 	str	r2, [r3, #0]	@  holdBlk
 	bx	lr
-.L141:
+.L183:
 	.align	2
-.L140:
+.L182:
 	.word	nullTetrimino
 	.word	holdBlk
 	.size	initHoldBlk, .-initHoldBlk
@@ -8202,21 +8284,21 @@ eraseCurrentPiece:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	stmfd	sp!, {r4, r5, r6, r7, lr}
-	ldr	r3, .L158
+	ldr	r3, .L200
 	mov	ip, #0	@  i
 	ldr	lr, [r3, #0]	@  currentBlk
-	ldr	r7, .L158+4
-	ldr	r6, .L158+8
-	ldr	r5, .L158+12
+	ldr	r7, .L200+4
+	ldr	r6, .L200+8
+	ldr	r5, .L200+12
 	mov	r4, ip	@  i,  i
-.L153:
+.L195:
 	mov	r1, #0	@  j
 	mov	r0, ip, asl #2	@  i
-.L152:
+.L194:
 	add	r3, r0, r1	@  j
 	ldr	r2, [lr, r3, asl #2]
 	cmp	r2, #0
-	beq	.L149
+	beq	.L191
 	ldr	r3, [r6, #0]	@  currY
 	ldr	r2, [r5, #0]	@  currX
 	add	r3, r3, ip	@  i
@@ -8224,18 +8306,18 @@ eraseCurrentPiece:
 	add	r3, r3, r3, asl #2
 	add	r2, r2, r3, asl #1
 	str	r4, [r7, r2, asl #2]	@  i,  board
-.L149:
+.L191:
 	add	r1, r1, #1	@  j,  j
 	cmp	r1, #3	@  j
-	ble	.L152
+	ble	.L194
 	add	ip, ip, #1	@  i,  i
 	cmp	ip, #3	@  i
-	ble	.L153
+	ble	.L195
 	ldmfd	sp!, {r4, r5, r6, r7, lr}
 	bx	lr
-.L159:
+.L201:
 	.align	2
-.L158:
+.L200:
 	.word	currentBlk
 	.word	board
 	.word	currY
@@ -8249,20 +8331,20 @@ drawCurrentPiece:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	stmfd	sp!, {r4, r5, r6, r7, lr}
-	ldr	r3, .L176
-	ldr	r7, .L176+4
+	ldr	r3, .L218
+	ldr	r7, .L218+4
 	ldr	r4, [r3, #0]	@  currentBlk
-	ldr	r6, .L176+8
-	ldr	r5, .L176+12
+	ldr	r6, .L218+8
+	ldr	r5, .L218+12
 	mov	lr, #0	@  i
-.L171:
+.L213:
 	mov	r1, #0	@  j
 	mov	ip, lr, asl #2	@  i
-.L170:
+.L212:
 	add	r3, ip, r1	@  j
 	ldr	r0, [r4, r3, asl #2]
 	cmp	r0, #0
-	beq	.L167
+	beq	.L209
 	ldr	r3, [r6, #0]	@  currY
 	ldr	r2, [r5, #0]	@  currX
 	add	r3, r3, lr	@  i
@@ -8270,18 +8352,18 @@ drawCurrentPiece:
 	add	r3, r3, r3, asl #2
 	add	r2, r2, r3, asl #1
 	str	r0, [r7, r2, asl #2]	@  board
-.L167:
+.L209:
 	add	r1, r1, #1	@  j,  j
 	cmp	r1, #3	@  j
-	ble	.L170
+	ble	.L212
 	add	lr, lr, #1	@  i,  i
 	cmp	lr, #3	@  i
-	ble	.L171
+	ble	.L213
 	ldmfd	sp!, {r4, r5, r6, r7, lr}
 	bx	lr
-.L177:
+.L219:
 	.align	2
-.L176:
+.L218:
 	.word	currentBlk
 	.word	board
 	.word	currY
@@ -8298,25 +8380,25 @@ initNewPiece:
 	stmfd	sp!, {fp, ip, lr, pc}
 	sub	fp, ip, #-4294967292
 	bl	getNextPiece
-	ldr	r3, .L179
+	ldr	r3, .L221
 	mov	r1, #3
-	ldr	ip, .L179+4
+	ldr	ip, .L221+4
 	str	r1, [r3, #0]	@  currX
-	ldr	r2, .L179+8
-	ldr	r3, .L179+12
+	ldr	r2, .L221+8
+	ldr	r3, .L221+12
 	mov	lr, #0
 	add	ip, ip, r0, asl #8
 	str	lr, [r2, #0]	@  currY
 	str	ip, [r3, #0]	@  currentBlk
-	ldr	r2, .L179+16
-	ldr	r3, .L179+20
+	ldr	r2, .L221+16
+	ldr	r3, .L221+20
 	str	r0, [r2, #0]	@  tetriminoIndex
 	str	lr, [r3, #0]	@  orientationIndex
 	ldmea	fp, {fp, sp, lr}
 	b	drawCurrentPiece
-.L180:
+.L222:
 	.align	2
-.L179:
+.L221:
 	.word	currX
 	.word	tetriminos
 	.word	currY
@@ -8334,17 +8416,17 @@ canMove:
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, ip, lr, pc}
 	sub	fp, ip, #-4294967292
-	ldr	sl, .L201
-	ldr	r8, .L201+4
-	ldr	r9, .L201+8
+	ldr	sl, .L243
+	ldr	r8, .L243+4
+	ldr	r9, .L243+8
 	mov	r7, r0	@  newX
 	mov	r6, r1	@  newY
 	mov	r5, r2	@  newRotation
 	bl	eraseCurrentPiece
 	mov	lr, #0	@  i
-.L194:
+.L236:
 	mov	ip, #0	@  j
-.L193:
+.L235:
 	ldr	r3, [r8, #0]	@  tetriminoIndex
 	add	r3, r5, r3, asl #2	@  newRotation
 	add	r3, ip, r3, asl #2	@  j
@@ -8354,7 +8436,7 @@ canMove:
 	add	r1, r6, ip	@  y,  newY,  j
 	add	r0, r7, lr	@  x,  newX,  i
 	add	ip, ip, #1	@  j,  j
-	beq	.L188
+	beq	.L230
 	cmp	r1, #23	@  y
 	movle	r3, #0
 	movgt	r3, #1
@@ -8364,34 +8446,34 @@ canMove:
 	add	r2, r1, r1, asl #2	@  y,  y
 	cmp	r4, #0	@  newX
 	add	r2, r0, r2, asl #1	@  x
-	bne	.L199
+	bne	.L241
 	cmp	r1, #0	@  y
-	blt	.L188
+	blt	.L230
 	ldr	r3, [r9, r2, asl #2]	@  board
 	cmp	r3, #0
-	bne	.L200
-.L188:
+	bne	.L242
+.L230:
 	cmp	ip, #3	@  j
-	ble	.L193
+	ble	.L235
 	add	lr, lr, #1	@  i,  i
 	cmp	lr, #3	@  i
-	ble	.L194
+	ble	.L236
 	bl	drawCurrentPiece
 	mov	r0, #1	@  newX
-.L181:
+.L223:
 	ldmea	fp, {r4, r5, r6, r7, r8, r9, sl, fp, sp, lr}
 	bx	lr
-.L200:
+.L242:
 	bl	drawCurrentPiece
 	mov	r0, r4	@  newX,  newX
-	b	.L181
-.L199:
+	b	.L223
+.L241:
 	bl	drawCurrentPiece
 	mov	r0, #0	@  newX
-	b	.L181
-.L202:
+	b	.L223
+.L244:
 	.align	2
-.L201:
+.L243:
 	.word	tetriminos
 	.word	tetriminoIndex
 	.word	board
@@ -8405,28 +8487,28 @@ moveL:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, fp, ip, lr, pc}
-	ldr	r5, .L206
+	ldr	r5, .L248
 	sub	fp, ip, #-4294967292
 	ldr	ip, [r5, #0]	@  currX
-	ldr	r3, .L206+4
-	ldr	r0, .L206+8
+	ldr	r3, .L248+4
+	ldr	r0, .L248+8
 	sub	r4, ip, #1	@  newX
 	ldr	r2, [r0, #0]	@  orientationIndex
 	ldr	r1, [r3, #0]	@  currY
 	mov	r0, r4	@  newX
 	bl	canMove
 	cmp	r0, #1	@  newX
-	beq	.L205
+	beq	.L247
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	bx	lr
-.L205:
+.L247:
 	bl	eraseCurrentPiece
 	str	r4, [r5, #0]	@  newX,  currX
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	b	drawCurrentPiece
-.L207:
+.L249:
 	.align	2
-.L206:
+.L248:
 	.word	currX
 	.word	currY
 	.word	orientationIndex
@@ -8440,28 +8522,28 @@ moveR:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, fp, ip, lr, pc}
-	ldr	r5, .L211
+	ldr	r5, .L253
 	sub	fp, ip, #-4294967292
 	ldr	ip, [r5, #0]	@  currX
-	ldr	r3, .L211+4
-	ldr	r0, .L211+8
+	ldr	r3, .L253+4
+	ldr	r0, .L253+8
 	add	r4, ip, #1	@  newX
 	ldr	r2, [r0, #0]	@  orientationIndex
 	ldr	r1, [r3, #0]	@  currY
 	mov	r0, r4	@  newX
 	bl	canMove
 	cmp	r0, #1	@  newX
-	beq	.L210
+	beq	.L252
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	bx	lr
-.L210:
+.L252:
 	bl	eraseCurrentPiece
 	str	r4, [r5, #0]	@  newX,  currX
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	b	drawCurrentPiece
-.L212:
+.L254:
 	.align	2
-.L211:
+.L253:
 	.word	currX
 	.word	currY
 	.word	orientationIndex
@@ -8475,28 +8557,28 @@ moveD:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, fp, ip, lr, pc}
-	ldr	r5, .L216
+	ldr	r5, .L258
 	sub	fp, ip, #-4294967292
 	ldr	ip, [r5, #0]	@  currY
-	ldr	r3, .L216+4
-	ldr	r1, .L216+8
+	ldr	r3, .L258+4
+	ldr	r1, .L258+8
 	add	r4, ip, #1	@  newY
 	ldr	r2, [r1, #0]	@  orientationIndex
 	ldr	r0, [r3, #0]	@  currX
 	mov	r1, r4	@  newY
 	bl	canMove
 	cmp	r0, #1
-	beq	.L215
+	beq	.L257
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	bx	lr
-.L215:
+.L257:
 	bl	eraseCurrentPiece
 	str	r4, [r5, #0]	@  newY,  currY
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	b	drawCurrentPiece
-.L217:
+.L259:
 	.align	2
-.L216:
+.L258:
 	.word	currY
 	.word	currX
 	.word	orientationIndex
@@ -8510,26 +8592,26 @@ hardDrop:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, r6, fp, ip, lr, pc}
-	ldr	r6, .L224
-	ldr	r5, .L224+4
-	ldr	r4, .L224+8
+	ldr	r6, .L266
+	ldr	r5, .L266+4
+	ldr	r4, .L266+8
 	sub	fp, ip, #-4294967292
-.L219:
+.L261:
 	ldr	r1, [r5, #0]	@  currY
 	ldr	r0, [r6, #0]	@  currX
 	ldr	r2, [r4, #0]	@  orientationIndex
 	add	r1, r1, #1
 	bl	canMove
 	cmp	r0, #0
-	beq	.L223
+	beq	.L265
 	bl	moveD
-	b	.L219
-.L223:
+	b	.L261
+.L265:
 	ldmea	fp, {r4, r5, r6, fp, sp, lr}
 	bx	lr
-.L225:
+.L267:
 	.align	2
-.L224:
+.L266:
 	.word	currX
 	.word	currY
 	.word	orientationIndex
@@ -8543,39 +8625,39 @@ rotateCW:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, fp, ip, lr, pc}
-	ldr	r5, .L229
+	ldr	r5, .L271
 	ldr	lr, [r5, #0]	@  orientationIndex
 	add	lr, lr, #1
 	sub	fp, ip, #-4294967292
 	mov	ip, lr, asr #31
 	add	ip, lr, ip, lsr #30
 	bic	ip, ip, #3
-	ldr	r3, .L229+4
-	ldr	r2, .L229+8
+	ldr	r3, .L271+4
+	ldr	r2, .L271+8
 	rsb	r4, ip, lr	@  newR
 	ldr	r1, [r2, #0]	@  currY
 	ldr	r0, [r3, #0]	@  currX
 	mov	r2, r4	@  newR
 	bl	canMove
 	cmp	r0, #1
-	beq	.L228
+	beq	.L270
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	bx	lr
-.L228:
+.L270:
 	bl	eraseCurrentPiece
-	ldr	r2, .L229+12
+	ldr	r2, .L271+12
 	ldr	r3, [r2, #0]	@  tetriminoIndex
-	ldr	r2, .L229+16
+	ldr	r2, .L271+16
 	add	r3, r4, r3, asl #2	@  newR
-	ldr	r1, .L229+20
+	ldr	r1, .L271+20
 	add	r2, r2, r3, asl #6
 	str	r2, [r1, #0]	@  currentBlk
 	str	r4, [r5, #0]	@  newR,  orientationIndex
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	b	drawCurrentPiece
-.L230:
+.L272:
 	.align	2
-.L229:
+.L271:
 	.word	orientationIndex
 	.word	currX
 	.word	currY
@@ -8592,39 +8674,39 @@ rotateCCW:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, fp, ip, lr, pc}
-	ldr	r5, .L234
+	ldr	r5, .L276
+	ldr	lr, [r5, #0]	@  orientationIndex
+	add	lr, lr, #3
 	sub	fp, ip, #-4294967292
-	ldr	ip, [r5, #0]	@  orientationIndex
-	mov	r3, ip, asr #31
-	add	r3, ip, r3, lsr #30
-	bic	r3, r3, #3
-	rsb	ip, r3, ip
-	ldr	r2, .L234+4
-	ldr	r3, .L234+8
-	rsb	r4, ip, #3	@  newR
-	ldr	r0, [r2, #0]	@  currX
-	ldr	r1, [r3, #0]	@  currY
+	mov	ip, lr, asr #31
+	add	ip, lr, ip, lsr #30
+	bic	ip, ip, #3
+	ldr	r3, .L276+4
+	ldr	r2, .L276+8
+	rsb	r4, ip, lr	@  newR
+	ldr	r1, [r2, #0]	@  currY
+	ldr	r0, [r3, #0]	@  currX
 	mov	r2, r4	@  newR
 	bl	canMove
 	cmp	r0, #1
-	beq	.L233
+	beq	.L275
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	bx	lr
-.L233:
+.L275:
 	bl	eraseCurrentPiece
-	ldr	r2, .L234+12
+	ldr	r2, .L276+12
 	ldr	r3, [r2, #0]	@  tetriminoIndex
-	ldr	r2, .L234+16
+	ldr	r2, .L276+16
 	add	r3, r4, r3, asl #2	@  newR
-	ldr	r1, .L234+20
+	ldr	r1, .L276+20
 	add	r2, r2, r3, asl #6
 	str	r2, [r1, #0]	@  currentBlk
 	str	r4, [r5, #0]	@  newR,  orientationIndex
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	b	drawCurrentPiece
-.L235:
+.L277:
 	.align	2
-.L234:
+.L276:
 	.word	orientationIndex
 	.word	currX
 	.word	currY
@@ -8644,105 +8726,105 @@ deleteFullRows:
 	sub	sp, sp, #960
 	mov	r1, r8	@  i,  fullRows
 	mov	r2, r8	@  fullRows,  fullRows
-.L246:
+.L288:
 	add	r3, r1, r1, asl #2	@  i,  i
 	add	r0, sp, #960
 	add	r3, r0, r3, asl #3
 	mov	lr, #9	@  j
-.L245:
+.L287:
 	subs	lr, lr, #1	@  j,  j
 	str	r2, [r3, #-960]	@  fullRows,  newBoard
 	add	r3, r3, #4
-	bpl	.L245
+	bpl	.L287
 	add	r1, r1, #1	@  i,  i
 	cmp	r1, #23	@  i
-	ble	.L246
+	ble	.L288
 	mov	lr, #23	@  j
 	mov	r7, #230
-	ldr	r4, .L297
+	ldr	r4, .L339
 	mov	r6, lr	@  k,  j
 	mov	r5, r7
-.L264:
+.L306:
 	mov	r0, #1	@  isFull
 	mov	r1, #0	@  i
-.L256:
+.L298:
 	add	r3, r5, r1	@  i
 	ldr	r2, [r4, r3, asl #2]	@  isFull,  board
 	add	r1, r1, #1	@  i,  i
 	cmp	r2, #0	@  isFull
 	moveq	r0, #0	@  isFull
 	cmp	r1, #9	@  i
-	ble	.L256
+	ble	.L298
 	cmp	r0, #1	@  isFull
 	addeq	r8, r8, #1	@  fullRows,  fullRows
-	beq	.L249
+	beq	.L291
 	add	r3, r6, r6, asl #2	@  k,  k
 	add	r2, sp, #960
 	add	r0, r2, r3, asl #3
 	mov	r1, #0	@  i
 	mov	ip, r7
-.L263:
+.L305:
 	add	r3, ip, r1	@  i
 	ldr	r2, [r4, r3, asl #2]	@  board
 	add	r1, r1, #1	@  i,  i
 	cmp	r1, #9	@  i
 	str	r2, [r0, #-960]	@  newBoard
 	add	r0, r0, #4
-	ble	.L263
+	ble	.L305
 	sub	r6, r6, #1	@  k,  k
-.L249:
+.L291:
 	subs	lr, lr, #1	@  j,  j
 	sub	r5, r5, #10
 	sub	r7, r7, #10
-	bpl	.L264
+	bpl	.L306
 	mov	lr, #0	@  j
 	mov	r5, lr	@  j,  j
-.L274:
+.L316:
 	add	r3, lr, lr, asl #2	@  j,  j
 	add	r2, sp, #960
 	add	r0, r2, r3, asl #3
 	mov	r1, #0	@  i
 	mov	ip, r5	@  j,  j
-.L273:
+.L315:
 	add	r2, ip, r1	@  j,  i
 	ldr	r3, [r0, #-960]	@  newBoard
 	add	r1, r1, #1	@  i,  i
 	cmp	r1, #9	@  i
 	str	r3, [r4, r2, asl #2]	@  board
 	add	r0, r0, #4
-	ble	.L273
+	ble	.L315
 	add	lr, lr, #1	@  j,  j
 	cmp	lr, #23	@  j
 	add	r5, r5, #10	@  j,  j
-	ble	.L274
+	ble	.L316
 	cmp	r8, #1	@  fullRows
-	ldreq	r2, .L297+4
+	ldreq	r2, .L339+4
 	ldreq	r3, [r2, #0]	@  score
 	addeq	r3, r3, #40
-	beq	.L296
+	beq	.L338
 	cmp	r8, #2	@  fullRows
-	ldreq	r2, .L297+4
+	ldreq	r2, .L339+4
 	ldreq	r3, [r2, #0]	@  score
 	addeq	r3, r3, #100
-	beq	.L296
+	beq	.L338
 	cmp	r8, #3	@  fullRows
-	ldreq	r2, .L297+4
+	ldreq	r2, .L339+4
 	ldreq	r3, [r2, #0]	@  score
 	addeq	r3, r3, #300
-	beq	.L296
-	ble	.L236
-	ldr	r2, .L297+4
+	beq	.L338
+	ble	.L278
+	ldr	r2, .L339+4
 	ldr	r3, [r2, #0]	@  score
 	add	r3, r3, #1200
-.L296:
+.L338:
 	str	r3, [r2, #0]	@  score
-.L236:
+.L278:
 	add	sp, sp, #960
 	ldmfd	sp!, {r4, r5, r6, r7, r8, lr}
 	bx	lr
-.L298:
+.L340:
 	.align	2
-.L297:
+.L339:
 	.word	board
 	.word	score
 	.size	deleteFullRows, .-deleteFullRows
@@ -8755,36 +8837,36 @@ swapBlk:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, fp, ip, lr, pc}
-	ldr	r4, .L303
-	ldr	r3, .L303+4
+	ldr	r4, .L345
+	ldr	r3, .L345+4
 	ldr	r2, [r4, #0]	@  holdBlk
 	cmp	r2, r3
 	sub	fp, ip, #-4294967292
-	beq	.L302
+	beq	.L344
 	bl	eraseCurrentPiece
-	ldr	r0, .L303+8
-	ldr	r3, .L303+12
+	ldr	r0, .L345+8
+	ldr	r3, .L345+12
 	mov	r2, #3
 	ldr	lr, [r4, #0]	@  temp,  holdBlk
 	ldr	ip, [r0, #0]	@  currentBlk
 	str	r2, [r3, #0]	@  currX
-	ldr	r3, .L303+16
+	ldr	r3, .L345+16
 	mov	r1, #0
 	str	r1, [r3, #0]	@  currY
 	str	ip, [r4, #0]	@  holdBlk
 	str	lr, [r0, #0]	@  temp,  currentBlk
 	ldmea	fp, {r4, fp, sp, lr}
 	b	drawCurrentPiece
-.L302:
+.L344:
 	bl	eraseCurrentPiece
-	ldr	r3, .L303+8
+	ldr	r3, .L345+8
 	ldr	r2, [r3, #0]	@  currentBlk
 	str	r2, [r4, #0]	@  holdBlk
 	ldmea	fp, {r4, fp, sp, lr}
 	b	initNewPiece
-.L304:
+.L346:
 	.align	2
-.L303:
+.L345:
 	.word	holdBlk
 	.word	nullTetrimino
 	.word	currentBlk
@@ -8799,21 +8881,21 @@ isGameOver:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
-	ldr	r1, .L314
+	ldr	r1, .L356
 	@ lr needed for prologue
 	mov	r0, #0	@  gameOver
 	mov	r2, #9	@  i
-.L311:
+.L353:
 	ldr	r3, [r1, #120]	@  board
 	cmp	r3, #0
 	movne	r0, #1	@  gameOver
 	subs	r2, r2, #1	@  i,  i
 	add	r1, r1, #4
-	bpl	.L311
+	bpl	.L353
 	bx	lr
-.L315:
+.L357:
 	.align	2
-.L314:
+.L356:
 	.word	board
 	.size	isGameOver, .-isGameOver
 	.align	2
@@ -8824,35 +8906,61 @@ gameLoop:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
-	stmfd	sp!, {r4, r5, r6, fp, ip, lr, pc}
+	stmfd	sp!, {r4, r5, r6, r7, fp, ip, lr, pc}
 	sub	fp, ip, #-4294967292
+	bl	formatInitalBG
 	bl	initBoard
 	bl	initNewPiece
 	bl	initHoldBlk
-	ldr	r6, .L323
-	ldr	r5, .L323+4
-	ldr	r4, .L323+8
-.L322:
+	ldr	r7, .L366
+	ldr	r6, .L366+4
+	ldr	r5, .L366+8
+	mov	r4, #0	@  gameTick
+.L365:
 	bl	checkbutton
-	ldr	r0, .L323+12
+	ldr	r0, .L366+12
 	bl	drawPlayingField
-	ldr	r1, [r5, #0]	@  currY
-	ldr	r0, [r6, #0]	@  currX
-	ldr	r2, [r4, #0]	@  orientationIndex
+	ldr	r3, .L366+16
+	smull	r2, r1, r3, r4	@  gameTick
+	mov	r2, r4, asr #31	@  gameTick
+	rsb	r2, r2, r1, asr #3
+	add	r2, r2, r2, asl #2
+	cmp	r4, r2, asl #2	@  gameTick
+	bne	.L362
+	ldr	r1, [r6, #0]	@  currY
+	ldr	r0, [r7, #0]	@  currX
+	ldr	r2, [r5, #0]	@  orientationIndex
 	add	r1, r1, #1
 	bl	canMove
 	cmp	r0, #0
-	bne	.L322
+	bne	.L362
+	bl	isGameOver
+	cmp	r0, #0
+	bne	.L360
 	bl	deleteFullRows
 	bl	initNewPiece
-	b	.L322
-.L324:
+.L362:
+	ldr	r3, .L366+20
+	add	r1, r4, #1	@  gameTick
+	smull	r2, r0, r3, r1
+	mov	r2, r1, asr #31
+	rsb	r4, r2, r0, asr #5	@  gameTick
+	add	r3, r4, r4, asl #2	@  gameTick,  gameTick
+	add	r3, r3, r3, asl #2
+	sub	r4, r1, r3, asl #2	@  gameTick
+	b	.L365
+.L360:
+	ldmea	fp, {r4, r5, r6, r7, fp, sp, lr}
+	bx	lr
+.L367:
 	.align	2
-.L323:
+.L366:
 	.word	currX
 	.word	currY
 	.word	orientationIndex
 	.word	board
+	.word	1717986919
+	.word	1374389535
 	.size	gameLoop, .-gameLoop
 	.align	2
 	.global	Handler
@@ -8872,28 +8980,28 @@ Handler:
 	ldrh	r3, [r4, #0]
 	tst	r3, #1
 	sub	fp, ip, #-4294967292
-	ldr	r0, .L330
-	bne	.L328
-.L326:
+	ldr	r0, .L373
+	bne	.L371
+.L369:
 	ldrh	r3, [r4, #0]
 	tst	r3, #8
-	bne	.L329
-.L327:
+	bne	.L372
+.L370:
 	ldrh	r3, [r4, #0]
 	strh	r3, [r4, #0]	@ movhi 
 	mov	r3, #1	@ movhi
 	strh	r3, [r5, #0]	@ movhi 
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	bx	lr
-.L329:
+.L372:
 	bl	moveD
-	b	.L327
-.L328:
+	b	.L370
+.L371:
 	bl	drawPlayingField
-	b	.L326
-.L331:
+	b	.L369
+.L374:
 	.align	2
-.L330:
+.L373:
 	.word	board
 	.size	Handler, .-Handler
 	.align	2
@@ -8901,59 +9009,60 @@ Handler:
 	.type	main, %function
 main:
 	@ Function supports interworking.
-	@ args = 0, pretend = 0, frame = 4
+	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, r6, fp, ip, lr, pc}
 	mov	r3, #66
+	mov	r5, #67108864
 	sub	fp, ip, #-4294967292
-	mov	r4, #67108864
-	sub	sp, sp, #4
-	sub	r0, fp, #28
-	str	r3, [r4, #0]
-	ldr	r3, .L333
+	str	r3, [r5, #0]
+	mov	r0, #0
+	ldr	r3, .L379
+	ldrh	r4, [r5, #6]
 	mov	lr, pc
 	bx	r3
-	ldr	r2, .L333+4
+	add	r4, r4, r0
+	mov	r0, r4
+	ldr	r3, .L379+4
 	mov	lr, pc
-	bx	r2
-	mov	r3, #4160
-	mov	r2, #1024
-	add	r3, r3, #2
-	add	r2, r2, #3
-	strh	r3, [r4, #0]	@ movhi 
-	strh	r2, [r4, #4]	@ movhi 
+	bx	r3
+	mov	r2, #4160
+	mov	r3, #1024
+	add	r2, r2, #2
+	add	r3, r3, #3
+	strh	r2, [r5, #0]	@ movhi 
+	strh	r3, [r5, #4]	@ movhi 
 	bl	initVram
 	bl	fillPalette
 	bl	fillSprites
-	ldrh	r2, [r4, #4]
-	ldr	r3, .L333+8
-	mov	r1, #50331648
-	add	r1, r1, #32512
+	ldrh	r2, [r5, #4]
+	ldr	r3, .L379+8
+	mov	ip, #50331648
+	add	ip, ip, #32512
 	orr	r2, r2, #8
-	add	lr, r4, #512
-	str	r3, [r1, #252]
+	add	lr, r5, #512
+	str	r3, [ip, #252]
 	mov	r3, #9	@ movhi
-	strh	r2, [r4, #4]	@ movhi 
-	mov	ip, #256
+	strh	r2, [r5, #4]	@ movhi 
+	mov	r0, #256
 	strh	r3, [lr, #0]	@ movhi 
-	add	r5, r4, #520
+	mvn	r1, #15360
 	mov	r3, #1	@ movhi
-	mvn	r0, #15360
-	strh	r3, [r5, #0]	@ movhi 
-	add	r6, r4, ip
-	sub	r0, r0, #27
-	add	ip, ip, #67108866
+	add	r4, r5, #520
+	strh	r3, [r4, #0]	@ movhi 
+	add	r6, r5, r0
+	sub	r1, r1, #27
+	add	r0, r0, #67108866
 	mov	r3, #195	@ movhi
-	strh	r0, [r6, #0]	@ movhi 
-	strh	r3, [ip, #0]	@ movhi 
+	strh	r1, [r6, #0]	@ movhi 
+	strh	r3, [r0, #0]	@ movhi 
 	bl	gameLoop
-	mov	r0, #0
-	ldmea	fp, {r4, r5, r6, fp, sp, lr}
-	bx	lr
-.L334:
+.L376:
+	b	.L376
+.L380:
 	.align	2
-.L333:
+.L379:
 	.word	time
 	.word	srand
 	.word	Handler

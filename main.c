@@ -33,7 +33,7 @@ void shuffleBag() {
     int j = 0;
     int temp = 0;
     int i =  0;
-    for (i = 6; i > 0; i--) {
+    for (i = 6; i >= 0; i--) {
         //j = 1;
         j = rand() % (i + 1);
         temp = bag[i];
@@ -191,17 +191,20 @@ void hardDrop(){
 void rotateCW(){
     int newR = (orientationIndex + 1) % 4; //0-> 1 -> 2 -> 3 -> 0
     //check if rotation is possible
+    
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
         currentBlk = (tetriminos)[tetriminoIndex][orientationIndex];
-        drawCurrentPiece();
+         drawCurrentPiece();
     }
 }
 
 void rotateCCW(){
-    int newR = 4 - (orientationIndex % 4) - 1; //0 -> 3 -> 2 -> 1
+    int newR = (orientationIndex - 1 + 4) % 4; //0 -> 3 -> 2 -> 1
+
     //check if rotation is possible
+    
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
@@ -312,7 +315,6 @@ int isGameOver(){
 }
 
 
-
 //TODO: Game loop
 //randomize queue of tetris block
 //init block
@@ -329,23 +331,34 @@ int isGameOver(){
 //init next block in queue
 
 void gameLoop(){
+    formatInitalBG();
     initBoard();
     initNewPiece();
     initHoldBlk();
+    int gameTick = 0;
     while(1){
        
-
-        checkbutton();
+        //if(gameTick % 2 == 0)
+            checkbutton();
+        
 
         drawPlayingField(board);
     
+        if(gameTick % 20 == 0){
+            
         //if block cannot move down (ie. settled)
         if(canMove(currX, currY + 1, orientationIndex) == 0){
-            //if(isGameOver())
-              //  break;
+            if(isGameOver())
+                break;
+            
             deleteFullRows();
             initNewPiece();
+            
         }
+        }
+
+
+        gameTick = (gameTick + 1) % 100;
     }
 }
 
@@ -372,8 +385,9 @@ void Handler(void)
 
     if ((REG_IF & INT_TIMER0) == INT_TIMER0) // TODO: replace XXX with the specific interrupt you are handling
     {
+        
         moveD(); //move block down periodically
-
+        
             //legacy CA2 code
             /*
 			timerCount++;
@@ -406,9 +420,10 @@ int main(void)
     REG_DISPCNT = MODE2 | OBJ_MAP_1D;
 
     //intialize randomizer
-    time_t t;
-    srand((unsigned) time(&t));
+    //time_t t;
+    srand(REG_VCOUNT + time(0));
 
+    
     
     // Set Mode 2
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
@@ -455,7 +470,7 @@ int main(void)
 	
     gameLoop();
 
-    //while(1);
+    while(1);
 
 	return 0;
 }

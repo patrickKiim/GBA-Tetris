@@ -800,6 +800,17 @@ void drawBlk(int x, int y, u16 color) {
     }
 }
 
+void formatInitalBG(){
+    int row = 0;
+    int col = 0;
+    for (row = 0; row < 20; row++) {
+        for (col = 0; col < 40; col++) {
+            drawBlk(col*8, row*8, blkColors[0]);
+        }
+    }
+
+}
+
 
 void drawPlayingField(int playingField[24][10]) {
     int row = 0;
@@ -1952,10 +1963,18 @@ void checkbutton(void)
     if ((buttons & 0x001) == 0x001)
     {
         buttonA();
+
+        while ((buttons & 0x001) == 0x001){
+            buttons = (0x3FF & (~*(volatile u16*)0x4000130));
+        }
     }
     if ((buttons & 0x002) == 0x002)
     {
         buttonB();
+
+        while ((buttons & 0x002) == 0x002){
+            buttons = (0x3FF & (~*(volatile u16*)0x4000130));
+        }
     }
     if ((buttons & 0x004) == 0x004)
     {
@@ -1976,6 +1995,10 @@ void checkbutton(void)
     if ((buttons & 0x040) == 0x040)
     {
         buttonU();
+
+        while ((buttons & 0x040) == 0x040){
+            buttons = (0x3FF & (~*(volatile u16*)0x4000130));
+        }
     }
     if ((buttons & 0x080) == 0x080)
     {
@@ -1986,10 +2009,18 @@ void checkbutton(void)
     if ((buttons & 0x200) == 0x200)
     {
         buttonLT();
+
+        while ((buttons & 0x200) == 0x200){
+            buttons = (0x3FF & (~*(volatile u16*)0x4000130));
+        }
     }
     if ((buttons & 0x100) == 0x100)
     {
         buttonRT();
+
+        while ((buttons & 0x100) == 0x100){
+            buttons = (0x3FF & (~*(volatile u16*)0x4000130));
+        }
     }
 }
 
@@ -2203,7 +2234,7 @@ void shuffleBag() {
     int j = 0;
     int temp = 0;
     int i = 0;
-    for (i = 6; i > 0; i--) {
+    for (i = 6; i >= 0; i--) {
 
         j = rand() % (i + 1);
         temp = bag[i];
@@ -2361,16 +2392,19 @@ void hardDrop(){
 void rotateCW(){
     int newR = (orientationIndex + 1) % 4;
 
+
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
         currentBlk = (tetriminos)[tetriminoIndex][orientationIndex];
-        drawCurrentPiece();
+         drawCurrentPiece();
     }
 }
 
 void rotateCCW(){
-    int newR = 4 - (orientationIndex % 4) - 1;
+    int newR = (orientationIndex - 1 + 4) % 4;
+
+
 
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
@@ -2420,7 +2454,7 @@ void deleteFullRows(){
             board[j][i] = newBoard[j][i];
         }
     }
-# 264 "main.c"
+# 267 "main.c"
     if(fullRows == 1)
         score += 40;
     else if(fullRows == 2)
@@ -2470,28 +2504,39 @@ int isGameOver(){
         }
     return gameOver;
 }
-# 331 "main.c"
+# 333 "main.c"
 void gameLoop(){
+    formatInitalBG();
     initBoard();
     initNewPiece();
     initHoldBlk();
+    int gameTick = 0;
     while(1){
 
 
-        checkbutton();
+            checkbutton();
+
 
         drawPlayingField(board);
 
+        if(gameTick % 20 == 0){
+
 
         if(canMove(currX, currY + 1, orientationIndex) == 0){
-
+            if(isGameOver())
+                break;
 
             deleteFullRows();
             initNewPiece();
+
         }
+        }
+
+
+        gameTick = (gameTick + 1) % 100;
     }
 }
-# 363 "main.c"
+# 376 "main.c"
 void Handler(void)
 {
         *(u16*)0x4000208 = 0x00;
@@ -2504,8 +2549,9 @@ void Handler(void)
 
     if ((*(volatile u16*)0x4000202 & 0x8) == 0x8)
     {
+
         moveD();
-# 391 "main.c"
+# 405 "main.c"
     }
 
     *(volatile u16*)0x4000202 = *(volatile u16*)0x4000202;
@@ -2524,8 +2570,9 @@ int main(void)
     *(u32*)0x4000000 = 0x2 | 0x40;
 
 
-    time_t t;
-    srand((unsigned) time(&t));
+
+    srand(*(u16*)0x4000006 + time(0));
+
 
 
 
@@ -2538,7 +2585,7 @@ int main(void)
 
    fillPalette();
    fillSprites();
-# 437 "main.c"
+# 452 "main.c"
     (*(unsigned int*)0x3007FFC) = (int)&Handler;
     *(u16*)0x4000200 = 0x8;
 
@@ -2560,7 +2607,7 @@ int main(void)
 
     gameLoop();
 
-
+    while(1);
 
         return 0;
 }

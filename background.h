@@ -44,6 +44,17 @@ void drawBlk(int x, int y, u16 color) {
     }
 }
 
+void formatInitalBG(){
+    int row = 0;
+    int col = 0;
+    for (row = 0; row < 20; row++) {
+        for (col = 0; col < 40; col++) {
+            drawBlk(col*8, row*8, blkColors[0]);
+        }
+    }
+
+}
+
 // Draw the entire playing field using the blkColors array
 void drawPlayingField(int playingField[24][10]) {
     int row = 0;

@@ -69,10 +69,18 @@ void checkbutton(void)
     if ((buttons & KEY_A) == KEY_A)
     {
         buttonA();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_A) == KEY_A){
+            buttons = INPUT;
+        }
     }
     if ((buttons & KEY_B) == KEY_B)
     {
         buttonB();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_B) == KEY_B){
+            buttons = INPUT;
+        }
     }
     if ((buttons & KEY_SELECT) == KEY_SELECT)
     {
@@ -93,6 +101,10 @@ void checkbutton(void)
     if ((buttons & KEY_UP) == KEY_UP)
     {
         buttonU();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_UP) == KEY_UP){
+            buttons = INPUT;
+        }
     }
     if ((buttons & KEY_DOWN) == KEY_DOWN)
     {
@@ -103,10 +115,18 @@ void checkbutton(void)
     if ((buttons & KEY_L) == KEY_L)
     {
         buttonLT();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_L) == KEY_L){
+            buttons = INPUT;
+        }
     }
     if ((buttons & KEY_R) == KEY_R)
     {
         buttonRT();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_R) == KEY_R){
+            buttons = INPUT;
+        }
     }
 }
 
