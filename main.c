@@ -33,7 +33,8 @@ void shuffleBag() {
     int temp = 0;
     int i =  0;
     for (i = 6; i > 0; i--) {
-        j = rand() % (i + 1);
+        j = 1;
+        //j = rand() % (i + 1);
         temp = bag[i];
         bag[i] = bag[j];
         bag[j] = temp;
@@ -319,7 +320,7 @@ void gameLoop(){
     initNewPiece();
     while(1){
 
-        //drawPlayingField(board);
+        drawPlayingField(board);
 
         checkbutton();
     
@@ -390,8 +391,8 @@ int main(void)
     REG_DISPCNT = MODE2 | OBJ_MAP_1D;
 
     //intialize randomizer
-    time_t t;
-    srand((unsigned) time(&t));
+    //time_t t;
+    //srand((unsigned) time(&t));
 
     
     // Set Mode 2
@@ -400,9 +401,10 @@ int main(void)
     //set bits for background?
     *(unsigned short*)0x4000004 = 0x0403;
 
-    // Fill SpritePal (given code)
-    *(unsigned short *) 0x5000200 = 0;
-    *(unsigned short *) 0x5000202 = RGB(31,31,31);
+    initVram();
+
+   fillPalette();
+   fillSprites();
 
     // Fill SpriteData
 

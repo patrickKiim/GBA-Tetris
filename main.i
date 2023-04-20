@@ -2202,7 +2202,8 @@ void shuffleBag() {
     int temp = 0;
     int i = 0;
     for (i = 6; i > 0; i--) {
-        j = rand() % (i + 1);
+        j = 1;
+
         temp = bag[i];
         bag[i] = bag[j];
         bag[j] = temp;
@@ -2465,13 +2466,13 @@ int isGameOver(){
         }
     return gameOver;
 }
-# 317 "main.c"
+# 318 "main.c"
 void gameLoop(){
     initBoard();
     initNewPiece();
     while(1){
 
-
+        drawPlayingField(board);
 
         checkbutton();
 
@@ -2484,7 +2485,7 @@ void gameLoop(){
         }
     }
 }
-# 347 "main.c"
+# 348 "main.c"
 void Handler(void)
 {
         *(u16*)0x4000208 = 0x00;
@@ -2498,7 +2499,7 @@ void Handler(void)
     if ((*(volatile u16*)0x4000202 & 0x8) == 0x8)
     {
         moveD();
-# 375 "main.c"
+# 376 "main.c"
     }
 
     *(volatile u16*)0x4000202 = *(volatile u16*)0x4000202;
@@ -2517,8 +2518,8 @@ int main(void)
     *(u32*)0x4000000 = 0x2 | 0x40;
 
 
-    time_t t;
-    srand((unsigned) time(&t));
+
+
 
 
 
@@ -2527,10 +2528,11 @@ int main(void)
 
     *(unsigned short*)0x4000004 = 0x0403;
 
+    initVram();
 
-    *(unsigned short *) 0x5000200 = 0;
-    *(unsigned short *) 0x5000202 = ((31) + (31<<5) + (31<<10));
-# 420 "main.c"
+   fillPalette();
+   fillSprites();
+# 422 "main.c"
     (*(unsigned int*)0x3007FFC) = (int)&Handler;
     *(u16*)0x4000200 = 0x8;
 
