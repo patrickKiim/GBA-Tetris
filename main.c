@@ -32,7 +32,7 @@ void Handler(void)
             digit++;
         }
 
-        if(point_gained){
+        if(points_gained){
 	score++;
 	}
 
