@@ -73,7 +73,7 @@ int (*currentBlk)[4][4];
 int (*holdBlk)[4][4];
 
 void initHoldBlk(){
-    holdBlk = nullTetrimino;
+    holdBlk = &nullTetrimino;
 }
 
 //define position (top left) of falling block
@@ -86,7 +86,7 @@ void eraseCurrentPiece(){
     int j = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            if (currentBlk[i][j] != 0) {
+            if ((*currentBlk)[i][j] != 0) {
                 board[currY + i][currX + j] = 0;
             }
         }
@@ -99,8 +99,8 @@ void drawCurrentPiece(){
     int j = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            if (currentBlk[i][j] != 0) {
-                board[currY + i][currX + j] = currentBlk[i][j];
+            if ((*currentBlk)[i][j] != 0) {
+                board[currY + i][currX + j] = (*currentBlk)[i][j];
             }
         }
     }
@@ -112,7 +112,7 @@ void initNewPiece(){
     orientationIndex = getNextPiece();
     currX = 3;
     currY = 0;
-    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+    currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
     drawCurrentPiece();
 };
 
@@ -171,8 +171,9 @@ void moveD(){
 }
 
 void hardDrop(){
-    while(canMove(currX, currY+1, orientationIndex))
-        moveD;
+    while(canMove(currX, currY+1, orientationIndex)){
+        moveD();
+    }
 }
 
 void rotateCW(){
@@ -181,7 +182,7 @@ void rotateCW(){
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
-        currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+        currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
         drawCurrentPiece();
     }
 }
@@ -192,7 +193,7 @@ void rotateCCW(){
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
-        currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+        currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
         drawCurrentPiece();
     }
 }
@@ -201,11 +202,18 @@ void rotateCCW(){
 
 void deleteFullRows(){
     int fullRows = 0; //number of full rows
-    int newBoard[BOARD_HEIGHT][BOARD_WIDTH] = {0}; //new empty board
-    int k = BOARD_HEIGHT - 1; //check starting from bottom
+    int newBoard[BOARD_HEIGHT][BOARD_WIDTH]; //new empty board
 
+    //initialize the new board (2d array) with zeroes
     int i = 0;
     int j = 0;
+    for (i = 0; i < BOARD_HEIGHT; i++) {
+        for (j = 0; j < BOARD_WIDTH; j++)
+            newBoard[i][j] = 0; 
+    }
+
+    int k = BOARD_HEIGHT - 1; //check starting from bottom
+
     for(j = BOARD_HEIGHT - 1; j >= 0; j--){
         int isFull = 1; //initially assume row is full
         for (i = 0; i < BOARD_WIDTH; i++) {
@@ -227,7 +235,7 @@ void deleteFullRows(){
     //replace original board with new board
     for(j = 0; j < BOARD_HEIGHT; j++){
         for(i = 0; i < BOARD_WIDTH; i++){
-            board[j][i] == newBoard[j][i];
+            board[j][i] = newBoard[j][i];
         }
     }
 
@@ -252,7 +260,7 @@ void deleteFullRows(){
 //TODO: swap block with hold block
 void swapBlk(){
     //if nothing on hold
-    if(holdBlk == nullTetrimino){
+    if((*holdBlk) == nullTetrimino){
         //put blk on hold and bring out new blk
         eraseCurrentPiece();
         holdBlk = currentBlk;
@@ -340,15 +348,18 @@ void Handler(void)
 {    
 	REG_IME = 0x00; // Stop all other interrupt handling, while we handle this current one  
 
+    //initialize playing field
     if((REG_IF & INT_VBLANK) == INT_VBLANK){
         drawPlayingField(board);
     }
+    
 
     if ((REG_IF & INT_TIMER0) == INT_TIMER0) // TODO: replace XXX with the specific interrupt you are handling
     {
-        moveD();
+        moveD(); //move block down periodically
 
-            /* from CA2
+            //legacy CA2 code
+            /*
 			timerCount++;
 			int temp = timerCount;
 			int digit = 0;
@@ -358,6 +369,7 @@ void Handler(void)
 				digit++;
 			}
             */
+            
 			//drawSprite(count/10, 1, 110, 100);
 			//drawSprite(count%10, 0, 120, 100);
     }
@@ -374,6 +386,7 @@ int main(void)
 {
     int i;
 
+    //initialize mode 2 for backgrounds
     REG_DISPCNT = MODE2 | OBJ_MAP_1D;
 
     //intialize randomizer
@@ -383,26 +396,31 @@ int main(void)
     
     // Set Mode 2
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
+    
+    //set bits for background?
     *(unsigned short*)0x4000004 = 0x0403;
 
-    // Fill SpritePal
+    // Fill SpritePal (given code)
     *(unsigned short *) 0x5000200 = 0;
     *(unsigned short *) 0x5000202 = RGB(31,31,31);
 
     // Fill SpriteData
 
-    /* code is for timers
+    // code is for timers
+     /*
     for (i = 0; i < 10*8*8/2; i++)
         spriteData[i] = (numbers[i*2+1] << 8) + numbers[i*2];
     for (i = 0; i < 128; i++)
         drawSprite(0, i, 240, 160);
-
     */
+
+    
 
     // Set Handler Function for interrupts and enable selected interrupts
     REG_INT = (int)&Handler;
     REG_IE =  INT_TIMER0; //TODO: complete this line to choose which timer interrupts to enable
     
+    //for backgrounds
     // Set up the Interrupt Request (IRQ) register to enable the VBlank interrupt and trigger it at the appropriate time
     REG_DISPSTAT |= (1 << 3);   // Enable VBlank interrupt in the Display Status (DISPSTAT) register
     REG_IE |= (1 << 0);         // Enable VBlank interrupt in the Interrupt Enable (IE) register
@@ -410,7 +428,7 @@ int main(void)
     REG_IME = 0x1;		// Enable interrupt handling
 
 
-
+    
     // Set Timer Mode (fill that section and replace TMX with selected timer number)
     REG_TM0D =	TIMER_MAX - TIMER_FREQ;		// TODO: complete this line to set timer initial value
 	 //REG_TM0D = TIMER_MAX - 1000;				//TURN ON FOR SPEEEEEED
@@ -420,7 +438,7 @@ int main(void)
 	
     gameLoop();
 
-    while(1);
+    //while(1);
 
 	return 0;
 }

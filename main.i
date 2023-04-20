@@ -1884,6 +1884,15 @@ u16 sprites[] = {
 
 
 
+void drawSprite(int numb, int N, int x, int y)
+{
+
+    *(unsigned short *)(0x7000000 + 8*N) = y | 0x2000;
+    *(unsigned short *)(0x7000002 + 8*N) = x | 0x4000;
+    *(unsigned short *)(0x7000004 + 8*N) = numb*8;
+}
+
+
 void moveL();
 void moveR();
 void moveD();
@@ -2005,15 +2014,6 @@ void fillSprites(void)
 
     for(i = 0; i < 128; i++)
         drawSprite(0, i, 240,160);
-}
-
-
-void drawSprite(int numb, int N, int x, int y)
-{
-
-    *(unsigned short *)(0x7000000 + 8*N) = y | 0x2000;
-    *(unsigned short *)(0x7000002 + 8*N) = x | 0x4000;
-    *(unsigned short *)(0x7000004 + 8*N) = numb*8;
 }
 # 9 "main.c" 2
 
@@ -2242,7 +2242,7 @@ int (*currentBlk)[4][4];
 int (*holdBlk)[4][4];
 
 void initHoldBlk(){
-    holdBlk = nullTetrimino;
+    holdBlk = &nullTetrimino;
 }
 
 
@@ -2255,7 +2255,7 @@ void eraseCurrentPiece(){
     int j = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            if (currentBlk[i][j] != 0) {
+            if ((*currentBlk)[i][j] != 0) {
                 board[currY + i][currX + j] = 0;
             }
         }
@@ -2268,8 +2268,8 @@ void drawCurrentPiece(){
     int j = 0;
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            if (currentBlk[i][j] != 0) {
-                board[currY + i][currX + j] = currentBlk[i][j];
+            if ((*currentBlk)[i][j] != 0) {
+                board[currY + i][currX + j] = (*currentBlk)[i][j];
             }
         }
     }
@@ -2281,7 +2281,7 @@ void initNewPiece(){
     orientationIndex = getNextPiece();
     currX = 3;
     currY = 0;
-    currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+    currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
     drawCurrentPiece();
 };
 
@@ -2340,8 +2340,9 @@ void moveD(){
 }
 
 void hardDrop(){
-    while(canMove(currX, currY+1, orientationIndex))
-        moveD;
+    while(canMove(currX, currY+1, orientationIndex)){
+        moveD();
+    }
 }
 
 void rotateCW(){
@@ -2350,7 +2351,7 @@ void rotateCW(){
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
-        currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+        currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
         drawCurrentPiece();
     }
 }
@@ -2361,7 +2362,7 @@ void rotateCCW(){
     if (canMove(currX, currY, newR) == 1){
         eraseCurrentPiece();
         orientationIndex = newR;
-        currentBlk = tetriminos[tetriminoIndex][orientationIndex];
+        currentBlk = (&tetriminos)[tetriminoIndex][orientationIndex];
         drawCurrentPiece();
     }
 }
@@ -2370,11 +2371,18 @@ void rotateCCW(){
 
 void deleteFullRows(){
     int fullRows = 0;
-    int newBoard[24][10] = {0};
-    int k = 24 - 1;
+    int newBoard[24][10];
+
 
     int i = 0;
     int j = 0;
+    for (i = 0; i < 24; i++) {
+        for (j = 0; j < 10; j++)
+            newBoard[i][j] = 0;
+    }
+
+    int k = 24 - 1;
+
     for(j = 24 - 1; j >= 0; j--){
         int isFull = 1;
         for (i = 0; i < 10; i++) {
@@ -2396,7 +2404,7 @@ void deleteFullRows(){
 
     for(j = 0; j < 24; j++){
         for(i = 0; i < 10; i++){
-            board[j][i] == newBoard[j][i];
+            board[j][i] = newBoard[j][i];
         }
     }
 
@@ -2421,7 +2429,7 @@ void deleteFullRows(){
 
 void swapBlk(){
 
-    if(holdBlk == nullTetrimino){
+    if((*holdBlk) == nullTetrimino){
 
         eraseCurrentPiece();
         holdBlk = currentBlk;
@@ -2457,7 +2465,7 @@ int isGameOver(){
         }
     return gameOver;
 }
-# 309 "main.c"
+# 317 "main.c"
 void gameLoop(){
     initBoard();
     initNewPiece();
@@ -2476,19 +2484,21 @@ void gameLoop(){
         }
     }
 }
-# 339 "main.c"
+# 347 "main.c"
 void Handler(void)
 {
         *(u16*)0x4000208 = 0x00;
+
 
     if((*(volatile u16*)0x4000202 & 0x1) == 0x1){
         drawPlayingField(board);
     }
 
+
     if ((*(volatile u16*)0x4000202 & 0x8) == 0x8)
     {
         moveD();
-# 363 "main.c"
+# 375 "main.c"
     }
 
     *(volatile u16*)0x4000202 = *(volatile u16*)0x4000202;
@@ -2503,6 +2513,7 @@ int main(void)
 {
     int i;
 
+
     *(u32*)0x4000000 = 0x2 | 0x40;
 
 
@@ -2512,14 +2523,17 @@ int main(void)
 
 
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
+
+
     *(unsigned short*)0x4000004 = 0x0403;
 
 
     *(unsigned short *) 0x5000200 = 0;
     *(unsigned short *) 0x5000202 = ((31) + (31<<5) + (31<<10));
-# 403 "main.c"
+# 420 "main.c"
     (*(unsigned int*)0x3007FFC) = (int)&Handler;
     *(u16*)0x4000200 = 0x8;
+
 
 
     *(u16*)0x4000004 |= (1 << 3);
@@ -2538,7 +2552,7 @@ int main(void)
 
     gameLoop();
 
-    while(1);
+
 
         return 0;
 }
