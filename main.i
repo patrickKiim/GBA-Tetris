@@ -787,16 +787,16 @@ u16 blkColors[] = {
 
 void drawBlk(int x, int y, u16 color) {
     u16* screen = (u16*)((u16*)0x6000000);
-    int screen_offset = y * 240 + x;
-    int block_offset = 0;
+    int screenOffset = y * 240 + x;
+    int blockOffset = 0;
     int i = 0;
     int j = 0;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 8; j++) {
-            screen[screen_offset + j] = color;
-            block_offset++;
+            screen[screenOffset + j] = color;
+            blockOffset++;
         }
-        screen_offset += 240;
+        screenOffset += 240;
     }
 }
 
@@ -819,9 +819,9 @@ void drawPlayingField(int playingField[24][10]) {
         for (col = 0; col < 10; col++) {
             int x = col * 8;
             int y = (row-4) * 8;
-            int block_type = playingField[row][col];
-            u16 block_color = blkColors[block_type];
-            drawBlk(x, y, block_color);
+            int blockType = playingField[row][col];
+            u16 blockColor = blkColors[blockType];
+            drawBlk(x, y, blockColor);
         }
     }
 }
@@ -2607,7 +2607,7 @@ int main(void)
 
     gameLoop();
 
-    while(1);
+
 
         return 0;
 }

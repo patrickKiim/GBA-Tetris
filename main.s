@@ -1169,12 +1169,12 @@ drawBlk:
 	mov	r2, r2, asl #16
 	rsb	r1, r1, r1, asl #4	@  y,  y
 	str	lr, [sp, #-4]!
-	add	r0, r0, r1, asl #4	@  screen_offset,  x
+	add	r0, r0, r1, asl #4	@  screenOffset,  x
 	mov	r2, r2, asr #16	@  color
 	mov	ip, #100663296	@  screen
 	mov	lr, #0	@  i
 .L12:
-	mov	r3, r0, asl #1	@  screen_offset
+	mov	r3, r0, asl #1	@  screenOffset
 	mov	r1, #7	@  j
 .L11:
 	subs	r1, r1, #1	@  j,  j
@@ -1183,7 +1183,7 @@ drawBlk:
 	bpl	.L11
 	add	lr, lr, #1	@  i,  i
 	cmp	lr, #7	@  i
-	add	r0, r0, #240	@  screen_offset,  screen_offset
+	add	r0, r0, #240	@  screenOffset,  screenOffset
 	ble	.L12
 	ldr	lr, [sp], #4
 	bx	lr
@@ -1240,8 +1240,8 @@ drawPlayingField:
 	mov	r5, sl, asl #3	@  row
 .L43:
 	add	r2, r4, r6, asl #1	@  col
-	ldr	r3, [r7, r2, asl #2]	@  block_type, * playingField
-	mov	r3, r3, asl #1	@  block_type
+	ldr	r3, [r7, r2, asl #2]	@  blockType, * playingField
+	mov	r3, r3, asl #1	@  blockType
 	mov	r0, r4, asl #3	@  x,  col
 	ldrh	r2, [r3, r8]	@  blkColors
 	sub	r1, r5, #32
@@ -9014,52 +9014,53 @@ main:
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, r6, fp, ip, lr, pc}
 	mov	r3, #66
-	mov	r6, #67108864
+	mov	r5, #67108864
 	sub	fp, ip, #-4294967292
-	str	r3, [r6, #0]
+	str	r3, [r5, #0]
 	mov	r0, #0
-	ldr	r3, .L379
-	ldrh	r4, [r6, #6]
+	ldr	r3, .L376
+	ldrh	r4, [r5, #6]
 	mov	lr, pc
 	bx	r3
 	add	r4, r4, r0
 	mov	r0, r4
-	ldr	r2, .L379+4
+	ldr	r2, .L376+4
 	mov	lr, pc
 	bx	r2
 	mov	r3, #4160
 	add	r3, r3, #2
-	strh	r3, [r6, #0]	@ movhi 
+	strh	r3, [r5, #0]	@ movhi 
 	bl	initVram
 	bl	fillPalette
 	bl	fillSprites
-	ldrh	r2, [r6, #4]
-	ldr	r3, .L379+8
-	mov	ip, #50331648
-	add	ip, ip, #32512
+	ldrh	r2, [r5, #4]
+	ldr	r3, .L376+8
+	mov	r1, #50331648
+	add	r1, r1, #32512
 	orr	r2, r2, #8
-	add	lr, r6, #512
-	str	r3, [ip, #252]
+	add	lr, r5, #512
+	str	r3, [r1, #252]
 	mov	r3, #9	@ movhi
-	strh	r2, [r6, #4]	@ movhi 
-	mov	r0, #256
+	strh	r2, [r5, #4]	@ movhi 
+	mov	ip, #256
 	strh	r3, [lr, #0]	@ movhi 
-	mvn	r1, #15360
+	add	r4, r5, #520
 	mov	r3, #1	@ movhi
-	add	r4, r6, #520
+	mvn	r0, #15360
 	strh	r3, [r4, #0]	@ movhi 
-	add	r5, r6, r0
-	sub	r1, r1, #27
-	add	r0, r0, #67108866
+	add	r6, r5, ip
+	sub	r0, r0, #27
+	add	ip, ip, #67108866
 	mov	r3, #195	@ movhi
-	strh	r1, [r5, #0]	@ movhi 
-	strh	r3, [r0, #0]	@ movhi 
+	strh	r0, [r6, #0]	@ movhi 
+	strh	r3, [ip, #0]	@ movhi 
 	bl	gameLoop
-.L376:
-	b	.L376
-.L380:
+	mov	r0, #0
+	ldmea	fp, {r4, r5, r6, fp, sp, lr}
+	bx	lr
+.L377:
 	.align	2
-.L379:
+.L376:
 	.word	time
 	.word	srand
 	.word	Handler

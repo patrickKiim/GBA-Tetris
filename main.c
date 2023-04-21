@@ -470,7 +470,7 @@ int main(void)
 	
     gameLoop();
 
-    while(1);
+    //while(1);
 
 	return 0;
 }
