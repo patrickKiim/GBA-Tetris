@@ -319,7 +319,7 @@ int isGameOver(){
     int i = 0;
         for (i = 0; i < BOARD_WIDTH; i++) {
             //check row index 3 (top 4 rows are where blocks spawn)
-            if (board[3][i] != 0) { // found a non-filled cell
+            if (board[3][i] != 0) { // found a filled cell
                     gameOver = 1;
                 }
         }
