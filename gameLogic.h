@@ -25,7 +25,6 @@ void shuffleBag() {
     int temp = 0;
     int i =  0;
     for (i = 6; i >= 0; i--) {
-        //j = 1;
         j = rand() % (i + 1);
         temp = bag[i];
         bag[i] = bag[j];
