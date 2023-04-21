@@ -4,31 +4,31 @@
 #include "numbers.h"
 #include "gba.h"
 //#include "tetomino_v2.h"
-#include "genna_h.h"
-
+//#include "genna_h.h"
 #include "gamestate.h"
+#include "mygbalib.h"
 
 int count = 0;
 int points_gained;
 
-void checkbutton(void) {
-    // Implement button check logic here
-}
 
+// Function to perform assembly logic
 void assembly(void) {
     // Implement assembly logic here
 }
 
-
+// Interrupt handler function
 void Handler(void) {
     REG_IME = 0x00; // Stop all other interrupt handling, while we handle this current one
 
+    // Check for timer interrupt
     if (((REG_IF & INT_TIMER0) == INT_TIMER0) || ((REG_IF & INT_TIMER1) == INT_TIMER1)) {
         // Handle timer interrupt here
         if (points_gained) {
             score++;
         }
 
+        // Update score display
         int temp = score;
         int digit = 0;
         while (temp > 0) {
@@ -36,22 +36,24 @@ void Handler(void) {
             temp /= 10;
             digit++;
         }
-        // test draw tetro
-        drawTetromino(I_TETROMINO, 0, 50, 50);
+
     }
 
+    // Check for button interrupt
     if ((REG_IF & INT_BUTTON) == INT_BUTTON) {
-        checkbutton(); // call function to handle button interrupt
+        checkbutton(); // Call function to handle button interrupt
     }
 
     REG_IF = REG_IF; // Update interrupt table, to confirm we have handled this interrupt
     REG_IME = 0x01;  // Re-enable interrupt handling
 }
 
+// Main function
 int main(void) {
     int i;
     int g = 0;
-    points_gained = 0; //add function that tells whether a point has been gained
+    points_gained = 0; // Add function that tells whether a point has been gained
+
     // Set Mode 2
     *(unsigned short *)0x4000000 = 0x40 | 0x2 | 0x1000;
 
@@ -60,12 +62,12 @@ int main(void) {
     *(unsigned short *)0x5000202 = RGB(31, 31, 31);
 
     // Fill SpriteData
-    for (i = 0; i < 10 * 8 * 8 / 2; i++) {
-        spriteData[i] = (numbers[i * 2 + 1] << 8) + numbers[i * 2];
-    }
-    for (i = 0; i < 128; i++) {
-        drawSprite(0, i, 240, 160);
-    }
+	 fillPalette();
+	 fillSprites();
+
+    // Test draw tetromino
+ 	 drawTetromino(20, 50, 50);
+    //drawITetromino2(50, 50);
 
     // Set Handler Function for interrupts and enable selected interrupts
     REG_INT = (int)&Handler;
