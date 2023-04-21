@@ -28,6 +28,9 @@ int timerCount = 0;
 int bag[7] = {0, 1, 2, 3, 4, 5, 6}; // init bag with all 7 pieces
 int bagIndex = 7; //index at 7 to indicate empty bag
 
+int blockQueue[7]; //queue of tetris blocks
+int blockQueueIndex = 0;
+
 void shuffleBag() {
     
     int j = 0;
@@ -49,11 +52,31 @@ int getNextPiece() {
         //shuffle bag if bag is empty
         shuffleBag();
     }
-    int piece = bag[bagIndex];
+    //get piece from queue
+    int piece = blockQueue[blockQueueIndex];
+
+    //take piece out from bag and put it in queue
+    blockQueue[blockQueueIndex] = bag[bagIndex];
+    
+    //iterate bag and queue indexes
+    blockQueueIndex = (blockQueueIndex + 1) % 7; //0, 1, ... 7, 0, 1...
     bagIndex++;
     return piece;
 }
+
+void initBlkQueue(){
+    int i;
+    shuffleBag();
+
+    //populate block queue by taking 7 items out from the bag
+    for(i = 0; i < 7; i++){
+        blockQueue[i] = bag[bagIndex];
+        bagIndex++;
+    }
+}
+
 //END OF 7 PIECE BAG ALGORITHM //
+
 
 
 void initBoard() {
@@ -75,6 +98,7 @@ int (*currentBlk)[4];
 
 //define hold block;
 int (*holdBlk)[4];
+int holdBlkIndex = 0;
 
 void initHoldBlk(){
     holdBlk = nullTetrimino;
@@ -95,7 +119,7 @@ void eraseCurrentPiece(){
             }
         }
     }
-    //drawPlayingField(board);
+    
 }
 
 void drawCurrentPiece(){
@@ -109,7 +133,7 @@ void drawCurrentPiece(){
             }
         }
     }
-    //drawPlayingField(board);
+   
 }
 
 //define falling block depending on its index
@@ -157,9 +181,7 @@ void moveL(){
         eraseCurrentPiece();
         currX = newX;
         drawCurrentPiece();
-    }
-    
-        
+    } 
 }
 
 void moveR(){
@@ -254,15 +276,6 @@ void deleteFullRows(){
         }
     }
 
-    /*
-    //put zeroes on unfilled rows
-    for(j = 0; j < fullRows; j++){
-        for(i = 0; i < BOARD_WIDTH; i++){
-            board[j][i] = 0;
-        }
-    }
-    */
-
     //add score (based on tetris scoring system)
     if(fullRows == 1)
         score += 40;
@@ -274,31 +287,42 @@ void deleteFullRows(){
         score += 1200;
 }
 
-//TODO: swap block with hold block
+//variable to check if player already swapped
+int swapAllowed = 1;
+
+//swap block with hold block
 void swapBlk(){
-    //if nothing on hold
-    if((*holdBlk) == nullTetrimino){
-        //put blk on hold and bring out new blk
-        eraseCurrentPiece();
-        holdBlk = currentBlk;
-        initNewPiece();
+    if(swapAllowed){
+        //if nothing on hold
+        if((*holdBlk) == nullTetrimino){
+            //put blk on hold and bring out new blk
+            eraseCurrentPiece();
+            holdBlk = currentBlk;
+            holdBlkIndex = tetriminoIndex;
+            initNewPiece();
+        }
+        else{
+            //swap current blk and hold blk
+            //respawn blk at the top
+            eraseCurrentPiece();
+            int (*temp)[4] = holdBlk;
+            holdBlk = currentBlk;
+            currentBlk = temp;
+
+            //swap tetrimino index
+            int tempIndex = holdBlkIndex;
+            holdBlkIndex = tetriminoIndex;
+            tetriminoIndex = tempIndex;
+
+            //reset position
+            currX = 3;
+            currY = 0;
+            
+            drawCurrentPiece();
+        }
     }
-    else{
-        //swap current blk and hold blk
-        //respawn blk at the top
-        eraseCurrentPiece();
-        int (*temp)[4] = holdBlk;
-        currX = 3;
-        currY = 0;
-        holdBlk = currentBlk;
-        currentBlk = temp;
-        drawCurrentPiece();
-    }
+    swapAllowed = 0; //swap is used up
 }
-
-
-
-
 
 //call below function after block has been placed
 //returns 1 if top row is full (game over)
@@ -315,7 +339,7 @@ int isGameOver(){
 }
 
 
-//TODO: Game loop
+//Game loop
 //randomize queue of tetris block
 //init block
 //await user input
@@ -333,8 +357,10 @@ int isGameOver(){
 void gameLoop(){
     formatInitalBG();
     initBoard();
+    initBlkQueue();
     initNewPiece();
     initHoldBlk();
+    swapAllowed = 1;
     int gameTick = 0;
     while(1){
        
@@ -353,7 +379,7 @@ void gameLoop(){
             
             deleteFullRows();
             initNewPiece();
-            
+            swapAllowed = 1; //allow swap since it is new block
         }
         }
 
@@ -362,15 +388,6 @@ void gameLoop(){
     }
 }
 
-/*
-void drawSprite(int numb, int N, int x, int y)
-{
-    // Gift function: displays sprite number numb on screen at position (x,y), as sprite object N
-    *(unsigned short *)(0x7000000 + 8*N) = y | 0x2000;
-    *(unsigned short *)(0x7000002 + 8*N) = x;
-    *(unsigned short *)(0x7000004 + 8*N) = numb*2;
-}
-*/
 
 
 void Handler(void)
@@ -469,7 +486,7 @@ int main(void)
 	
     gameLoop();
 
-    //while(1);
+    while(1);
 
 	return 0;
 }

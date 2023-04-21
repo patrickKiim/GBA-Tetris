@@ -1,7 +1,7 @@
 #include "gba.h"
 #include <stdlib.h>
 
-u16 tile_block[200][8]; // 200 tiles, each tile is 8x8 pixels
+//u16 tile_block[200][8]; // 200 tiles, each tile is 8x8 pixels
 
 #define VRAM ((u16*)0x6000000)
 

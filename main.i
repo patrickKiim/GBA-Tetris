@@ -757,7 +757,7 @@ void __eprintf (const char *, const char *, unsigned int, const char *);
 
 # 3 "background.h" 2
 
-u16 tile_block[200][8];
+
 
 
 
@@ -2226,6 +2226,9 @@ int timerCount = 0;
 int bag[7] = {0, 1, 2, 3, 4, 5, 6};
 int bagIndex = 7;
 
+int blockQueue[7];
+int blockQueueIndex = 0;
+
 void shuffleBag() {
 
     int j = 0;
@@ -2247,10 +2250,30 @@ int getNextPiece() {
 
         shuffleBag();
     }
-    int piece = bag[bagIndex];
+
+    int piece = blockQueue[blockQueueIndex];
+
+
+    blockQueue[blockQueueIndex] = bag[bagIndex];
+
+
+    blockQueueIndex = (blockQueueIndex + 1) % 7;
     bagIndex++;
     return piece;
 }
+
+void initBlkQueue(){
+    int i;
+    shuffleBag();
+
+
+    for(i = 0; i < 7; i++){
+        blockQueue[i] = bag[bagIndex];
+        bagIndex++;
+    }
+}
+
+
 
 
 
@@ -2273,6 +2296,7 @@ int (*currentBlk)[4];
 
 
 int (*holdBlk)[4];
+int holdBlkIndex = 0;
 
 void initHoldBlk(){
     holdBlk = nullTetrimino;
@@ -2356,8 +2380,6 @@ void moveL(){
         currX = newX;
         drawCurrentPiece();
     }
-
-
 }
 
 void moveR(){
@@ -2451,7 +2473,8 @@ void deleteFullRows(){
             board[j][i] = newBoard[j][i];
         }
     }
-# 267 "main.c"
+
+
     if(fullRows == 1)
         score += 40;
     else if(fullRows == 2)
@@ -2463,30 +2486,41 @@ void deleteFullRows(){
 }
 
 
+int swapAllowed = 1;
+
+
 void swapBlk(){
+    if(swapAllowed){
 
-    if((*holdBlk) == nullTetrimino){
+        if((*holdBlk) == nullTetrimino){
 
-        eraseCurrentPiece();
-        holdBlk = currentBlk;
-        initNewPiece();
+            eraseCurrentPiece();
+            holdBlk = currentBlk;
+            holdBlkIndex = tetriminoIndex;
+            initNewPiece();
+        }
+        else{
+
+
+            eraseCurrentPiece();
+            int (*temp)[4] = holdBlk;
+            holdBlk = currentBlk;
+            currentBlk = temp;
+
+
+            int tempIndex = holdBlkIndex;
+            holdBlkIndex = tetriminoIndex;
+            tetriminoIndex = tempIndex;
+
+
+            currX = 3;
+            currY = 0;
+
+            drawCurrentPiece();
+        }
     }
-    else{
-
-
-        eraseCurrentPiece();
-        int (*temp)[4] = holdBlk;
-        currX = 3;
-        currY = 0;
-        holdBlk = currentBlk;
-        currentBlk = temp;
-        drawCurrentPiece();
-    }
+    swapAllowed = 0;
 }
-
-
-
-
 
 
 
@@ -2501,12 +2535,14 @@ int isGameOver(){
         }
     return gameOver;
 }
-# 333 "main.c"
+# 357 "main.c"
 void gameLoop(){
     formatInitalBG();
     initBoard();
+    initBlkQueue();
     initNewPiece();
     initHoldBlk();
+    swapAllowed = 1;
     int gameTick = 0;
     while(1){
 
@@ -2525,7 +2561,7 @@ void gameLoop(){
 
             deleteFullRows();
             initNewPiece();
-
+            swapAllowed = 1;
         }
         }
 
@@ -2533,7 +2569,9 @@ void gameLoop(){
         gameTick = (gameTick + 1) % 100;
     }
 }
-# 376 "main.c"
+
+
+
 void Handler(void)
 {
         *(u16*)0x4000208 = 0x00;
@@ -2548,7 +2586,7 @@ void Handler(void)
     {
 
         moveD();
-# 405 "main.c"
+# 422 "main.c"
     }
 
     *(volatile u16*)0x4000202 = *(volatile u16*)0x4000202;
@@ -2581,7 +2619,7 @@ int main(void)
 
    fillPalette();
    fillSprites();
-# 451 "main.c"
+# 468 "main.c"
     (*(unsigned int*)0x3007FFC) = (int)&Handler;
     *(u16*)0x4000200 = 0x8;
 
@@ -2603,7 +2641,7 @@ int main(void)
 
     gameLoop();
 
-
+    while(1);
 
         return 0;
 }
