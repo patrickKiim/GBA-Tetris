@@ -761,9 +761,6 @@ u16 tile_block[200][8];
 
 
 
-
-
-
 void initVram(){
 
     *(unsigned short*)0x4000000 = 0x0403;
@@ -784,7 +781,6 @@ u16 blkColors[] = {
 };
 
 
-
 void drawBlk(int x, int y, u16 color) {
     u16* screen = (u16*)((u16*)0x6000000);
     int screenOffset = y * 240 + x;
@@ -799,6 +795,7 @@ void drawBlk(int x, int y, u16 color) {
         screenOffset += 240;
     }
 }
+
 
 void formatInitalBG(){
     int row = 0;
@@ -2580,12 +2577,11 @@ int main(void)
 
 
 
-
     initVram();
 
    fillPalette();
    fillSprites();
-# 452 "main.c"
+# 451 "main.c"
     (*(unsigned int*)0x3007FFC) = (int)&Handler;
     *(u16*)0x4000200 = 0x8;
 
