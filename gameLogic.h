@@ -24,9 +24,10 @@ void shuffleBag() {
     int j = 0;
     int temp = 0;
     int i =  0;
+    //iterate through each element in bag
     for (i = 6; i >= 0; i--) {
-        j = rand() % (i + 1);
-        temp = bag[i];
+        j = rand() % (i + 1); //choose random element
+        temp = bag[i]; //swap element i and element j
         bag[i] = bag[j];
         bag[j] = temp;
     }
