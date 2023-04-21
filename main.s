@@ -9014,48 +9014,45 @@ main:
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, r6, fp, ip, lr, pc}
 	mov	r3, #66
-	mov	r5, #67108864
+	mov	r6, #67108864
 	sub	fp, ip, #-4294967292
-	str	r3, [r5, #0]
+	str	r3, [r6, #0]
 	mov	r0, #0
 	ldr	r3, .L379
-	ldrh	r4, [r5, #6]
+	ldrh	r4, [r6, #6]
 	mov	lr, pc
 	bx	r3
 	add	r4, r4, r0
 	mov	r0, r4
-	ldr	r3, .L379+4
+	ldr	r2, .L379+4
 	mov	lr, pc
-	bx	r3
-	mov	r2, #4160
-	mov	r3, #1024
-	add	r2, r2, #2
-	add	r3, r3, #3
-	strh	r2, [r5, #0]	@ movhi 
-	strh	r3, [r5, #4]	@ movhi 
+	bx	r2
+	mov	r3, #4160
+	add	r3, r3, #2
+	strh	r3, [r6, #0]	@ movhi 
 	bl	initVram
 	bl	fillPalette
 	bl	fillSprites
-	ldrh	r2, [r5, #4]
+	ldrh	r2, [r6, #4]
 	ldr	r3, .L379+8
 	mov	ip, #50331648
 	add	ip, ip, #32512
 	orr	r2, r2, #8
-	add	lr, r5, #512
+	add	lr, r6, #512
 	str	r3, [ip, #252]
 	mov	r3, #9	@ movhi
-	strh	r2, [r5, #4]	@ movhi 
+	strh	r2, [r6, #4]	@ movhi 
 	mov	r0, #256
 	strh	r3, [lr, #0]	@ movhi 
 	mvn	r1, #15360
 	mov	r3, #1	@ movhi
-	add	r4, r5, #520
+	add	r4, r6, #520
 	strh	r3, [r4, #0]	@ movhi 
-	add	r6, r5, r0
+	add	r5, r6, r0
 	sub	r1, r1, #27
 	add	r0, r0, #67108866
 	mov	r3, #195	@ movhi
-	strh	r1, [r6, #0]	@ movhi 
+	strh	r1, [r5, #0]	@ movhi 
 	strh	r3, [r0, #0]	@ movhi 
 	bl	gameLoop
 .L376:
