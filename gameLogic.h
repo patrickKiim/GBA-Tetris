@@ -24,10 +24,10 @@ void shuffleBag() {
     int j = 0;
     int temp = 0;
     int i =  0;
+    //iterate through each element in bag
     for (i = 6; i >= 0; i--) {
-        //j = 1;
-        j = rand() % (i + 1);
-        temp = bag[i];
+        j = rand() % (i + 1); //choose random element
+        temp = bag[i]; //swap element i and element j
         bag[i] = bag[j];
         bag[j] = temp;
     }
@@ -319,7 +319,7 @@ int isGameOver(){
     int i = 0;
         for (i = 0; i < BOARD_WIDTH; i++) {
             //check row index 3 (top 4 rows are where blocks spawn)
-            if (board[3][i] != 0) { // found a non-filled cell
+            if (board[3][i] != 0) { // found a filled cell
                     gameOver = 1;
                 }
         }
