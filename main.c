@@ -22,7 +22,7 @@ int score = 0;
 
 int timerCount = 0;
 
-//TODO: how to print sprites have row has been deleted
+
 
 //7 PIECE BAG ALGORITHM (for generating tetris blocks)//
 int bag[7] = {0, 1, 2, 3, 4, 5, 6}; // init bag with all 7 pieces
