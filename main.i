@@ -100,6 +100,8 @@ unsigned short numbers[] = {
     0,0,0,0,0,1,1,0,
 };
 # 5 "main.c" 2
+# 1 "mygbalib.h" 1
+# 1 "sprites.h" 1
 # 1 "gba.h" 1
 
 
@@ -140,692 +142,7 @@ enum
 };
 # 267 "gba.h"
 typedef void (*fp)(void);
-# 6 "main.c" 2
-# 1 "tetrimino.h" 1
-# 10 "tetrimino.h"
-int nullTetrimino[4][4] = {
-    {0, 0, 0, 0},
-    {0, 0, 0, 0},
-    {0, 0, 0, 0},
-    {0, 0, 0, 0}
-};
-
-
-
-
-
-
-const int tetriminos[7][4][4][4] = {
-
-{
-    {
-        {0, 0, 0, 0},
-        {1, 1, 1, 1},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 0, 1, 0},
-        {0, 0, 1, 0},
-        {0, 0, 1, 0},
-        {0, 0, 1, 0}
-    },
-    {
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {1, 1, 1, 1},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 1, 0, 0},
-        {0, 1, 0, 0},
-        {0, 1, 0, 0},
-        {0, 1, 0, 0}
-    }
-},
-
-
-{
-    {
-        {0, 0, 0, 0},
-        {2, 2, 2, 0},
-        {0, 2, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 2, 0, 0},
-        {2, 2, 0, 0},
-        {0, 2, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 2, 0, 0},
-        {2, 2, 2, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 2, 0, 0},
-        {0, 2, 2, 0},
-        {0, 2, 0, 0},
-        {0, 0, 0, 0}
-    }
-},
-
-
-{
-    {
-        {3, 3, 0, 0},
-        {0, 3, 3, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 0, 3, 0},
-        {0, 3, 3, 0},
-        {0, 3, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 0, 0, 0},
-        {3, 3, 0, 0},
-        {0, 3, 3, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 3, 0, 0},
-        {3, 3, 0, 0},
-        {3, 0, 0, 0},
-        {0, 0, 0, 0}
-    }
-},
-
-
-{
-    {
-        {0, 4, 4, 0},
-        {4, 4, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-    }
-    ,{
-        {0, 4, 0, 0},
-        {0, 4, 4, 0},
-        {0, 0, 4, 0},
-        {0, 0, 0, 0}
-    }
-    ,{
-        {0, 0, 0, 0},
-        {0, 4, 4, 0},
-        {4, 4, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {4, 0, 0, 0},
-        {4, 4, 0, 0},
-        {0, 4, 0, 0},
-        {0, 0, 0, 0}
-    }
-},
-
-
-{
-    {
-        {0, 0, 0, 0},
-        {5, 5, 5, 0},
-        {5, 0, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {5, 5, 0, 0},
-        {0, 5, 0, 0},
-        {0, 5, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 0, 5, 0},
-        {5, 5, 5, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 5, 0, 0},
-        {0, 5, 0, 0},
-        {0, 5, 5, 0},
-        {0, 0, 0, 0}
-    }
-},
-
-
-{
-    {
-        {6, 0, 0, 0},
-        {6, 6, 6, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 6, 6, 0},
-        {0, 6, 0, 0},
-        {0, 6, 0, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 0, 0, 0},
-        {6, 6, 6, 0},
-        {0, 0, 6, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 6, 0, 0},
-        {0, 6, 0, 0},
-        {6, 6, 0, 0},
-        {0, 0, 0, 0}
-    }
-},
-
-
-{
-    {
-        {0, 0, 0, 0},
-        {0, 7, 7, 0},
-        {0, 7, 7, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 0, 0, 0},
-        {0, 7, 7, 0},
-        {0, 7, 7, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 0, 0, 0},
-        {0, 7, 7, 0},
-        {0, 7, 7, 0},
-        {0, 0, 0, 0}
-    },
-    {
-        {0, 0, 0, 0},
-        {0, 7, 7, 0},
-        {0, 7, 7, 0},
-        {0, 0, 0, 0}
-    }
-}
-};
-# 7 "main.c" 2
-# 1 "background.h" 1
-
-# 1 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 1 3 4
-# 10 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 3 4
-# 1 "/usr/local/arm-thumb-elf/sys-include/_ansi.h" 1 3 4
-# 15 "/usr/local/arm-thumb-elf/sys-include/_ansi.h" 3 4
-# 1 "/usr/local/arm-thumb-elf/sys-include/newlib.h" 1 3 4
-# 16 "/usr/local/arm-thumb-elf/sys-include/_ansi.h" 2 3 4
-# 1 "/usr/local/arm-thumb-elf/sys-include/sys/config.h" 1 3 4
-
-
-
-# 1 "/usr/local/arm-thumb-elf/sys-include/machine/ieeefp.h" 1 3 4
-# 5 "/usr/local/arm-thumb-elf/sys-include/sys/config.h" 2 3 4
-# 17 "/usr/local/arm-thumb-elf/sys-include/_ansi.h" 2 3 4
-# 11 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
-
-
-
-# 1 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 1 3 4
-# 213 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 3 4
-typedef long unsigned int size_t;
-# 325 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 3 4
-typedef int wchar_t;
-# 15 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
-
-# 1 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 1 3 4
-# 14 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-# 1 "/usr/local/arm-thumb-elf/sys-include/sys/_types.h" 1 3 4
-# 12 "/usr/local/arm-thumb-elf/sys-include/sys/_types.h" 3 4
-typedef long _off_t;
-__extension__ typedef long long _off64_t;
-
-
-typedef int _ssize_t;
-
-
-
-
-
-# 1 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 1 3 4
-# 354 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 3 4
-typedef unsigned int wint_t;
-# 23 "/usr/local/arm-thumb-elf/sys-include/sys/_types.h" 2 3 4
-
-
-typedef struct
-{
-  int __count;
-  union
-  {
-    wint_t __wch;
-    unsigned char __wchb[4];
-  } __value;
-} _mbstate_t;
-
-typedef int _flock_t;
-# 15 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 2 3 4
-
-
-
-
-typedef unsigned long __ULong;
-# 40 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-struct _Bigint
-{
-  struct _Bigint *_next;
-  int _k, _maxwds, _sign, _wds;
-  __ULong _x[1];
-};
-
-
-struct __tm
-{
-  int __tm_sec;
-  int __tm_min;
-  int __tm_hour;
-  int __tm_mday;
-  int __tm_mon;
-  int __tm_year;
-  int __tm_wday;
-  int __tm_yday;
-  int __tm_isdst;
-};
-# 68 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-struct _atexit {
-        struct _atexit *_next;
-        int _ind;
-        void (*_fns[32])(void);
-        void *_fnargs[32];
-        __ULong _fntypes;
-};
-# 91 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-struct __sbuf {
-        unsigned char *_base;
-        int _size;
-};
-
-
-
-
-
-
-typedef long _fpos_t;
-# 156 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-struct __sFILE {
-  unsigned char *_p;
-  int _r;
-  int _w;
-  short _flags;
-  short _file;
-  struct __sbuf _bf;
-  int _lbfsize;
-
-
-
-
-
-
-  void * _cookie;
-
-  int (*_read) (void * _cookie, char *_buf, int _n);
-  int (*_write) (void * _cookie, const char *_buf, int _n);
-
-  _fpos_t (*_seek) (void * _cookie, _fpos_t _offset, int _whence);
-  int (*_close) (void * _cookie);
-
-
-  struct __sbuf _ub;
-  unsigned char *_up;
-  int _ur;
-
-
-  unsigned char _ubuf[3];
-  unsigned char _nbuf[1];
-
-
-  struct __sbuf _lb;
-
-
-  int _blksize;
-  int _offset;
-
-
-  struct _reent *_data;
-
-
-
-  _flock_t _lock;
-
-};
-# 249 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-typedef struct __sFILE __FILE;
-
-
-struct _glue
-{
-  struct _glue *_next;
-  int _niobs;
-  __FILE *_iobs;
-};
-# 280 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-struct _rand48 {
-  unsigned short _seed[3];
-  unsigned short _mult[3];
-  unsigned short _add;
-
-
-
-
-};
-# 532 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-struct _reent
-{
-  int _errno;
-
-
-
-
-  __FILE *_stdin, *_stdout, *_stderr;
-
-  int _inc;
-  char _emergency[25];
-
-  int _current_category;
-  const char *_current_locale;
-
-  int __sdidinit;
-
-  void (*__cleanup) (struct _reent *);
-
-
-  struct _Bigint *_result;
-  int _result_k;
-  struct _Bigint *_p5s;
-  struct _Bigint **_freelist;
-
-
-  int _cvtlen;
-  char *_cvtbuf;
-
-  union
-    {
-      struct
-        {
-          unsigned int _unused_rand;
-          char * _strtok_last;
-          char _asctime_buf[26];
-          struct __tm _localtime_buf;
-          int _gamma_signgam;
-          __extension__ unsigned long long _rand_next;
-          struct _rand48 _r48;
-          _mbstate_t _mblen_state;
-          _mbstate_t _mbtowc_state;
-          _mbstate_t _wctomb_state;
-          char _l64a_buf[8];
-          char _signal_buf[24];
-          int _getdate_err;
-          _mbstate_t _mbrlen_state;
-          _mbstate_t _mbrtowc_state;
-          _mbstate_t _mbsrtowcs_state;
-          _mbstate_t _wcrtomb_state;
-          _mbstate_t _wcsrtombs_state;
-        } _reent;
-
-
-
-      struct
-        {
-
-          unsigned char * _nextf[30];
-          unsigned int _nmalloc[30];
-        } _unused;
-    } _new;
-
-
-  struct _atexit *_atexit;
-  struct _atexit _atexit0;
-
-
-  void (**(_sig_func))(int);
-
-
-
-
-  struct _glue __sglue;
-  __FILE __sf[3];
-};
-# 728 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
-extern struct _reent *_impure_ptr ;
-
-void _reclaim_reent (struct _reent *);
-# 17 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
-# 1 "/usr/local/arm-thumb-elf/sys-include/machine/stdlib.h" 1 3 4
-# 18 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
-
-# 1 "/usr/local/arm-thumb-elf/sys-include/alloca.h" 1 3 4
-# 20 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
-
-
-
-
-typedef struct
-{
-  int quot;
-  int rem;
-} div_t;
-
-typedef struct
-{
-  long quot;
-  long rem;
-} ldiv_t;
-# 45 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 3 4
-extern int __mb_cur_max;
-
-
-
-void abort (void) __attribute__ ((noreturn));
-int abs (int);
-int atexit (void (*__func)(void));
-double atof (const char *__nptr);
-
-float atoff (const char *__nptr);
-
-int atoi (const char *__nptr);
-long atol (const char *__nptr);
-void * bsearch (const void * __key, const void * __base, size_t __nmemb, size_t __size, int (* _compar) (const void *, const void *));
-
-
-
-
-void * calloc (size_t __nmemb, size_t __size);
-div_t div (int __numer, int __denom);
-void exit (int __status) __attribute__ ((noreturn));
-void free (void *);
-char * getenv (const char *__string);
-char * _getenv_r (struct _reent *, const char *__string);
-char * _findenv (const char *, int *);
-char * _findenv_r (struct _reent *, const char *, int *);
-long labs (long);
-ldiv_t ldiv (long __numer, long __denom);
-void * malloc (size_t __size);
-int mblen (const char *, size_t);
-int _mblen_r (struct _reent *, const char *, size_t, _mbstate_t *);
-int mbtowc (wchar_t *, const char *, size_t);
-int _mbtowc_r (struct _reent *, wchar_t *, const char *, size_t, _mbstate_t *);
-int wctomb (char *, wchar_t);
-int _wctomb_r (struct _reent *, char *, wchar_t, _mbstate_t *);
-size_t mbstowcs (wchar_t *, const char *, size_t);
-size_t _mbstowcs_r (struct _reent *, wchar_t *, const char *, size_t, _mbstate_t *);
-size_t wcstombs (char *, const wchar_t *, size_t);
-size_t _wcstombs_r (struct _reent *, char *, const wchar_t *, size_t, _mbstate_t *);
-
-
-int mkstemp (char *);
-char * mktemp (char *);
-
-
-void qsort (void * __base, size_t __nmemb, size_t __size, int(*_compar)(const void *, const void *));
-int rand (void);
-void * realloc (void * __r, size_t __size);
-void srand (unsigned __seed);
-double strtod (const char *__n, char **__end_PTR);
-double _strtod_r (struct _reent *,const char *__n, char **__end_PTR);
-float strtof (const char *__n, char **__end_PTR);
-
-
-
-
-
-
-long strtol (const char *__n, char **__end_PTR, int __base);
-long _strtol_r (struct _reent *,const char *__n, char **__end_PTR, int __base);
-unsigned long strtoul (const char *__n, char **__end_PTR, int __base);
-unsigned long _strtoul_r (struct _reent *,const char *__n, char **__end_PTR, int __base);
-
-int system (const char *__string);
-
-
-long a64l (const char *__input);
-char * l64a (long __input);
-char * _l64a_r (struct _reent *,long __input);
-int on_exit (void (*__func)(int, void *),void * __arg);
-void _Exit (int __status) __attribute__ ((noreturn));
-int putenv (const char *__string);
-int _putenv_r (struct _reent *, const char *__string);
-int setenv (const char *__string, const char *__value, int __overwrite);
-int _setenv_r (struct _reent *, const char *__string, const char *__value, int __overwrite);
-
-char * gcvt (double,int,char *);
-char * gcvtf (float,int,char *);
-char * fcvt (double,int,int *,int *);
-char * fcvtf (float,int,int *,int *);
-char * ecvt (double,int,int *,int *);
-char * ecvtbuf (double, int, int*, int*, char *);
-char * fcvtbuf (double, int, int*, int*, char *);
-char * ecvtf (float,int,int *,int *);
-char * dtoa (double, int, int, int *, int*, char**);
-int rand_r (unsigned *__seed);
-
-double drand48 (void);
-double _drand48_r (struct _reent *);
-double erand48 (unsigned short [3]);
-double _erand48_r (struct _reent *, unsigned short [3]);
-long jrand48 (unsigned short [3]);
-long _jrand48_r (struct _reent *, unsigned short [3]);
-void lcong48 (unsigned short [7]);
-void _lcong48_r (struct _reent *, unsigned short [7]);
-long lrand48 (void);
-long _lrand48_r (struct _reent *);
-long mrand48 (void);
-long _mrand48_r (struct _reent *);
-long nrand48 (unsigned short [3]);
-long _nrand48_r (struct _reent *, unsigned short [3]);
-unsigned short *
-       seed48 (unsigned short [3]);
-unsigned short *
-       _seed48_r (struct _reent *, unsigned short [3]);
-void srand48 (long);
-void _srand48_r (struct _reent *, long);
-long long strtoll (const char *__n, char **__end_PTR, int __base);
-long long _strtoll_r (struct _reent *, const char *__n, char **__end_PTR, int __base);
-unsigned long long strtoull (const char *__n, char **__end_PTR, int __base);
-unsigned long long _strtoull_r (struct _reent *, const char *__n, char **__end_PTR, int __base);
-
-
-void cfree (void *);
-# 172 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 3 4
-char * _dtoa_r (struct _reent *, double, int, int, int *, int*, char**);
-
-void * _malloc_r (struct _reent *, size_t);
-void * _calloc_r (struct _reent *, size_t, size_t);
-void _free_r (struct _reent *, void *);
-void * _realloc_r (struct _reent *, void *, size_t);
-void _mstats_r (struct _reent *, char *);
-
-int _system_r (struct _reent *, const char *);
-
-void __eprintf (const char *, const char *, unsigned int, const char *);
-# 213 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 3 4
-
-# 3 "background.h" 2
-
-
-
-
-
-void initVram(){
-
-    *(unsigned short*)0x4000000 = 0x0403;
-    *(unsigned short*)0x4000004 = 0x0403;
-
-}
-
-
-u16 blkColors[] = {
-    ((0) + (0<<5) + (0<<10)),
-    ((0) + (31<<5) + (31<<10)),
-    ((31) + (0<<5) + (31<<10)),
-    ((31) + (0<<5) + (0<<10)),
-    ((16) + (31<<5) + (16<<10)),
-    ((31) + (20<<5) + (0<<10)),
-    ((0) + (0<<5) + (31<<10)),
-    ((31) + (31<<5) + (0<<10)),
-};
-
-
-void drawBlk(int x, int y, u16 color) {
-    u16* screen = (u16*)((u16*)0x6000000);
-    int screenOffset = y * 240 + x;
-    int blockOffset = 0;
-    int i = 0;
-    int j = 0;
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 8; j++) {
-            screen[screenOffset + j] = color;
-            blockOffset++;
-        }
-        screenOffset += 240;
-    }
-}
-
-
-void formatInitalBG(){
-    int row = 0;
-    int col = 0;
-    for (row = 0; row < 20; row++) {
-        for (col = 0; col < 40; col++) {
-            drawBlk(col*8, row*8, blkColors[0]);
-        }
-    }
-
-}
-
-
-void drawPlayingField(int playingField[24][10]) {
-    int row = 0;
-    int col = 0;
-    for (row = 4; row < 24; row++) {
-        for (col = 0; col < 10; col++) {
-            int x = col * 8;
-            int y = (row-4) * 8;
-            int blockType = playingField[row][col];
-            u16 blockColor = blkColors[blockType];
-            drawBlk(x, y, blockColor);
-        }
-    }
-}
-# 8 "main.c" 2
-# 1 "mygbalib.h" 1
-# 1 "sprites.h" 1
-
+# 2 "sprites.h" 2
 
 
 
@@ -2044,8 +1361,408 @@ void fillSprites(void)
     for(i = 0; i < 128; i++)
         drawSprite(0, i, 240,160);
 }
-# 9 "main.c" 2
+# 6 "main.c" 2
+# 1 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 1 3 4
+# 10 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 3 4
+# 1 "/usr/local/arm-thumb-elf/sys-include/_ansi.h" 1 3 4
+# 15 "/usr/local/arm-thumb-elf/sys-include/_ansi.h" 3 4
+# 1 "/usr/local/arm-thumb-elf/sys-include/newlib.h" 1 3 4
+# 16 "/usr/local/arm-thumb-elf/sys-include/_ansi.h" 2 3 4
+# 1 "/usr/local/arm-thumb-elf/sys-include/sys/config.h" 1 3 4
 
+
+
+# 1 "/usr/local/arm-thumb-elf/sys-include/machine/ieeefp.h" 1 3 4
+# 5 "/usr/local/arm-thumb-elf/sys-include/sys/config.h" 2 3 4
+# 17 "/usr/local/arm-thumb-elf/sys-include/_ansi.h" 2 3 4
+# 11 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
+
+
+
+# 1 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 1 3 4
+# 213 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 3 4
+typedef long unsigned int size_t;
+# 325 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 3 4
+typedef int wchar_t;
+# 15 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
+
+# 1 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 1 3 4
+# 14 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+# 1 "/usr/local/arm-thumb-elf/sys-include/sys/_types.h" 1 3 4
+# 12 "/usr/local/arm-thumb-elf/sys-include/sys/_types.h" 3 4
+typedef long _off_t;
+__extension__ typedef long long _off64_t;
+
+
+typedef int _ssize_t;
+
+
+
+
+
+# 1 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 1 3 4
+# 354 "/usr/local/lib/gcc-lib/arm-thumb-elf/3.3.6/include/stddef.h" 3 4
+typedef unsigned int wint_t;
+# 23 "/usr/local/arm-thumb-elf/sys-include/sys/_types.h" 2 3 4
+
+
+typedef struct
+{
+  int __count;
+  union
+  {
+    wint_t __wch;
+    unsigned char __wchb[4];
+  } __value;
+} _mbstate_t;
+
+typedef int _flock_t;
+# 15 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 2 3 4
+
+
+
+
+typedef unsigned long __ULong;
+# 40 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+struct _Bigint
+{
+  struct _Bigint *_next;
+  int _k, _maxwds, _sign, _wds;
+  __ULong _x[1];
+};
+
+
+struct __tm
+{
+  int __tm_sec;
+  int __tm_min;
+  int __tm_hour;
+  int __tm_mday;
+  int __tm_mon;
+  int __tm_year;
+  int __tm_wday;
+  int __tm_yday;
+  int __tm_isdst;
+};
+# 68 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+struct _atexit {
+        struct _atexit *_next;
+        int _ind;
+        void (*_fns[32])(void);
+        void *_fnargs[32];
+        __ULong _fntypes;
+};
+# 91 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+struct __sbuf {
+        unsigned char *_base;
+        int _size;
+};
+
+
+
+
+
+
+typedef long _fpos_t;
+# 156 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+struct __sFILE {
+  unsigned char *_p;
+  int _r;
+  int _w;
+  short _flags;
+  short _file;
+  struct __sbuf _bf;
+  int _lbfsize;
+
+
+
+
+
+
+  void * _cookie;
+
+  int (*_read) (void * _cookie, char *_buf, int _n);
+  int (*_write) (void * _cookie, const char *_buf, int _n);
+
+  _fpos_t (*_seek) (void * _cookie, _fpos_t _offset, int _whence);
+  int (*_close) (void * _cookie);
+
+
+  struct __sbuf _ub;
+  unsigned char *_up;
+  int _ur;
+
+
+  unsigned char _ubuf[3];
+  unsigned char _nbuf[1];
+
+
+  struct __sbuf _lb;
+
+
+  int _blksize;
+  int _offset;
+
+
+  struct _reent *_data;
+
+
+
+  _flock_t _lock;
+
+};
+# 249 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+typedef struct __sFILE __FILE;
+
+
+struct _glue
+{
+  struct _glue *_next;
+  int _niobs;
+  __FILE *_iobs;
+};
+# 280 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+struct _rand48 {
+  unsigned short _seed[3];
+  unsigned short _mult[3];
+  unsigned short _add;
+
+
+
+
+};
+# 532 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+struct _reent
+{
+  int _errno;
+
+
+
+
+  __FILE *_stdin, *_stdout, *_stderr;
+
+  int _inc;
+  char _emergency[25];
+
+  int _current_category;
+  const char *_current_locale;
+
+  int __sdidinit;
+
+  void (*__cleanup) (struct _reent *);
+
+
+  struct _Bigint *_result;
+  int _result_k;
+  struct _Bigint *_p5s;
+  struct _Bigint **_freelist;
+
+
+  int _cvtlen;
+  char *_cvtbuf;
+
+  union
+    {
+      struct
+        {
+          unsigned int _unused_rand;
+          char * _strtok_last;
+          char _asctime_buf[26];
+          struct __tm _localtime_buf;
+          int _gamma_signgam;
+          __extension__ unsigned long long _rand_next;
+          struct _rand48 _r48;
+          _mbstate_t _mblen_state;
+          _mbstate_t _mbtowc_state;
+          _mbstate_t _wctomb_state;
+          char _l64a_buf[8];
+          char _signal_buf[24];
+          int _getdate_err;
+          _mbstate_t _mbrlen_state;
+          _mbstate_t _mbrtowc_state;
+          _mbstate_t _mbsrtowcs_state;
+          _mbstate_t _wcrtomb_state;
+          _mbstate_t _wcsrtombs_state;
+        } _reent;
+
+
+
+      struct
+        {
+
+          unsigned char * _nextf[30];
+          unsigned int _nmalloc[30];
+        } _unused;
+    } _new;
+
+
+  struct _atexit *_atexit;
+  struct _atexit _atexit0;
+
+
+  void (**(_sig_func))(int);
+
+
+
+
+  struct _glue __sglue;
+  __FILE __sf[3];
+};
+# 728 "/usr/local/arm-thumb-elf/sys-include/sys/reent.h" 3 4
+extern struct _reent *_impure_ptr ;
+
+void _reclaim_reent (struct _reent *);
+# 17 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
+# 1 "/usr/local/arm-thumb-elf/sys-include/machine/stdlib.h" 1 3 4
+# 18 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
+
+# 1 "/usr/local/arm-thumb-elf/sys-include/alloca.h" 1 3 4
+# 20 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 2 3 4
+
+
+
+
+typedef struct
+{
+  int quot;
+  int rem;
+} div_t;
+
+typedef struct
+{
+  long quot;
+  long rem;
+} ldiv_t;
+# 45 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 3 4
+extern int __mb_cur_max;
+
+
+
+void abort (void) __attribute__ ((noreturn));
+int abs (int);
+int atexit (void (*__func)(void));
+double atof (const char *__nptr);
+
+float atoff (const char *__nptr);
+
+int atoi (const char *__nptr);
+long atol (const char *__nptr);
+void * bsearch (const void * __key, const void * __base, size_t __nmemb, size_t __size, int (* _compar) (const void *, const void *));
+
+
+
+
+void * calloc (size_t __nmemb, size_t __size);
+div_t div (int __numer, int __denom);
+void exit (int __status) __attribute__ ((noreturn));
+void free (void *);
+char * getenv (const char *__string);
+char * _getenv_r (struct _reent *, const char *__string);
+char * _findenv (const char *, int *);
+char * _findenv_r (struct _reent *, const char *, int *);
+long labs (long);
+ldiv_t ldiv (long __numer, long __denom);
+void * malloc (size_t __size);
+int mblen (const char *, size_t);
+int _mblen_r (struct _reent *, const char *, size_t, _mbstate_t *);
+int mbtowc (wchar_t *, const char *, size_t);
+int _mbtowc_r (struct _reent *, wchar_t *, const char *, size_t, _mbstate_t *);
+int wctomb (char *, wchar_t);
+int _wctomb_r (struct _reent *, char *, wchar_t, _mbstate_t *);
+size_t mbstowcs (wchar_t *, const char *, size_t);
+size_t _mbstowcs_r (struct _reent *, wchar_t *, const char *, size_t, _mbstate_t *);
+size_t wcstombs (char *, const wchar_t *, size_t);
+size_t _wcstombs_r (struct _reent *, char *, const wchar_t *, size_t, _mbstate_t *);
+
+
+int mkstemp (char *);
+char * mktemp (char *);
+
+
+void qsort (void * __base, size_t __nmemb, size_t __size, int(*_compar)(const void *, const void *));
+int rand (void);
+void * realloc (void * __r, size_t __size);
+void srand (unsigned __seed);
+double strtod (const char *__n, char **__end_PTR);
+double _strtod_r (struct _reent *,const char *__n, char **__end_PTR);
+float strtof (const char *__n, char **__end_PTR);
+
+
+
+
+
+
+long strtol (const char *__n, char **__end_PTR, int __base);
+long _strtol_r (struct _reent *,const char *__n, char **__end_PTR, int __base);
+unsigned long strtoul (const char *__n, char **__end_PTR, int __base);
+unsigned long _strtoul_r (struct _reent *,const char *__n, char **__end_PTR, int __base);
+
+int system (const char *__string);
+
+
+long a64l (const char *__input);
+char * l64a (long __input);
+char * _l64a_r (struct _reent *,long __input);
+int on_exit (void (*__func)(int, void *),void * __arg);
+void _Exit (int __status) __attribute__ ((noreturn));
+int putenv (const char *__string);
+int _putenv_r (struct _reent *, const char *__string);
+int setenv (const char *__string, const char *__value, int __overwrite);
+int _setenv_r (struct _reent *, const char *__string, const char *__value, int __overwrite);
+
+char * gcvt (double,int,char *);
+char * gcvtf (float,int,char *);
+char * fcvt (double,int,int *,int *);
+char * fcvtf (float,int,int *,int *);
+char * ecvt (double,int,int *,int *);
+char * ecvtbuf (double, int, int*, int*, char *);
+char * fcvtbuf (double, int, int*, int*, char *);
+char * ecvtf (float,int,int *,int *);
+char * dtoa (double, int, int, int *, int*, char**);
+int rand_r (unsigned *__seed);
+
+double drand48 (void);
+double _drand48_r (struct _reent *);
+double erand48 (unsigned short [3]);
+double _erand48_r (struct _reent *, unsigned short [3]);
+long jrand48 (unsigned short [3]);
+long _jrand48_r (struct _reent *, unsigned short [3]);
+void lcong48 (unsigned short [7]);
+void _lcong48_r (struct _reent *, unsigned short [7]);
+long lrand48 (void);
+long _lrand48_r (struct _reent *);
+long mrand48 (void);
+long _mrand48_r (struct _reent *);
+long nrand48 (unsigned short [3]);
+long _nrand48_r (struct _reent *, unsigned short [3]);
+unsigned short *
+       seed48 (unsigned short [3]);
+unsigned short *
+       _seed48_r (struct _reent *, unsigned short [3]);
+void srand48 (long);
+void _srand48_r (struct _reent *, long);
+long long strtoll (const char *__n, char **__end_PTR, int __base);
+long long _strtoll_r (struct _reent *, const char *__n, char **__end_PTR, int __base);
+unsigned long long strtoull (const char *__n, char **__end_PTR, int __base);
+unsigned long long _strtoull_r (struct _reent *, const char *__n, char **__end_PTR, int __base);
+
+
+void cfree (void *);
+# 172 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 3 4
+char * _dtoa_r (struct _reent *, double, int, int, int *, int*, char**);
+
+void * _malloc_r (struct _reent *, size_t);
+void * _calloc_r (struct _reent *, size_t, size_t);
+void _free_r (struct _reent *, void *);
+void * _realloc_r (struct _reent *, void *, size_t);
+void _mstats_r (struct _reent *, char *);
+
+int _system_r (struct _reent *, const char *);
+
+void __eprintf (const char *, const char *, unsigned int, const char *);
+# 213 "/usr/local/arm-thumb-elf/sys-include/stdlib.h" 3 4
+
+# 7 "main.c" 2
 # 1 "/usr/local/arm-thumb-elf/sys-include/time.h" 1 3 4
 # 18 "/usr/local/arm-thumb-elf/sys-include/time.h" 3 4
 # 1 "/usr/local/arm-thumb-elf/sys-include/machine/time.h" 1 3 4
@@ -2213,8 +1930,295 @@ extern char *_tzname[2];
 # 126 "/usr/local/arm-thumb-elf/sys-include/time.h" 3 4
 # 1 "/usr/local/arm-thumb-elf/sys-include/sys/features.h" 1 3 4
 # 127 "/usr/local/arm-thumb-elf/sys-include/time.h" 2 3 4
-# 11 "main.c" 2
-# 20 "main.c"
+# 8 "main.c" 2
+# 1 "gameLogic.h" 1
+# 1 "tetrimino.h" 1
+# 10 "tetrimino.h"
+int nullTetrimino[4][4] = {
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0},
+    {0, 0, 0, 0}
+};
+
+
+
+
+
+
+const int tetriminos[7][4][4][4] = {
+
+{
+    {
+        {0, 0, 0, 0},
+        {1, 1, 1, 1},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 0, 1, 0},
+        {0, 0, 1, 0},
+        {0, 0, 1, 0},
+        {0, 0, 1, 0}
+    },
+    {
+        {0, 0, 0, 0},
+        {0, 0, 0, 0},
+        {1, 1, 1, 1},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 1, 0, 0},
+        {0, 1, 0, 0}
+    }
+},
+
+
+{
+    {
+        {0, 0, 0, 0},
+        {2, 2, 2, 0},
+        {0, 2, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 2, 0, 0},
+        {2, 2, 0, 0},
+        {0, 2, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 2, 0, 0},
+        {2, 2, 2, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 2, 0, 0},
+        {0, 2, 2, 0},
+        {0, 2, 0, 0},
+        {0, 0, 0, 0}
+    }
+},
+
+
+{
+    {
+        {3, 3, 0, 0},
+        {0, 3, 3, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 0, 3, 0},
+        {0, 3, 3, 0},
+        {0, 3, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 0, 0, 0},
+        {3, 3, 0, 0},
+        {0, 3, 3, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 3, 0, 0},
+        {3, 3, 0, 0},
+        {3, 0, 0, 0},
+        {0, 0, 0, 0}
+    }
+},
+
+
+{
+    {
+        {0, 4, 4, 0},
+        {4, 4, 0, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    }
+    ,{
+        {0, 4, 0, 0},
+        {0, 4, 4, 0},
+        {0, 0, 4, 0},
+        {0, 0, 0, 0}
+    }
+    ,{
+        {0, 0, 0, 0},
+        {0, 4, 4, 0},
+        {4, 4, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {4, 0, 0, 0},
+        {4, 4, 0, 0},
+        {0, 4, 0, 0},
+        {0, 0, 0, 0}
+    }
+},
+
+
+{
+    {
+        {0, 0, 0, 0},
+        {5, 5, 5, 0},
+        {5, 0, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {5, 5, 0, 0},
+        {0, 5, 0, 0},
+        {0, 5, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 0, 5, 0},
+        {5, 5, 5, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 5, 0, 0},
+        {0, 5, 0, 0},
+        {0, 5, 5, 0},
+        {0, 0, 0, 0}
+    }
+},
+
+
+{
+    {
+        {6, 0, 0, 0},
+        {6, 6, 6, 0},
+        {0, 0, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 6, 6, 0},
+        {0, 6, 0, 0},
+        {0, 6, 0, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 0, 0, 0},
+        {6, 6, 6, 0},
+        {0, 0, 6, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 6, 0, 0},
+        {0, 6, 0, 0},
+        {6, 6, 0, 0},
+        {0, 0, 0, 0}
+    }
+},
+
+
+{
+    {
+        {0, 0, 0, 0},
+        {0, 7, 7, 0},
+        {0, 7, 7, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 0, 0, 0},
+        {0, 7, 7, 0},
+        {0, 7, 7, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 0, 0, 0},
+        {0, 7, 7, 0},
+        {0, 7, 7, 0},
+        {0, 0, 0, 0}
+    },
+    {
+        {0, 0, 0, 0},
+        {0, 7, 7, 0},
+        {0, 7, 7, 0},
+        {0, 0, 0, 0}
+    }
+}
+};
+# 2 "gameLogic.h" 2
+# 1 "background.h" 1
+
+
+
+
+
+
+
+void initVram(){
+
+    *(unsigned short*)0x4000000 = 0x0403;
+    *(unsigned short*)0x4000004 = 0x0403;
+
+}
+
+
+u16 blkColors[] = {
+    ((0) + (0<<5) + (0<<10)),
+    ((0) + (31<<5) + (31<<10)),
+    ((31) + (0<<5) + (31<<10)),
+    ((31) + (0<<5) + (0<<10)),
+    ((16) + (31<<5) + (16<<10)),
+    ((31) + (20<<5) + (0<<10)),
+    ((0) + (0<<5) + (31<<10)),
+    ((31) + (31<<5) + (0<<10)),
+};
+
+
+void drawBlk(int x, int y, u16 color) {
+    u16* screen = (u16*)((u16*)0x6000000);
+    int screenOffset = y * 240 + x;
+    int blockOffset = 0;
+    int i = 0;
+    int j = 0;
+    for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            screen[screenOffset + j] = color;
+            blockOffset++;
+        }
+        screenOffset += 240;
+    }
+}
+
+
+void formatInitalBG(){
+    int row = 0;
+    int col = 0;
+    for (row = 0; row < 20; row++) {
+        for (col = 0; col < 40; col++) {
+            drawBlk(col*8, row*8, blkColors[0]);
+        }
+    }
+
+}
+
+
+void drawPlayingField(int playingField[24][10]) {
+    int row = 0;
+    int col = 0;
+    for (row = 4; row < 24; row++) {
+        for (col = 0; col < 10; col++) {
+            int x = col * 8;
+            int y = (row-4) * 8;
+            int blockType = playingField[row][col];
+            u16 blockColor = blkColors[blockType];
+            drawBlk(x, y, blockColor);
+        }
+    }
+}
+# 3 "gameLogic.h" 2
+
+
+
+
+
 int board[24][10];
 int score = 0;
 
@@ -2535,7 +2539,8 @@ int isGameOver(){
         }
     return gameOver;
 }
-# 357 "main.c"
+# 9 "main.c" 2
+# 31 "main.c"
 void gameLoop(){
     formatInitalBG();
     initBoard();
@@ -2586,7 +2591,7 @@ void Handler(void)
     {
 
         moveD();
-# 422 "main.c"
+# 96 "main.c"
     }
 
     *(volatile u16*)0x4000202 = *(volatile u16*)0x4000202;
@@ -2619,7 +2624,7 @@ int main(void)
 
    fillPalette();
    fillSprites();
-# 468 "main.c"
+# 142 "main.c"
     (*(unsigned int*)0x3007FFC) = (int)&Handler;
     *(u16*)0x4000200 = 0x8;
 
@@ -2641,7 +2646,7 @@ int main(void)
 
     gameLoop();
 
-    while(1);
+
 
         return 0;
 }

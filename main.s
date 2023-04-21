@@ -665,603 +665,7 @@ numbers:
 	.short	1
 	.short	1
 	.short	0
-	.global	nullTetrimino
-	.bss
-	.global	nullTetrimino
-	.align	2
-	.type	nullTetrimino, %object
-	.size	nullTetrimino, 64
-nullTetrimino:
-	.space	64
-	.global	tetriminos
-	.section	.rodata
-	.align	2
-	.type	tetriminos, %object
-	.size	tetriminos, 1792
-tetriminos:
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	1
-	.word	1
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	1
-	.word	1
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	1
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	2
-	.word	2
-	.word	2
-	.word	0
-	.word	0
-	.word	2
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	2
-	.word	0
-	.word	0
-	.word	2
-	.word	2
-	.word	0
-	.word	0
-	.word	0
-	.word	2
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	2
-	.word	0
-	.word	0
-	.word	2
-	.word	2
-	.word	2
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	2
-	.word	0
-	.word	0
-	.word	0
-	.word	2
-	.word	2
-	.word	0
-	.word	0
-	.word	2
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	3
-	.word	3
-	.word	0
-	.word	0
-	.word	0
-	.word	3
-	.word	3
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	3
-	.word	0
-	.word	0
-	.word	3
-	.word	3
-	.word	0
-	.word	0
-	.word	3
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	3
-	.word	3
-	.word	0
-	.word	0
-	.word	0
-	.word	3
-	.word	3
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	3
-	.word	0
-	.word	0
-	.word	3
-	.word	3
-	.word	0
-	.word	0
-	.word	3
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	4
-	.word	4
-	.word	0
-	.word	4
-	.word	4
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	4
-	.word	0
-	.word	0
-	.word	0
-	.word	4
-	.word	4
-	.word	0
-	.word	0
-	.word	0
-	.word	4
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	4
-	.word	4
-	.word	0
-	.word	4
-	.word	4
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	4
-	.word	0
-	.word	0
-	.word	0
-	.word	4
-	.word	4
-	.word	0
-	.word	0
-	.word	0
-	.word	4
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	5
-	.word	5
-	.word	5
-	.word	0
-	.word	5
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	5
-	.word	5
-	.word	0
-	.word	0
-	.word	0
-	.word	5
-	.word	0
-	.word	0
-	.word	0
-	.word	5
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	5
-	.word	0
-	.word	5
-	.word	5
-	.word	5
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	5
-	.word	0
-	.word	0
-	.word	0
-	.word	5
-	.word	0
-	.word	0
-	.word	0
-	.word	5
-	.word	5
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	6
-	.word	0
-	.word	0
-	.word	0
-	.word	6
-	.word	6
-	.word	6
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	6
-	.word	6
-	.word	0
-	.word	0
-	.word	6
-	.word	0
-	.word	0
-	.word	0
-	.word	6
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	6
-	.word	6
-	.word	6
-	.word	0
-	.word	0
-	.word	0
-	.word	6
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	6
-	.word	0
-	.word	0
-	.word	0
-	.word	6
-	.word	0
-	.word	0
-	.word	6
-	.word	6
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	7
-	.word	7
-	.word	0
-	.word	0
-	.word	7
-	.word	7
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	7
-	.word	7
-	.word	0
-	.word	0
-	.word	7
-	.word	7
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	7
-	.word	7
-	.word	0
-	.word	0
-	.word	7
-	.word	7
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	7
-	.word	7
-	.word	0
-	.word	0
-	.word	7
-	.word	7
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.word	0
-	.text
-	.align	2
-	.global	initVram
-	.type	initVram, %function
-initVram:
-	@ Function supports interworking.
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 0, uses_anonymous_args = 0
-	@ link register save eliminated.
-	mov	r3, #1024
-	mov	r2, #67108864
-	add	r3, r3, #3
-	@ lr needed for prologue
-	strh	r3, [r2, #4]	@ movhi 
-	strh	r3, [r2, #0]	@ movhi 
-	bx	lr
-	.size	initVram, .-initVram
-	.global	blkColors
-	.data
-	.align	1
-	.type	blkColors, %object
-	.size	blkColors, 16
-blkColors:
-	.short	0
-	.short	32736
-	.short	31775
-	.short	31
-	.short	17392
-	.short	671
-	.short	31744
-	.short	1023
-	.text
-	.align	2
-	.global	drawBlk
-	.type	drawBlk, %function
-drawBlk:
-	@ Function supports interworking.
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 0, uses_anonymous_args = 0
-	mov	r2, r2, asl #16
-	rsb	r1, r1, r1, asl #4	@  y,  y
-	str	lr, [sp, #-4]!
-	add	r0, r0, r1, asl #4	@  screenOffset,  x
-	mov	r2, r2, asr #16	@  color
-	mov	ip, #100663296	@  screen
-	mov	lr, #0	@  i
-.L12:
-	mov	r3, r0, asl #1	@  screenOffset
-	mov	r1, #7	@  j
-.L11:
-	subs	r1, r1, #1	@  j,  j
-	strh	r2, [r3, ip]	@ movhi 	@  color, * screen
-	add	r3, r3, #2
-	bpl	.L11
-	add	lr, lr, #1	@  i,  i
-	cmp	lr, #7	@  i
-	add	r0, r0, #240	@  screenOffset,  screenOffset
-	ble	.L12
-	ldr	lr, [sp], #4
-	bx	lr
-	.size	drawBlk, .-drawBlk
-	.align	2
-	.global	formatInitalBG
-	.type	formatInitalBG, %function
-formatInitalBG:
-	@ Function supports interworking.
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 1, uses_anonymous_args = 0
-	mov	ip, sp
-	stmfd	sp!, {r4, r5, r6, r7, fp, ip, lr, pc}
-	ldr	r6, .L32
-	sub	fp, ip, #-4294967292
-	mov	r7, #0	@  row
-.L27:
-	mov	r4, #0	@  col
-	mov	r5, r7, asl #3	@  row
-.L26:
-	mov	r0, r4, asl #3	@  col
-	ldrh	r2, [r6, #0]	@  blkColors
-	mov	r1, r5
-	add	r4, r4, #1	@  col,  col
-	bl	drawBlk
-	cmp	r4, #39	@  col
-	ble	.L26
-	add	r7, r7, #1	@  row,  row
-	cmp	r7, #19	@  row
-	ble	.L27
-	ldmea	fp, {r4, r5, r6, r7, fp, sp, lr}
-	bx	lr
-.L33:
-	.align	2
-.L32:
-	.word	blkColors
-	.size	formatInitalBG, .-formatInitalBG
-	.align	2
-	.global	drawPlayingField
-	.type	drawPlayingField, %function
-drawPlayingField:
-	@ Function supports interworking.
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 1, uses_anonymous_args = 0
-	mov	ip, sp
-	stmfd	sp!, {r4, r5, r6, r7, r8, sl, fp, ip, lr, pc}
-	ldr	r8, .L49
-	sub	fp, ip, #-4294967292
-	mov	r7, r0	@  playingField
-	mov	sl, #4	@  row
-	mov	r6, #20
-.L44:
-	mov	r4, #0	@  col
-	mov	r5, sl, asl #3	@  row
-.L43:
-	add	r2, r4, r6, asl #1	@  col
-	ldr	r3, [r7, r2, asl #2]	@  blockType, * playingField
-	mov	r3, r3, asl #1	@  blockType
-	mov	r0, r4, asl #3	@  x,  col
-	ldrh	r2, [r3, r8]	@  blkColors
-	sub	r1, r5, #32
-	add	r4, r4, #1	@  col,  col
-	bl	drawBlk
-	cmp	r4, #9	@  col
-	ble	.L43
-	add	sl, sl, #1	@  row,  row
-	cmp	sl, #23	@  row
-	add	r6, r6, #5
-	ble	.L44
-	ldmea	fp, {r4, r5, r6, r7, r8, sl, fp, sp, lr}
-	bx	lr
-.L50:
-	.align	2
-.L49:
-	.word	blkColors
-	.size	drawPlayingField, .-drawPlayingField
 	.global	palette
-	.data
 	.align	2
 	.type	palette, %object
 	.size	palette, 72
@@ -7743,15 +7147,15 @@ buttonA:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L55
+	ldr	r3, .L5
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L56:
+.L6:
 	.align	2
-.L55:
+.L5:
 	.word	rotateCW
 	.size	buttonA, .-buttonA
 	.align	2
@@ -7763,15 +7167,15 @@ buttonB:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L58
+	ldr	r3, .L8
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L59:
+.L9:
 	.align	2
-.L58:
+.L8:
 	.word	rotateCCW
 	.size	buttonB, .-buttonB
 	.align	2
@@ -7783,15 +7187,15 @@ buttonR:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L61
+	ldr	r3, .L11
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L62:
+.L12:
 	.align	2
-.L61:
+.L11:
 	.word	moveR
 	.size	buttonR, .-buttonR
 	.align	2
@@ -7803,15 +7207,15 @@ buttonL:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L64
+	ldr	r3, .L14
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L65:
+.L15:
 	.align	2
-.L64:
+.L14:
 	.word	moveL
 	.size	buttonL, .-buttonL
 	.align	2
@@ -7823,15 +7227,15 @@ buttonD:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L67
+	ldr	r3, .L17
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L68:
+.L18:
 	.align	2
-.L67:
+.L17:
 	.word	moveD
 	.size	buttonD, .-buttonD
 	.align	2
@@ -7843,15 +7247,15 @@ buttonU:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L70
+	ldr	r3, .L20
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L71:
+.L21:
 	.align	2
-.L70:
+.L20:
 	.word	hardDrop
 	.size	buttonU, .-buttonU
 	.align	2
@@ -7863,15 +7267,15 @@ buttonLT:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L73
+	ldr	r3, .L23
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L74:
+.L24:
 	.align	2
-.L73:
+.L23:
 	.word	swapBlk
 	.size	buttonLT, .-buttonLT
 	.align	2
@@ -7883,15 +7287,15 @@ buttonRT:
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
-	ldr	r3, .L76
+	ldr	r3, .L26
 	sub	fp, ip, #-4294967292
 	mov	lr, pc
 	bx	r3
 	ldmea	fp, {fp, sp, lr}
 	bx	lr
-.L77:
+.L27:
 	.align	2
-.L76:
+.L26:
 	.word	swapBlk
 	.size	buttonRT, .-buttonRT
 	.align	2
@@ -7912,109 +7316,109 @@ checkbutton:
 	tst	r3, #1	@  buttons
 	sub	fp, ip, #-4294967292
 	mov	r4, r3, asl #16	@  buttons
-	bne	.L114
-.L79:
+	bne	.L64
+.L29:
 	tst	r4, #131072
-	bne	.L115
-.L84:
+	bne	.L65
+.L34:
 	mov	r5, r4, lsr #16
 	tst	r5, #4
 	blne	buttonSel
-.L89:
+.L39:
 	tst	r5, #8
 	blne	buttonS
-.L90:
+.L40:
 	tst	r5, #16
-	bne	.L116
-.L91:
+	bne	.L66
+.L41:
 	tst	r5, #32
-	bne	.L117
-.L92:
+	bne	.L67
+.L42:
 	tst	r5, #64
-	bne	.L118
-.L93:
+	bne	.L68
+.L43:
 	mov	r5, r4, lsr #16
 	tst	r5, #128
-	bne	.L119
-.L98:
+	bne	.L69
+.L48:
 	tst	r5, #512
-	bne	.L120
-.L99:
+	bne	.L70
+.L49:
 	tst	r4, #16777216
-	bne	.L121
-.L78:
+	bne	.L71
+.L28:
 	ldmea	fp, {r4, r5, fp, sp, lr}
 	bx	lr
-.L121:
+.L71:
 	bl	buttonRT
 	mov	r2, #67108864
 	add	r2, r2, #304
-.L108:
+.L58:
 	ldrh	r3, [r2, #0]
 	mvn	r3, r3
 	tst	r3, #256
-	bne	.L108
-	b	.L78
-.L120:
+	bne	.L58
+	b	.L28
+.L70:
 	bl	buttonLT
 	mov	r2, #67108864
 	add	r2, r2, #304
-.L103:
+.L53:
 	ldrh	r3, [r2, #0]
 	mvn	r3, r3
 	mov	r3, r3, asl #22	@  buttons
 	mov	r3, r3, lsr #22	@  buttons,  buttons
 	tst	r3, #512	@  buttons
 	mov	r4, r3, asl #16	@  buttons
-	bne	.L103
-	b	.L99
-.L119:
+	bne	.L53
+	b	.L49
+.L69:
 	bl	buttonD
-	b	.L98
-.L118:
+	b	.L48
+.L68:
 	bl	buttonU
 	mov	r2, #67108864
 	add	r2, r2, #304
-.L97:
+.L47:
 	ldrh	r3, [r2, #0]
 	mvn	r3, r3
 	mov	r3, r3, asl #22	@  buttons
 	mov	r3, r3, lsr #22	@  buttons,  buttons
 	tst	r3, #64	@  buttons
 	mov	r4, r3, asl #16	@  buttons
-	bne	.L97
-	b	.L93
-.L117:
+	bne	.L47
+	b	.L43
+.L67:
 	bl	buttonL
-	b	.L92
-.L116:
+	b	.L42
+.L66:
 	bl	buttonR
-	b	.L91
-.L115:
+	b	.L41
+.L65:
 	bl	buttonB
 	mov	r2, #67108864
 	add	r2, r2, #304
-.L88:
+.L38:
 	ldrh	r3, [r2, #0]
 	mvn	r3, r3
 	mov	r3, r3, asl #22	@  buttons
 	mov	r3, r3, lsr #22	@  buttons,  buttons
 	tst	r3, #2	@  buttons
 	mov	r4, r3, asl #16	@  buttons
-	bne	.L88
-	b	.L84
-.L114:
+	bne	.L38
+	b	.L34
+.L64:
 	bl	buttonA
 	mov	r2, r5
-.L83:
+.L33:
 	ldrh	r3, [r2, #0]
 	mvn	r3, r3
 	mov	r3, r3, asl #22	@  buttons
 	mov	r3, r3, lsr #22	@  buttons,  buttons
 	tst	r3, #1	@  buttons
 	mov	r4, r3, asl #16	@  buttons
-	bne	.L83
-	b	.L79
+	bne	.L33
+	b	.L29
 	.size	checkbutton, .-checkbutton
 	.align	2
 	.global	fillPalette
@@ -8025,22 +7429,22 @@ fillPalette:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
 	mov	r0, #83886080
-	ldr	ip, .L130
+	ldr	ip, .L80
 	@ lr needed for prologue
 	mov	r1, #0	@  i
 	add	r0, r0, #512
-.L127:
+.L77:
 	mov	r3, r1, asl #2	@  i
 	mov	r2, r1, asl #1	@  i
 	ldrh	r3, [r3, ip]	@  palette
 	add	r1, r1, #1	@  i,  i
 	cmp	r1, #19	@  i
 	strh	r3, [r2, r0]	@ movhi 
-	ble	.L127
+	ble	.L77
 	bx	lr
-.L131:
+.L81:
 	.align	2
-.L130:
+.L80:
 	.word	palette
 	.size	fillPalette, .-fillPalette
 	.align	2
@@ -8055,11 +7459,11 @@ fillSprites:
 	sub	fp, ip, #-4294967292
 	mov	r5, #32512
 	mov	lr, #100663296
-	ldr	ip, .L147
+	ldr	ip, .L97
 	mov	r4, #0	@  i
 	add	r5, r5, #255
 	add	lr, lr, #65536
-.L137:
+.L87:
 	mov	r1, r4, asl #2	@  i
 	add	r3, r1, ip
 	ldrh	r0, [r3, #2]	@  sprites
@@ -8069,9 +7473,9 @@ fillSprites:
 	add	r2, r2, r0, asl #8
 	cmp	r4, r5	@  i
 	strh	r2, [r3, lr]	@ movhi 
-	ble	.L137
+	ble	.L87
 	mov	r4, #0	@  i
-.L142:
+.L92:
 	mov	r1, r4	@  i
 	mov	r0, #0
 	mov	r2, #240
@@ -8079,14 +7483,609 @@ fillSprites:
 	add	r4, r4, #1	@  i,  i
 	bl	drawSprite
 	cmp	r4, #127	@  i
-	ble	.L142
+	ble	.L92
 	ldmea	fp, {r4, r5, fp, sp, lr}
+	bx	lr
+.L98:
+	.align	2
+.L97:
+	.word	sprites
+	.size	fillSprites, .-fillSprites
+	.global	nullTetrimino
+	.bss
+	.global	nullTetrimino
+	.align	2
+	.type	nullTetrimino, %object
+	.size	nullTetrimino, 64
+nullTetrimino:
+	.space	64
+	.global	tetriminos
+	.section	.rodata
+	.align	2
+	.type	tetriminos, %object
+	.size	tetriminos, 1792
+tetriminos:
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	1
+	.word	1
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	1
+	.word	1
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	1
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	2
+	.word	2
+	.word	2
+	.word	0
+	.word	0
+	.word	2
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	2
+	.word	0
+	.word	0
+	.word	2
+	.word	2
+	.word	0
+	.word	0
+	.word	0
+	.word	2
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	2
+	.word	0
+	.word	0
+	.word	2
+	.word	2
+	.word	2
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	2
+	.word	0
+	.word	0
+	.word	0
+	.word	2
+	.word	2
+	.word	0
+	.word	0
+	.word	2
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	3
+	.word	3
+	.word	0
+	.word	0
+	.word	0
+	.word	3
+	.word	3
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	3
+	.word	0
+	.word	0
+	.word	3
+	.word	3
+	.word	0
+	.word	0
+	.word	3
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	3
+	.word	3
+	.word	0
+	.word	0
+	.word	0
+	.word	3
+	.word	3
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	3
+	.word	0
+	.word	0
+	.word	3
+	.word	3
+	.word	0
+	.word	0
+	.word	3
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	4
+	.word	4
+	.word	0
+	.word	4
+	.word	4
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	4
+	.word	0
+	.word	0
+	.word	0
+	.word	4
+	.word	4
+	.word	0
+	.word	0
+	.word	0
+	.word	4
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	4
+	.word	4
+	.word	0
+	.word	4
+	.word	4
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	4
+	.word	0
+	.word	0
+	.word	0
+	.word	4
+	.word	4
+	.word	0
+	.word	0
+	.word	0
+	.word	4
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	5
+	.word	5
+	.word	5
+	.word	0
+	.word	5
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	5
+	.word	5
+	.word	0
+	.word	0
+	.word	0
+	.word	5
+	.word	0
+	.word	0
+	.word	0
+	.word	5
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	5
+	.word	0
+	.word	5
+	.word	5
+	.word	5
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	5
+	.word	0
+	.word	0
+	.word	0
+	.word	5
+	.word	0
+	.word	0
+	.word	0
+	.word	5
+	.word	5
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	6
+	.word	0
+	.word	0
+	.word	0
+	.word	6
+	.word	6
+	.word	6
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	6
+	.word	6
+	.word	0
+	.word	0
+	.word	6
+	.word	0
+	.word	0
+	.word	0
+	.word	6
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	6
+	.word	6
+	.word	6
+	.word	0
+	.word	0
+	.word	0
+	.word	6
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	6
+	.word	0
+	.word	0
+	.word	0
+	.word	6
+	.word	0
+	.word	0
+	.word	6
+	.word	6
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	7
+	.word	7
+	.word	0
+	.word	0
+	.word	7
+	.word	7
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	7
+	.word	7
+	.word	0
+	.word	0
+	.word	7
+	.word	7
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	7
+	.word	7
+	.word	0
+	.word	0
+	.word	7
+	.word	7
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	7
+	.word	7
+	.word	0
+	.word	0
+	.word	7
+	.word	7
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.word	0
+	.text
+	.align	2
+	.global	initVram
+	.type	initVram, %function
+initVram:
+	@ Function supports interworking.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 0, uses_anonymous_args = 0
+	@ link register save eliminated.
+	mov	r3, #1024
+	mov	r2, #67108864
+	add	r3, r3, #3
+	@ lr needed for prologue
+	strh	r3, [r2, #4]	@ movhi 
+	strh	r3, [r2, #0]	@ movhi 
+	bx	lr
+	.size	initVram, .-initVram
+	.global	blkColors
+	.data
+	.align	1
+	.type	blkColors, %object
+	.size	blkColors, 16
+blkColors:
+	.short	0
+	.short	32736
+	.short	31775
+	.short	31
+	.short	17392
+	.short	671
+	.short	31744
+	.short	1023
+	.text
+	.align	2
+	.global	drawBlk
+	.type	drawBlk, %function
+drawBlk:
+	@ Function supports interworking.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 0, uses_anonymous_args = 0
+	mov	r2, r2, asl #16
+	rsb	r1, r1, r1, asl #4	@  y,  y
+	str	lr, [sp, #-4]!
+	add	r0, r0, r1, asl #4	@  screenOffset,  x
+	mov	r2, r2, asr #16	@  color
+	mov	ip, #100663296	@  screen
+	mov	lr, #0	@  i
+.L110:
+	mov	r3, r0, asl #1	@  screenOffset
+	mov	r1, #7	@  j
+.L109:
+	subs	r1, r1, #1	@  j,  j
+	strh	r2, [r3, ip]	@ movhi 	@  color, * screen
+	add	r3, r3, #2
+	bpl	.L109
+	add	lr, lr, #1	@  i,  i
+	cmp	lr, #7	@  i
+	add	r0, r0, #240	@  screenOffset,  screenOffset
+	ble	.L110
+	ldr	lr, [sp], #4
+	bx	lr
+	.size	drawBlk, .-drawBlk
+	.align	2
+	.global	formatInitalBG
+	.type	formatInitalBG, %function
+formatInitalBG:
+	@ Function supports interworking.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 1, uses_anonymous_args = 0
+	mov	ip, sp
+	stmfd	sp!, {r4, r5, r6, r7, fp, ip, lr, pc}
+	ldr	r6, .L130
+	sub	fp, ip, #-4294967292
+	mov	r7, #0	@  row
+.L125:
+	mov	r4, #0	@  col
+	mov	r5, r7, asl #3	@  row
+.L124:
+	mov	r0, r4, asl #3	@  col
+	ldrh	r2, [r6, #0]	@  blkColors
+	mov	r1, r5
+	add	r4, r4, #1	@  col,  col
+	bl	drawBlk
+	cmp	r4, #39	@  col
+	ble	.L124
+	add	r7, r7, #1	@  row,  row
+	cmp	r7, #19	@  row
+	ble	.L125
+	ldmea	fp, {r4, r5, r6, r7, fp, sp, lr}
+	bx	lr
+.L131:
+	.align	2
+.L130:
+	.word	blkColors
+	.size	formatInitalBG, .-formatInitalBG
+	.align	2
+	.global	drawPlayingField
+	.type	drawPlayingField, %function
+drawPlayingField:
+	@ Function supports interworking.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 1, uses_anonymous_args = 0
+	mov	ip, sp
+	stmfd	sp!, {r4, r5, r6, r7, r8, sl, fp, ip, lr, pc}
+	ldr	r8, .L147
+	sub	fp, ip, #-4294967292
+	mov	r7, r0	@  playingField
+	mov	sl, #4	@  row
+	mov	r6, #20
+.L142:
+	mov	r4, #0	@  col
+	mov	r5, sl, asl #3	@  row
+.L141:
+	add	r2, r4, r6, asl #1	@  col
+	ldr	r3, [r7, r2, asl #2]	@  blockType, * playingField
+	mov	r3, r3, asl #1	@  blockType
+	mov	r0, r4, asl #3	@  x,  col
+	ldrh	r2, [r3, r8]	@  blkColors
+	sub	r1, r5, #32
+	add	r4, r4, #1	@  col,  col
+	bl	drawBlk
+	cmp	r4, #9	@  col
+	ble	.L141
+	add	sl, sl, #1	@  row,  row
+	cmp	sl, #23	@  row
+	add	r6, r6, #5
+	ble	.L142
+	ldmea	fp, {r4, r5, r6, r7, r8, sl, fp, sp, lr}
 	bx	lr
 .L148:
 	.align	2
 .L147:
-	.word	sprites
-	.size	fillSprites, .-fillSprites
+	.word	blkColors
+	.size	drawPlayingField, .-drawPlayingField
 	.global	score
 	.bss
 	.global	score
@@ -9115,52 +9114,53 @@ main:
 	mov	ip, sp
 	stmfd	sp!, {r4, r5, r6, fp, ip, lr, pc}
 	mov	r3, #66
-	mov	r6, #67108864
+	mov	r5, #67108864
 	sub	fp, ip, #-4294967292
-	str	r3, [r6, #0]
+	str	r3, [r5, #0]
 	mov	r0, #0
-	ldr	r3, .L391
-	ldrh	r4, [r6, #6]
+	ldr	r3, .L388
+	ldrh	r4, [r5, #6]
 	mov	lr, pc
 	bx	r3
 	add	r4, r4, r0
 	mov	r0, r4
-	ldr	r2, .L391+4
+	ldr	r2, .L388+4
 	mov	lr, pc
 	bx	r2
 	mov	r3, #4160
 	add	r3, r3, #2
-	strh	r3, [r6, #0]	@ movhi 
+	strh	r3, [r5, #0]	@ movhi 
 	bl	initVram
 	bl	fillPalette
 	bl	fillSprites
-	ldrh	r2, [r6, #4]
-	ldr	r3, .L391+8
-	mov	ip, #50331648
-	add	ip, ip, #32512
+	ldrh	r2, [r5, #4]
+	ldr	r3, .L388+8
+	mov	r1, #50331648
+	add	r1, r1, #32512
 	orr	r2, r2, #8
-	add	lr, r6, #512
-	str	r3, [ip, #252]
+	add	lr, r5, #512
+	str	r3, [r1, #252]
 	mov	r3, #9	@ movhi
-	strh	r2, [r6, #4]	@ movhi 
-	mov	r0, #256
+	strh	r2, [r5, #4]	@ movhi 
+	mov	ip, #256
 	strh	r3, [lr, #0]	@ movhi 
-	mvn	r1, #15360
+	add	r4, r5, #520
 	mov	r3, #1	@ movhi
-	add	r4, r6, #520
+	mvn	r0, #15360
 	strh	r3, [r4, #0]	@ movhi 
-	add	r5, r6, r0
-	sub	r1, r1, #27
-	add	r0, r0, #67108866
+	add	r6, r5, ip
+	sub	r0, r0, #27
+	add	ip, ip, #67108866
 	mov	r3, #195	@ movhi
-	strh	r1, [r5, #0]	@ movhi 
-	strh	r3, [r0, #0]	@ movhi 
+	strh	r0, [r6, #0]	@ movhi 
+	strh	r3, [ip, #0]	@ movhi 
 	bl	gameLoop
-.L388:
-	b	.L388
-.L392:
+	mov	r0, #0
+	ldmea	fp, {r4, r5, r6, fp, sp, lr}
+	bx	lr
+.L389:
 	.align	2
-.L391:
+.L388:
 	.word	time
 	.word	srand
 	.word	Handler
