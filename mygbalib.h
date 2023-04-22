@@ -1,5 +1,5 @@
 #include "sprites.h"
-#include "gloabal.h"
+#include "global.h"
 #define INPUT                      (KEY_MASK & (~REG_KEYS))
 
 ;void checkbutton(void)
