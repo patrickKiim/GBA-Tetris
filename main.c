@@ -407,6 +407,8 @@ int main(void)
 
     */
 
+    */
+
     // Set Handler Function for interrupts and enable selected interrupts
     REG_INT = (int)&Handler;
     REG_IE =  INT_TIMER0; //TODO: complete this line to choose which timer interrupts to enable
