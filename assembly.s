@@ -1,3 +1,4 @@
+.GLOBL assembly
 assembly:
     // Set Timer Mode (fill that section and replace TMX with selected timer number)
 
