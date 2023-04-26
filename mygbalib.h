@@ -1,10 +1,104 @@
 #include "sprites.h"
 #define INPUT                      (KEY_MASK & (~REG_KEYS))
 
+//function prototype declarations
+void moveL();
+void moveR();
+void moveD();
+void hardDrop();
+void rotateCW();
+void rotateCCW();
+void swapBlk();
+
+//button to function mapping
+void buttonS(){
+    //do something
+}
+
+void buttonSel(){
+    //do something
+}
+
+
+void buttonA(){
+    rotateCW();
+}
+
+void buttonB(){
+    rotateCCW();
+}
+
+void buttonR(){
+    moveR();
+}
+
+void buttonL(){
+    moveL();
+}
+
+void buttonD(){
+    moveD();
+}
+
+void buttonU(){
+    hardDrop();
+}
+
+void buttonLT(){
+    swapBlk();
+}
+
+void buttonRT(){
+    swapBlk();
+}
 
 void checkbutton(void)
 {
-	
+	// Gift function to show you how a function that can be called upon button interrupt to detect which button was pressed and run a specific function for each button could look like. You would have to define each buttonA/buttonB/... function yourself.
+    u16 buttons = INPUT;
+    
+    if ((buttons & KEY_A) == KEY_A)
+    {
+        buttonA();
+    }
+    if ((buttons & KEY_B) == KEY_B)
+    {
+        buttonB();
+    }
+    if ((buttons & KEY_SELECT) == KEY_SELECT)
+    {
+        buttonSel();
+    }
+    if ((buttons & KEY_START) == KEY_START)
+    {
+        buttonS();
+    }
+    if ((buttons & KEY_RIGHT) == KEY_RIGHT)
+    {
+        buttonR();
+    }
+    if ((buttons & KEY_LEFT) == KEY_LEFT)
+    {
+        buttonL();
+    }
+    if ((buttons & KEY_UP) == KEY_UP)
+    {
+        buttonU();
+    }
+    if ((buttons & KEY_DOWN) == KEY_DOWN)
+    {
+        buttonD();
+    }
+
+    //L and R triggers
+    if ((buttons & KEY_L) == KEY_L)
+    {
+        buttonLT();
+    }
+    if ((buttons & KEY_R) == KEY_R)
+    {
+        buttonRT();
+    }
 }
 
 
@@ -40,6 +134,8 @@ void drawTetromino(int tetromino, int x, int y)
     drawSprite(tetromino + 3, 3, x + 8, y + 8);
 }
 
+/*
+void drawLaser(void)
 void drawITetromino2(int x, int y)
 {
     // Draw the I_TETROMINO sprite (4 tiles) as a 2x2 block at position (x,y)
@@ -49,3 +145,4 @@ void drawITetromino2(int x, int y)
     drawSprite(0 + 3, 3, x + 8, y + 8);
 }
 
+*/
