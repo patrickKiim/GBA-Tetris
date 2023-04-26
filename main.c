@@ -6,6 +6,7 @@
 #include "gamestate.h"
 
 
+
 #define u32 unsigned int
 #define RGB(r, g, b) (r | (g << 5) | (b << 10))
 
@@ -14,7 +15,7 @@ extern void assembly();
 
 
 int count = 0;
-int points_gained;
+int points_gained = 0;
 int score;
 
 void Handler(void)
@@ -51,8 +52,7 @@ void Handler(void)
 // -----------------------------------------------------------------------------
 int main(void) {   
     int i;
-	int g= 0;
-	points_gained = 0; //add function that tells whether a point has been gained
+
     // Set Mode 2
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
 
@@ -74,26 +74,19 @@ fillSprites();
     // Set Handler Function for interrupts and enable selected interrupts
     REG_INT = (int)&Handler;
     REG_IE = INT_TIMER0 | INT_TIMER1; // Enable both timer interrupts
+	    assembly();
+		// Timer Level 2 (every 0.67 seconds)
+	 REG_TM1D = 54551;
+	 REG_TM1CNT = TIMER_ENABLE | TIMER_INTERRUPTS | TIMER_FREQUENCY_1024;
     REG_IME = 0x1;		// Enable interrupt handling
 
-   assembly;
 
-	// Timer Level 2 (every 0.67 seconds)
-	REG_TM1D = 54551;
-	REG_TM1CNT = TIMER_ENABLE | TIMER_INTERRUPTS | TIMER_FREQUENCY_1024;
 
-//Test functions:
-main_screen();
-level_1();
-rawSprite(11, 0, 72, 80);
-level_2();
+//int game = 2;
 
 
 
- 
-
-
-        switch(gamestate) {
+       switch(game) {
             case  0:
                 	main_screen();
 						break;
@@ -104,9 +97,11 @@ level_2();
 				case  2:
 						level_2();
 						break;
-}
+				}
 
 	return 0;
 }
+
+	
 
 	
