@@ -145,37 +145,29 @@ void fillSprites(void)
 {
     int     i;
 
-	// Load all sprites in GBA memory
-    for (i = 0; i < 128*16*16; i++)
+    // Load all sprites in GBA memory
+    for (i = 0; i < sizeof(sprites) / 2; i++)
         spriteData[i] = (sprites[i*2+1] << 8) + sprites[i*2];
 
-	// draw all sprites on screen, but all of them outside of the screen (starting at position (240,160) the bottom right corner of the GBA screen)
+    // draw all sprites on screen, but all of them outside of the screen (starting at position (240,160) the bottom right corner of the GBA screen)
     for(i = 0; i < 128; i++)
-        drawSprite(0, i, 240,160);
+        drawSprite(0, i, 240, 160);
 }
 
-/*
-void drawLaser(void)
+void drawTetromino(int tetromino, int x, int y)
 {
-	// Gift function showing you how to draw an example sprite defined in sprite.h on screen, using drawSprite()
-	// Note that this code uses largeer sprites with a palette, so the main code needs to be initialized in graphical mode 2, using:
-    //		*(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
-	// at the beginning of main() in main.c
-
-    switch(lPlat) {
-        case 16:
-        {
-            drawSprite(LASER, NPLATS*3 + 5 + NROCK + NMET, LaserX, LaserY);
-            break;
-        }
-        case 9:
-        {
-            drawSprite(LASER, NPLATS*2 + 5 + NROCK + NMET, LaserX, LaserY);
-            break;
-        }
-        default:
-            break;
-    }
+    // Draw the specified Tetromino sprite (4 tiles) as a 2x2 block at position (x,y)
+    drawSprite(tetromino, 0, x, y);
+    drawSprite(tetromino + 1, 1, x + 8, y);
+    drawSprite(tetromino + 2, 2, x, y + 8);
+    drawSprite(tetromino + 3, 3, x + 8, y + 8);
 }
 
-*/
+void drawITetromino2(int x, int y)
+{
+    // Draw the I_TETROMINO sprite (4 tiles) as a 2x2 block at position (x,y)
+    drawSprite(0, 0, x, y);
+    drawSprite(0 + 1, 1, x + 8, y);
+    drawSprite(0 + 2, 2, x, y + 8);
+    drawSprite(0 + 3, 3, x + 8, y + 8);
+}

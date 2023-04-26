@@ -63,6 +63,11 @@ void gameLoop(){
 }
 
 
+// Function to perform assembly logic
+void assembly(void) {
+    // Implement assembly logic here
+}
+
 
 void Handler(void)
 {    
@@ -93,10 +98,30 @@ void Handler(void)
             
 			//drawSprite(count/10, 1, 110, 100);
 			//drawSprite(count%10, 0, 120, 100);
+    // Check for timer interrupt
+    if (((REG_IF & INT_TIMER0) == INT_TIMER0) || ((REG_IF & INT_TIMER1) == INT_TIMER1)) {
+        // Handle timer interrupt here
+        if (points_gained) {
+            score++;
+        }
+
+        // Update score display
+        int temp = score;
+        int digit = 0;
+        while (temp > 0) {
+            drawSprite(temp % 10, digit, 208 - 10 * digit, 112);
+            temp /= 10;
+            digit++;
+        }
+
     }
-    
+
+    // Check for button interrupt
+    if ((REG_IF & INT_BUTTON) == INT_BUTTON) {
+        checkbutton(); // Call function to handle button interrupt
+    }
+
     REG_IF = REG_IF; // Update interrupt table, to confirm we have handled this interrupt
-    
     REG_IME = 0x01;  // Re-enable interrupt handling
 }
 
@@ -137,6 +162,12 @@ int main(void)
     */
 
     
+	 fillPalette();
+	 fillSprites();
+
+    // Test draw tetromino
+ 	 drawTetromino(20, 50, 50);
+    //drawITetromino2(50, 50);
 
     // Set Handler Function for interrupts and enable selected interrupts
     REG_INT = (int)&Handler;
@@ -162,6 +193,6 @@ int main(void)
 
     //while(1);
 
+    
 	return 0;
 }
-
