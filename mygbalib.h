@@ -2,9 +2,132 @@
 #define INPUT                      (KEY_MASK & (~REG_KEYS))
 
 
+void drawSprite(int numb, int N, int x, int y)
+{
+	// Same as CA2, make specific sprite (based on its name/numb) appear on screen, as slide number N (each sprite needs a different, arbitrary, N >= 0)
+    *(unsigned short *)(0x7000000 + 8*N) = y | 0x2000;
+    *(unsigned short *)(0x7000002 + 8*N) = x | 0x4000;
+    *(unsigned short *)(0x7000004 + 8*N) = numb*8;
+}
+
+//function prototype declarations
+void moveL();
+void moveR();
+void moveD();
+void hardDrop();
+void rotateCW();
+void rotateCCW();
+void swapBlk();
+
+//button to function mapping
+void buttonS(){
+    //do something
+}
+
+void buttonSel(){
+    //do something
+}
+
+
+void buttonA(){
+    rotateCW();
+}
+
+void buttonB(){
+    rotateCCW();
+}
+
+void buttonR(){
+    moveR();
+}
+
+void buttonL(){
+    moveL();
+}
+
+void buttonD(){
+    moveD();
+}
+
+void buttonU(){
+    hardDrop();
+}
+
+void buttonLT(){
+    swapBlk();
+}
+
+void buttonRT(){
+    swapBlk();
+}
+
 void checkbutton(void)
 {
-	
+	// Gift function to show you how a function that can be called upon button interrupt to detect which button was pressed and run a specific function for each button could look like. You would have to define each buttonA/buttonB/... function yourself.
+    u16 buttons = INPUT;
+    
+    if ((buttons & KEY_A) == KEY_A)
+    {
+        buttonA();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_A) == KEY_A){
+            buttons = INPUT;
+        }
+    }
+    if ((buttons & KEY_B) == KEY_B)
+    {
+        buttonB();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_B) == KEY_B){
+            buttons = INPUT;
+        }
+    }
+    if ((buttons & KEY_SELECT) == KEY_SELECT)
+    {
+        buttonSel();
+    }
+    if ((buttons & KEY_START) == KEY_START)
+    {
+        buttonS();
+    }
+    if ((buttons & KEY_RIGHT) == KEY_RIGHT)
+    {
+        buttonR();
+    }
+    if ((buttons & KEY_LEFT) == KEY_LEFT)
+    {
+        buttonL();
+    }
+    if ((buttons & KEY_UP) == KEY_UP)
+    {
+        buttonU();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_UP) == KEY_UP){
+            buttons = INPUT;
+        }
+    }
+    if ((buttons & KEY_DOWN) == KEY_DOWN)
+    {
+        buttonD();
+    }
+
+    //L and R triggers
+    if ((buttons & KEY_L) == KEY_L)
+    {
+        buttonLT();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_L) == KEY_L){
+            buttons = INPUT;
+        }
+    }
+    if ((buttons & KEY_R) == KEY_R)
+    {
+        buttonRT();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_R) == KEY_R){
+            buttons = INPUT;
+        }
+    }
 }
 
 
@@ -48,4 +171,3 @@ void drawITetromino2(int x, int y)
     drawSprite(0 + 2, 2, x, y + 8);
     drawSprite(0 + 3, 3, x + 8, y + 8);
 }
-
