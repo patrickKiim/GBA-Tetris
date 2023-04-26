@@ -1,4 +1,5 @@
 
+
 #include "mygbalib.h"
 
 
@@ -9,26 +10,43 @@ int game_over = 0; //Make iot so this varibale is linked to a function stating w
 
 
 void main_screen() {
-    int first = 80;
-    int second = 120;
+    int first = 60;
+    int second = 100;
+
+	 drawSprite(23, 0, 62, first); //T
+    drawSprite(23, 1, 82, first); //E
+    drawSprite(23, 2, 102, first); //T
+    drawSprite(23, 3, 122, first); //R
+    drawSprite(23, 4, 142, first);
+    drawSprite(23, 5, 162, first);
+    drawSprite(23, 6, 22, second);//P
+    drawSprite(23, 7, 42, second);//R
+    drawSprite(23, 8, 62, second);//E
+    drawSprite(23, 9, 82, second);//S
+    drawSprite(23, 10, 102, second);//S
+    drawSprite(23, 11, 132, second);
+    drawSprite(23, 12, 152, second);
+    drawSprite(23, 13, 172, second);
+    drawSprite(23, 14, 192, second);
+    drawSprite(23, 15, 210, second); 
 
     // Draw “TETRIS” “PRESS A TO START”
-    drawSprite(10, 0, 72, first); //T
-    drawSprite(11, 1, 92, first); //E
-    drawSprite(12, 2, 112, first); //T
-    drawSprite(13, 3, 132, first); //R
-    drawSprite(14, 4, 152, first);
-    drawSprite(15, 5, 172, first);
-    drawSprite(16, 6, 32, second);
-    drawSprite(17, 7, 50, second);
-    drawSprite(18, 8, 68, second);
-    drawSprite(19, 9, 86, second);
-    drawSprite(19, 10, 122, second);
-    drawSprite(19, 11, 140, second);
-    drawSprite(20, 12, 158, second);
-    drawSprite(21, 13, 176, second);
-    drawSprite(13, 14, 194, second);
-    drawSprite(20, 15, 212, second); 
+    drawSprite(10, 0, 62, first); //T
+    drawSprite(11, 1, 82, first); //E
+    drawSprite(12, 2, 102, first); //T
+    drawSprite(13, 3, 122, first); //R
+    drawSprite(14, 4, 142, first);//I
+    drawSprite(15, 5, 162, first);//S
+   drawSprite(16, 6, 22, second);
+	drawSprite(17, 7, 42, second);
+	drawSprite(18, 8, 62, second);
+   drawSprite(19, 9, 82, second);
+    drawSprite(19, 10, 102, second);
+   drawSprite(19, 11, 132, second);
+   drawSprite(20, 12, 152, second);
+    drawSprite(21, 13, 172, second);
+	 drawSprite(17, 14, 192, second);
+	drawSprite(20, 15, 210, second); 
     //draw “TETRIS” “PRESS A TO START”
   
 } 
@@ -40,11 +58,12 @@ void level_1(){
     int k = 10; // Sprite number right
 
     // Draw lines on the right and left using for loop
-    for(i; i < 160; i += 16) {
+    for(i = 0; i < 160; i += 16) {
         drawSprite(22, j, 0, i);
         drawSprite(22, k, 96, i);
         j++;
         k++;
+
     }
 
     // Draw Level1
