@@ -2,7 +2,7 @@
 // C-Skeleton to be used with HAM Library from www.ngine.de
 // -----------------------------------------------------------------------------
 #include "numbers.h"
-#include "mygbalib.h"
+//#include "mygbalib.h"
 #include <stdlib.h>
 #include <time.h>
 #include "gameLogic.h"
@@ -29,7 +29,7 @@
 //init next block in queue
 
 void gameLoop(){
-    formatInitalBG();
+    //formatInitalBG();
     initBoard();
     initBlkQueue();
     initNewPiece();
@@ -43,6 +43,7 @@ void gameLoop(){
         
 
         drawPlayingField(board);
+        showInfo();
     
         if(gameTick % 20 == 0){
             
@@ -75,7 +76,7 @@ void Handler(void)
 
     //initialize playing field
     if((REG_IF & INT_VBLANK) == INT_VBLANK){
-        drawPlayingField(board);
+        //drawPlayingField(board);
     }
     
 
@@ -94,33 +95,38 @@ void Handler(void)
 				temp /= 10;
 				digit++;
 			}
-            */
-            
+           */
+    }
 			//drawSprite(count/10, 1, 110, 100);
 			//drawSprite(count%10, 0, 120, 100);
     // Check for timer interrupt
-    if (((REG_IF & INT_TIMER0) == INT_TIMER0) || ((REG_IF & INT_TIMER1) == INT_TIMER1)) {
-        // Handle timer interrupt here
-        if (points_gained) {
-            score++;
-        }
+    // if (((REG_IF & INT_TIMER0) == INT_TIMER0) || ((REG_IF & INT_TIMER1) == INT_TIMER1)) {
+        
+        
+    //     // Handle timer interrupt here
+    //     if (points_gained) {
+    //         score++;
+    //     }
 
-        // Update score display
-        int temp = score;
-        int digit = 0;
-        while (temp > 0) {
-            drawSprite(temp % 10, digit, 208 - 10 * digit, 112);
-            temp /= 10;
-            digit++;
-        }
 
-    }
+    //     /*
+    //     // Update score display
+    //     int temp = score;
+    //     int digit = 0;
+    //     while (temp > 0) {
+    //         drawSprite(temp % 10, digit, 208 - 10 * digit, 112);
+    //         temp /= 10;
+    //         digit++;
+    //     }
+    //     */
 
-    // Check for button interrupt
-    if ((REG_IF & INT_BUTTON) == INT_BUTTON) {
-        checkbutton(); // Call function to handle button interrupt
-    }
+    // }
 
+    // // Check for button interrupt
+    // if ((REG_IF & INT_BUTTON) == INT_BUTTON) {
+    //     checkbutton(); // Call function to handle button interrupt
+    // }
+    
     REG_IF = REG_IF; // Update interrupt table, to confirm we have handled this interrupt
     REG_IME = 0x01;  // Re-enable interrupt handling
 }
@@ -130,7 +136,7 @@ void Handler(void)
 // -----------------------------------------------------------------------------
 int main(void)
 {
-    int i;
+    //int i;
 
     //initialize mode 2 for backgrounds
     REG_DISPCNT = MODE2 | OBJ_MAP_1D;
@@ -139,17 +145,15 @@ int main(void)
     //time_t t;
     srand(REG_VCOUNT + time(0));
 
-    
+    //initVRAM();
     
     // Set Mode 2
     *(unsigned short *) 0x4000000 = 0x40 | 0x2 | 0x1000;
     
-    
 
-    initVram();
 
-   fillPalette();
-   fillSprites();
+    fillPalette();
+    fillSprites();
 
     // Fill SpriteData
 
@@ -161,12 +165,13 @@ int main(void)
         drawSprite(0, i, 240, 160);
     */
 
-    
-	 fillPalette();
-	 fillSprites();
 
     // Test draw tetromino
- 	 drawTetromino(20, 50, 50);
+ 	//drawSprite(I1_TETROMINO, 1, 50,50);
+    //drawSprite(L1_TETROMINO,2,30,30 );
+    //drawSprite(T2_TETROMINO, 3, 20,20);
+    //drawSprite(LB_square, 4, 60,60);
+    
     //drawITetromino2(50, 50);
 
     // Set Handler Function for interrupts and enable selected interrupts
@@ -175,8 +180,8 @@ int main(void)
     
     //for backgrounds
     // Set up the Interrupt Request (IRQ) register to enable the VBlank interrupt and trigger it at the appropriate time
-    REG_DISPSTAT |= (1 << 3);   // Enable VBlank interrupt in the Display Status (DISPSTAT) register
-    REG_IE |= (1 << 0);         // Enable VBlank interrupt in the Interrupt Enable (IE) register
+    // REG_DISPSTAT |= (1 << 3);   // Enable VBlank interrupt in the Display Status (DISPSTAT) register
+    // REG_IE |= (1 << 0);         // Enable VBlank interrupt in the Interrupt Enable (IE) register
 
     REG_IME = 0x1;		// Enable interrupt handling
 
@@ -188,10 +193,11 @@ int main(void)
     REG_TM0CNT = (TIMER_ENABLE | TIMER_INTERRUPTS | TIMER_FREQUENCY_1024);		// TODO: complete this line to set timer frequency and enable timer
 				
 	//drawSprite(0, 0, DIGIT_X, DIGIT_Y);
-	
+    //initTiles();
+	//testTiles();
     gameLoop();
 
-    //while(1);
+    while(1);
 
     
 	return 0;

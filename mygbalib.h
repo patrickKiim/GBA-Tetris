@@ -93,10 +93,16 @@ void checkbutton(void)
     if ((buttons & KEY_RIGHT) == KEY_RIGHT)
     {
         buttonR();
+        while ((buttons & KEY_RIGHT) == KEY_RIGHT){
+            buttons = INPUT;
+        }
     }
     if ((buttons & KEY_LEFT) == KEY_LEFT)
     {
         buttonL();
+        while ((buttons & KEY_LEFT) == KEY_LEFT){
+            buttons = INPUT;
+        }
     }
     if ((buttons & KEY_UP) == KEY_UP)
     {
@@ -109,6 +115,10 @@ void checkbutton(void)
     if ((buttons & KEY_DOWN) == KEY_DOWN)
     {
         buttonD();
+        //disable hold (loops until button release)
+        while ((buttons & KEY_DOWN) == KEY_DOWN){
+            buttons = INPUT;
+        }
     }
 
     //L and R triggers
@@ -158,9 +168,9 @@ void drawTetromino(int tetromino, int x, int y)
 {
     // Draw the specified Tetromino sprite (4 tiles) as a 2x2 block at position (x,y)
     drawSprite(tetromino, 0, x, y);
-    drawSprite(tetromino + 1, 1, x + 8, y);
-    drawSprite(tetromino + 2, 2, x, y + 8);
-    drawSprite(tetromino + 3, 3, x + 8, y + 8);
+    //drawSprite(tetromino + 1, 1, x + 8, y);
+    //drawSprite(tetromino + 2, 2, x, y + 8);
+    //drawSprite(tetromino + 3, 3, x + 8, y + 8);
 }
 
 void drawITetromino2(int x, int y)

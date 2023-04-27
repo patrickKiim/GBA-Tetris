@@ -1,15 +1,69 @@
 #include "tetrimino.h"
-#include "background.h"
+#include "mygbalib.h"
+//#include "background.h"
+//#include "newBackground.h"
 #include <stdlib.h>
 
-#define BOARD_WIDTH 10
-#define BOARD_HEIGHT 24
+#define BOARD_WIDTH 8
+#define BOARD_HEIGHT 18
+
+#define startingX 0
+#define startingY 0
+
+#define BOARD_SPRITE_START 8
+
+#define DISP_HOLD_X 120
+#define DISP_HOLD_Y 50
+
+#define DISP_QUEUE_X 200
+#define DISP_QUEUE_Y 20
 
 int board[BOARD_HEIGHT][BOARD_WIDTH];
 int score = 0;
 
 int timerCount = 0;
 
+void drawPlayingField(int field[BOARD_HEIGHT][BOARD_WIDTH]) {
+    int i, j;
+    int fieldSpriteIndex = BOARD_SPRITE_START;
+    for (i = 4; i < BOARD_HEIGHT; i++) {
+        for (j = 0; j < BOARD_WIDTH; j++) {
+            int x = j * 8;
+            int y = (i - 4) * 8;
+            int colorIndex = field[i][j];
+            //drawBlk(x, y, colorIndex);
+            //setTile(j, (i-4), colorIndex);
+            if(colorIndex == 0){
+                drawSprite(NULL_SPRITE, fieldSpriteIndex, x,y);
+            }
+            if(colorIndex == 1){
+                drawSprite(LB_block, fieldSpriteIndex, x,y);
+            }
+            if(colorIndex == 2){
+                drawSprite(Purple_block, fieldSpriteIndex, x,y);
+            }
+            if(colorIndex == 3){
+                drawSprite(Red_block, fieldSpriteIndex, x,y);
+            }
+            if(colorIndex == 4){
+                drawSprite(Green_block, fieldSpriteIndex, x,y);
+            }
+            if(colorIndex == 5){
+                drawSprite(Orange_block, fieldSpriteIndex, x,y);
+            }
+            if(colorIndex == 6){
+                drawSprite(Blue_block, fieldSpriteIndex, x,y);
+            }
+            if(colorIndex == 7){
+                drawSprite(Yellow_block, fieldSpriteIndex, x,y);
+            }
+            //else
+                //drawSprite(LB_block, fieldSpriteIndex, x,y);
+            fieldSpriteIndex++;
+        }
+    }
+    
+}
 
 
 //7 PIECE BAG ALGORITHM (for generating tetris blocks)//
@@ -93,7 +147,7 @@ void initHoldBlk(){
 }
 
 //define position (top left) of falling block
-int currX = 3;
+int currX = 0;
 int currY = 0;
 
 void eraseCurrentPiece(){
@@ -129,8 +183,8 @@ void drawCurrentPiece(){
 void initNewPiece(){
     tetriminoIndex = getNextPiece();
     orientationIndex = 0;
-    currX = 3;
-    currY = 0;
+    currX = startingX;
+    currY = startingY;
     currentBlk = tetriminos[tetriminoIndex][orientationIndex];
     drawCurrentPiece();
 };
@@ -303,8 +357,8 @@ void swapBlk(){
             tetriminoIndex = tempIndex;
 
             //reset position
-            currX = 3;
-            currY = 0;
+            currX = startingX;
+            currY = startingY;
             
             drawCurrentPiece();
         }
@@ -325,4 +379,24 @@ int isGameOver(){
         }
     return gameOver;
 }
+
+//print hold block and queued blocks
+void showInfo(){
+    //display hold block
+    if((*holdBlk) != nullTetrimino)
+    //only show hold block after hold blk gets stored
+        drawSprite(holdBlkIndex*4+1, 0, DISP_HOLD_X, DISP_HOLD_Y);
+
+    //display queue
+    int i = 0;
+    //iterate from start of block queue and display 7 blocks in order
+    int queueHead = blockQueueIndex;
+    for(i = 0; i < 7;i++){
+        drawSprite((blockQueue[queueHead])*4, i+1, DISP_QUEUE_X, DISP_QUEUE_Y+(10*i));
+        queueHead = (queueHead + 1) % 7; //0-> 1-> ... -> 6 -> 0
+    }
+}
+
+
+
 
