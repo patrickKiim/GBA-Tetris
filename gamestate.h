@@ -1,5 +1,4 @@
 
-
 #include "mygbalib.h"
 
 
@@ -13,22 +12,6 @@ void main_screen() {
     int first = 60;
     int second = 100;
 
-	 drawSprite(23, 0, 62, first); //T
-    drawSprite(23, 1, 82, first); //E
-    drawSprite(23, 2, 102, first); //T
-    drawSprite(23, 3, 122, first); //R
-    drawSprite(23, 4, 142, first);
-    drawSprite(23, 5, 162, first);
-    drawSprite(23, 6, 22, second);//P
-    drawSprite(23, 7, 42, second);//R
-    drawSprite(23, 8, 62, second);//E
-    drawSprite(23, 9, 82, second);//S
-    drawSprite(23, 10, 102, second);//S
-    drawSprite(23, 11, 132, second);
-    drawSprite(23, 12, 152, second);
-    drawSprite(23, 13, 172, second);
-    drawSprite(23, 14, 192, second);
-    drawSprite(23, 15, 210, second); 
 
     // Draw “TETRIS” “PRESS A TO START”
     drawSprite(10, 0, 62, first); //T
@@ -47,11 +30,33 @@ void main_screen() {
     drawSprite(21, 13, 172, second);
 	 drawSprite(17, 14, 192, second);
 	drawSprite(20, 15, 210, second); 
-    //draw “TETRIS” “PRESS A TO START”
-  
+    
 } 
 
 void level_1(){
+
+//Clear homescreen sprites
+
+	int first = 60;
+    int second = 100;
+	 drawSprite(23, 0, 62, first); //T
+    drawSprite(23, 1, 82, first); //E
+    drawSprite(23, 2, 102, first); //T
+    drawSprite(23, 3, 122, first); //R
+    drawSprite(23, 4, 142, first);
+    drawSprite(23, 5, 162, first);
+    drawSprite(23, 6, 22, second);//P
+    drawSprite(23, 7, 42, second);//R
+    drawSprite(23, 8, 62, second);//E
+    drawSprite(23, 9, 82, second);//S
+    drawSprite(23, 10, 102, second);//S
+    drawSprite(23, 11, 132, second);
+    drawSprite(23, 12, 152, second);
+    drawSprite(23, 13, 172, second);
+    drawSprite(23, 14, 192, second);
+    drawSprite(23, 15, 210, second); 
+
+
     // Declare and initialize variables
     int i = 0; // y position
     int j = 0; // Sprite number left
@@ -84,6 +89,7 @@ void level_1(){
 }
 
 void level_2(){
+
     // Declare and initialize variables
     int i = 0; // y position
     int j = 0; // Sprite number left
@@ -105,4 +111,3 @@ void level_2(){
 
 	gamestate = 0;
     }
-}
