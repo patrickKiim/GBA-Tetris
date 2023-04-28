@@ -1,4 +1,5 @@
 #include "sprites.h"
+#include "global.h"
 #define INPUT                      (KEY_MASK & (~REG_KEYS))
 
 
@@ -18,10 +19,10 @@ void hardDrop();
 void rotateCW();
 void rotateCCW();
 void swapBlk();
+void exitStartScreen();
 
 //button to function mapping
 void buttonS(){
-    //do something
 }
 
 void buttonSel(){
@@ -30,6 +31,8 @@ void buttonSel(){
 
 
 void buttonA(){
+    if(gamestate==0)
+        gamestate = 1;
     rotateCW();
 }
 
@@ -164,20 +167,12 @@ void fillSprites(void)
         drawSprite(0, i, 240, 160);
 }
 
-void drawTetromino(int tetromino, int x, int y)
-{
-    // Draw the specified Tetromino sprite (4 tiles) as a 2x2 block at position (x,y)
-    drawSprite(tetromino, 0, x, y);
-    //drawSprite(tetromino + 1, 1, x + 8, y);
-    //drawSprite(tetromino + 2, 2, x, y + 8);
-    //drawSprite(tetromino + 3, 3, x + 8, y + 8);
-}
+// void drawTetromino(int tetromino, int x, int y)
+// {
+//     // Draw the specified Tetromino sprite (4 tiles) as a 2x2 block at position (x,y)
+//     drawSprite(tetromino, 0, x, y);
+//     //drawSprite(tetromino + 1, 1, x + 8, y);
+//     //drawSprite(tetromino + 2, 2, x, y + 8);
+//     //drawSprite(tetromino + 3, 3, x + 8, y + 8);
+// }
 
-void drawITetromino2(int x, int y)
-{
-    // Draw the I_TETROMINO sprite (4 tiles) as a 2x2 block at position (x,y)
-    drawSprite(0, 0, x, y);
-    drawSprite(0 + 1, 1, x + 8, y);
-    drawSprite(0 + 2, 2, x, y + 8);
-    drawSprite(0 + 3, 3, x + 8, y + 8);
-}

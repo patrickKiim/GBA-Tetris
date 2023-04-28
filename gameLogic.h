@@ -5,16 +5,22 @@
 #include <stdlib.h>
 
 #define BOARD_WIDTH 8
-#define BOARD_HEIGHT 18
+#define BOARD_HEIGHT 15
 
 #define startingX 0
 #define startingY 0
 
-#define BOARD_SPRITE_START 8
+//generate sprite#s after 25 background sprites have been created
+#define GAME_SPRITE_OFFSET 25
 
+//first seven sprites are for hold and queue sprites
+#define BOARD_SPRITE_START 8+GAME_SPRITE_OFFSET
+
+//position for hold block
 #define DISP_HOLD_X 120
 #define DISP_HOLD_Y 50
 
+//position for display block
 #define DISP_QUEUE_X 200
 #define DISP_QUEUE_Y 20
 
@@ -31,8 +37,7 @@ void drawPlayingField(int field[BOARD_HEIGHT][BOARD_WIDTH]) {
             int x = j * 8;
             int y = (i - 4) * 8;
             int colorIndex = field[i][j];
-            //drawBlk(x, y, colorIndex);
-            //setTile(j, (i-4), colorIndex);
+
             if(colorIndex == 0){
                 drawSprite(NULL_SPRITE, fieldSpriteIndex, x,y);
             }
@@ -57,8 +62,6 @@ void drawPlayingField(int field[BOARD_HEIGHT][BOARD_WIDTH]) {
             if(colorIndex == 7){
                 drawSprite(Yellow_block, fieldSpriteIndex, x,y);
             }
-            //else
-                //drawSprite(LB_block, fieldSpriteIndex, x,y);
             fieldSpriteIndex++;
         }
     }
@@ -385,17 +388,18 @@ void showInfo(){
     //display hold block
     if((*holdBlk) != nullTetrimino)
     //only show hold block after hold blk gets stored
-        drawSprite(holdBlkIndex*4+1, 0, DISP_HOLD_X, DISP_HOLD_Y);
+        drawSprite(holdBlkIndex*4+1, GAME_SPRITE_OFFSET+0, DISP_HOLD_X, DISP_HOLD_Y);
 
     //display queue
     int i = 0;
     //iterate from start of block queue and display 7 blocks in order
     int queueHead = blockQueueIndex;
     for(i = 0; i < 7;i++){
-        drawSprite((blockQueue[queueHead])*4, i+1, DISP_QUEUE_X, DISP_QUEUE_Y+(10*i));
+        drawSprite((blockQueue[queueHead])*4, GAME_SPRITE_OFFSET+i+1, DISP_QUEUE_X, DISP_QUEUE_Y+(10*i));
         queueHead = (queueHead + 1) % 7; //0-> 1-> ... -> 6 -> 0
     }
 }
+
 
 
 
