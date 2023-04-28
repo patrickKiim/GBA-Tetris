@@ -1,6 +1,8 @@
 .GLOBL assembly
 assembly:
-    // Set Timer Mode (fill that section and replace TMX with selected timer number)
+
+stmfd   sp!, {r4-r11, lr}     @ save content of r4-r11 and link register into the sp register
+ 
 
     // Timer Level 1 (every second)
     // REG_TM0D = 50142; // Set timer initial value
@@ -11,11 +13,16 @@ assembly:
 
     // REG_TM0CNT = TIMER_ENABLE | TIMER_INTERRUPTS | TIMER_FREQUENCY_1024; // Set timer frequency and enable timer
 
+
+
     LDR r2, =0x4000102 // Load address of REG_TM0CNT into r2
-    LDR r3, =0x0080    // Load TIMER_ENABLE into r3
-    LDR r4, =0x0040    // Load TIMER_INTERRUPTS into r4
-    LDR r5, =0x0003    // Load TIMER_FREQUENCY_1024 into r5
+    MOV r3, #0x0080    // Load TIMER_ENABLE into r3
+    MOV r4, #0x0040    // Load TIMER_INTERRUPTS into r4
+    MOV r5, #0x0003    // Load TIMER_FREQUENCY_1024 into r5
 
     ORR r6, r3, r4     // OR TIMER_ENABLE and TIMER_INTERRUPTS into r6
     ORR r6, r6, r5     // OR result with TIMER_FREQUENCY_1024
-    STR r6, [r2]       // Store result in REG_TM0CNT
+    STRH r6, [r2]       // Store result in REG_TM0CNT
+
+	ldmfd   sp!, {r4-r11, lr}     @ Recover past state of r4-r11 and link register from sp register
+	mov     pc, lr					 @ Branch back to lr (go back to C code that called this function)
