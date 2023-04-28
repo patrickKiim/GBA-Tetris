@@ -157,6 +157,7 @@ void level_2(){
     while(!game_over) {
         //gameLoop();
 
-	gamestate = 0;
+	
     }
+	gamestate = 0;
 }
